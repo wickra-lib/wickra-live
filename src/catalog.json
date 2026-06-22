@@ -1,0 +1,7060 @@
+[
+{
+"js": "DollarBars",
+"name": "DollarBars",
+"label": "Dollar Bars",
+"family": "Alt-Chart Bars",
+"params": [
+50000.0
+],
+"sig": "ohlcv",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "ImbalanceBars",
+"name": "ImbalanceBars",
+"label": "Imbalance Bars",
+"family": "Alt-Chart Bars",
+"params": [
+5.0
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "KagiBars",
+"name": "KagiBars",
+"label": "Kagi Bars",
+"family": "Alt-Chart Bars",
+"params": [
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "PointAndFigureBars",
+"name": "PointAndFigureBars",
+"label": "Point And Figure Bars",
+"family": "Alt-Chart Bars",
+"params": [
+2.0,
+3
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "RangeBars",
+"name": "RangeBars",
+"label": "Range Bars",
+"family": "Alt-Chart Bars",
+"params": [
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "RenkoBars",
+"name": "RenkoBars",
+"label": "Renko Bars",
+"family": "Alt-Chart Bars",
+"params": [
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "RunBars",
+"name": "RunBars",
+"label": "Run Bars",
+"family": "Alt-Chart Bars",
+"params": [
+3
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "ThreeLineBreakBars",
+"name": "ThreeLineBreakBars",
+"label": "Three Line Break Bars",
+"family": "Alt-Chart Bars",
+"params": [
+3
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "TickBars",
+"name": "TickBars",
+"label": "Tick Bars",
+"family": "Alt-Chart Bars",
+"params": [
+2
+],
+"sig": "ohlcv",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "VolumeBars",
+"name": "VolumeBars",
+"label": "Volume Bars",
+"family": "Alt-Chart Bars",
+"params": [
+500.0
+],
+"sig": "ohlcv",
+"feed": "kline",
+"render": "bars",
+"pane": "price",
+"out": "bars"
+},
+{
+"js": "AccelerationBands",
+"name": "AccelerationBands",
+"label": "Acceleration Bands",
+"family": "Bands & Channels",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "AtrBands",
+"name": "AtrBands",
+"label": "Atr Bands",
+"family": "Bands & Channels",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "BomarBands",
+"name": "BomarBands",
+"label": "Bomar Bands",
+"family": "Bands & Channels",
+"params": [
+4,
+0.85
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_f64"
+},
+{
+"js": "DoubleBollinger",
+"name": "DoubleBollinger",
+"label": "Double Bollinger",
+"family": "Bands & Channels",
+"params": [
+20,
+1.0,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_f64"
+},
+{
+"js": "FractalChaosBands",
+"name": "FractalChaosBands",
+"label": "Fractal Chaos Bands",
+"family": "Bands & Channels",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "HurstChannel",
+"name": "HurstChannel",
+"label": "Hurst Channel",
+"family": "Bands & Channels",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "LinRegChannel",
+"name": "LinRegChannel",
+"label": "Lin Reg Channel",
+"family": "Bands & Channels",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_f64"
+},
+{
+"js": "MaEnvelope",
+"name": "MaEnvelope",
+"label": "Ma Envelope",
+"family": "Bands & Channels",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_f64"
+},
+{
+"js": "MedianChannel",
+"name": "MedianChannel",
+"label": "Median Channel",
+"family": "Bands & Channels",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_f64"
+},
+{
+"js": "ProjectionBands",
+"name": "ProjectionBands",
+"label": "Projection Bands",
+"family": "Bands & Channels",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ProjectionOscillator",
+"name": "ProjectionOscillator",
+"label": "Projection Oscillator",
+"family": "Bands & Channels",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "QuartileBands",
+"name": "QuartileBands",
+"label": "Quartile Bands",
+"family": "Bands & Channels",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_f64"
+},
+{
+"js": "StandardErrorBands",
+"name": "StandardErrorBands",
+"label": "Standard Error Bands",
+"family": "Bands & Channels",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_f64"
+},
+{
+"js": "StarcBands",
+"name": "StarcBands",
+"label": "Starc Bands",
+"family": "Bands & Channels",
+"params": [
+3,
+7,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "TtmSqueeze",
+"name": "TtmSqueeze",
+"label": "Ttm Squeeze",
+"family": "Bands & Channels",
+"params": [
+14,
+2.0,
+0.5
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "VwapStdDevBands",
+"name": "VwapStdDevBands",
+"label": "Vwap Std Dev Bands",
+"family": "Bands & Channels",
+"params": [
+2.0
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "AbandonedBaby",
+"name": "AbandonedBaby",
+"label": "Abandoned Baby",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "AdvanceBlock",
+"name": "AdvanceBlock",
+"label": "Advance Block",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "BeltHold",
+"name": "BeltHold",
+"label": "Belt Hold",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Breakaway",
+"name": "Breakaway",
+"label": "Breakaway",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ClosingMarubozu",
+"name": "ClosingMarubozu",
+"label": "Closing Marubozu",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ConcealingBabySwallow",
+"name": "ConcealingBabySwallow",
+"label": "Concealing Baby Swallow",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Counterattack",
+"name": "Counterattack",
+"label": "Counterattack",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Doji",
+"name": "Doji",
+"label": "Doji",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "DojiStar",
+"name": "DojiStar",
+"label": "Doji Star",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "DownsideGapThreeMethods",
+"name": "DownsideGapThreeMethods",
+"label": "Downside Gap Three Methods",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "DragonflyDoji",
+"name": "DragonflyDoji",
+"label": "Dragonfly Doji",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "DumplingTop",
+"name": "DumplingTop",
+"label": "Dumpling Top",
+"family": "Candlestick Patterns",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Engulfing",
+"name": "Engulfing",
+"label": "Engulfing",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "EveningDojiStar",
+"name": "EveningDojiStar",
+"label": "Evening Doji Star",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "FallingThreeMethods",
+"name": "FallingThreeMethods",
+"label": "Falling Three Methods",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "FryPanBottom",
+"name": "FryPanBottom",
+"label": "Fry Pan Bottom",
+"family": "Candlestick Patterns",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "GapSideBySideWhite",
+"name": "GapSideBySideWhite",
+"label": "Gap Side By Side White",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "GravestoneDoji",
+"name": "GravestoneDoji",
+"label": "Gravestone Doji",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Hammer",
+"name": "Hammer",
+"label": "Hammer",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "HangingMan",
+"name": "HangingMan",
+"label": "Hanging Man",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Harami",
+"name": "Harami",
+"label": "Harami",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "HaramiCross",
+"name": "HaramiCross",
+"label": "Harami Cross",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "HighWave",
+"name": "HighWave",
+"label": "High Wave",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Hikkake",
+"name": "Hikkake",
+"label": "Hikkake",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "HikkakeModified",
+"name": "HikkakeModified",
+"label": "Hikkake Modified",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "HomingPigeon",
+"name": "HomingPigeon",
+"label": "Homing Pigeon",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "IdenticalThreeCrows",
+"name": "IdenticalThreeCrows",
+"label": "Identical Three Crows",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "InNeck",
+"name": "InNeck",
+"label": "In Neck",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "InvertedHammer",
+"name": "InvertedHammer",
+"label": "Inverted Hammer",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Kicking",
+"name": "Kicking",
+"label": "Kicking",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "KickingByLength",
+"name": "KickingByLength",
+"label": "Kicking By Length",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "LadderBottom",
+"name": "LadderBottom",
+"label": "Ladder Bottom",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "LongLeggedDoji",
+"name": "LongLeggedDoji",
+"label": "Long Legged Doji",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "LongLine",
+"name": "LongLine",
+"label": "Long Line",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Marubozu",
+"name": "Marubozu",
+"label": "Marubozu",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "MatHold",
+"name": "MatHold",
+"label": "Mat Hold",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "MatchingLow",
+"name": "MatchingLow",
+"label": "Matching Low",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "MorningDojiStar",
+"name": "MorningDojiStar",
+"label": "Morning Doji Star",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "MorningEveningStar",
+"name": "MorningEveningStar",
+"label": "Morning Evening Star",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "NewPriceLines",
+"name": "NewPriceLines",
+"label": "New Price Lines",
+"family": "Candlestick Patterns",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "OnNeck",
+"name": "OnNeck",
+"label": "On Neck",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "OpeningMarubozu",
+"name": "OpeningMarubozu",
+"label": "Opening Marubozu",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "PiercingDarkCloud",
+"name": "PiercingDarkCloud",
+"label": "Piercing Dark Cloud",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "RickshawMan",
+"name": "RickshawMan",
+"label": "Rickshaw Man",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "RisingThreeMethods",
+"name": "RisingThreeMethods",
+"label": "Rising Three Methods",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "SeparatingLines",
+"name": "SeparatingLines",
+"label": "Separating Lines",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ShootingStar",
+"name": "ShootingStar",
+"label": "Shooting Star",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ShortLine",
+"name": "ShortLine",
+"label": "Short Line",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "SpinningTop",
+"name": "SpinningTop",
+"label": "Spinning Top",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "StalledPattern",
+"name": "StalledPattern",
+"label": "Stalled Pattern",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "StickSandwich",
+"name": "StickSandwich",
+"label": "Stick Sandwich",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Takuri",
+"name": "Takuri",
+"label": "Takuri",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "TasukiGap",
+"name": "TasukiGap",
+"label": "Tasuki Gap",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ThreeInside",
+"name": "ThreeInside",
+"label": "Three Inside",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ThreeLineStrike",
+"name": "ThreeLineStrike",
+"label": "Three Line Strike",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ThreeOutside",
+"name": "ThreeOutside",
+"label": "Three Outside",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ThreeSoldiersOrCrows",
+"name": "ThreeSoldiersOrCrows",
+"label": "Three Soldiers Or Crows",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ThreeStarsInSouth",
+"name": "ThreeStarsInSouth",
+"label": "Three Stars In South",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Thrusting",
+"name": "Thrusting",
+"label": "Thrusting",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "TowerTopBottom",
+"name": "TowerTopBottom",
+"label": "Tower Top Bottom",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Tristar",
+"name": "Tristar",
+"label": "Tristar",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Tweezer",
+"name": "Tweezer",
+"label": "Tweezer",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "TwoCrows",
+"name": "TwoCrows",
+"label": "Two Crows",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "UniqueThreeRiver",
+"name": "UniqueThreeRiver",
+"label": "Unique Three River",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "UpsideGapThreeMethods",
+"name": "UpsideGapThreeMethods",
+"label": "Upside Gap Three Methods",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "UpsideGapTwoCrows",
+"name": "UpsideGapTwoCrows",
+"label": "Upside Gap Two Crows",
+"family": "Candlestick Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "CupAndHandle",
+"name": "CupAndHandle",
+"label": "Cup And Handle",
+"family": "Chart Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "DoubleTopBottom",
+"name": "DoubleTopBottom",
+"label": "Double Top Bottom",
+"family": "Chart Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "FlagPennant",
+"name": "FlagPennant",
+"label": "Flag Pennant",
+"family": "Chart Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "HeadAndShoulders",
+"name": "HeadAndShoulders",
+"label": "Head And Shoulders",
+"family": "Chart Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "RectangleRange",
+"name": "RectangleRange",
+"label": "Rectangle Range",
+"family": "Chart Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Triangle",
+"name": "Triangle",
+"label": "Triangle",
+"family": "Chart Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "TripleTopBottom",
+"name": "TripleTopBottom",
+"label": "Triple Top Bottom",
+"family": "Chart Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Wedge",
+"name": "Wedge",
+"label": "Wedge",
+"family": "Chart Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "TDCamouflage",
+"name": "TdCamouflage",
+"label": "Td Camouflage",
+"family": "DeMark",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDClop",
+"name": "TdClop",
+"label": "Td Clop",
+"family": "DeMark",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDClopwin",
+"name": "TdClopwin",
+"label": "Td Clopwin",
+"family": "DeMark",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDCombo",
+"name": "TdCombo",
+"label": "Td Combo",
+"family": "DeMark",
+"params": [
+3,
+7,
+14,
+28
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDCountdown",
+"name": "TdCountdown",
+"label": "Td Countdown",
+"family": "DeMark",
+"params": [
+3,
+7,
+14,
+28
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDDWave",
+"name": "TdDWave",
+"label": "Td D Wave",
+"family": "DeMark",
+"params": [
+2
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDDeMarker",
+"name": "TdDeMarker",
+"label": "Td De Marker",
+"family": "DeMark",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDDifferential",
+"name": "TdDifferential",
+"label": "Td Differential",
+"family": "DeMark",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDLines",
+"name": "TdLines",
+"label": "Td Lines",
+"family": "DeMark",
+"params": [
+3,
+7
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "TDMovingAverage",
+"name": "TdMovingAverage",
+"label": "Td Moving Average",
+"family": "DeMark",
+"params": [
+3,
+7
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "TDOpen",
+"name": "TdOpen",
+"label": "Td Open",
+"family": "DeMark",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDPressure",
+"name": "TdPressure",
+"label": "Td Pressure",
+"family": "DeMark",
+"params": [
+14
+],
+"sig": "ohlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDPropulsion",
+"name": "TdPropulsion",
+"label": "Td Propulsion",
+"family": "DeMark",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDRangeProjection",
+"name": "TdRangeProjection",
+"label": "Td Range Projection",
+"family": "DeMark",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "TDREI",
+"name": "TdRei",
+"label": "Td Rei",
+"family": "DeMark",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDRiskLevel",
+"name": "TdRiskLevel",
+"label": "Td Risk Level",
+"family": "DeMark",
+"params": [
+3,
+7
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "TDSequential",
+"name": "TdSequential",
+"label": "Td Sequential",
+"family": "DeMark",
+"params": [
+3,
+7,
+14,
+28
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "TDSetup",
+"name": "TdSetup",
+"label": "Td Setup",
+"family": "DeMark",
+"params": [
+3,
+7
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TDTrap",
+"name": "TdTrap",
+"label": "Td Trap",
+"family": "DeMark",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "CalendarSpread",
+"name": "CalendarSpread",
+"label": "Calendar Spread",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "EstimatedLeverageRatio",
+"name": "EstimatedLeverageRatio",
+"label": "Estimated Leverage Ratio",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "FundingBasis",
+"name": "FundingBasis",
+"label": "Funding Basis",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "FundingImpliedApr",
+"name": "FundingImpliedApr",
+"label": "Funding Implied Apr",
+"family": "Derivatives",
+"params": [
+1095.0
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "FundingRate",
+"name": "FundingRate",
+"label": "Funding Rate",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "FundingRateMean",
+"name": "FundingRateMean",
+"label": "Funding Rate Mean",
+"family": "Derivatives",
+"params": [
+20
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "FundingRateZScore",
+"name": "FundingRateZScore",
+"label": "Funding Rate Z Score",
+"family": "Derivatives",
+"params": [
+20
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "LiquidationFeatures",
+"name": "LiquidationFeatures",
+"label": "Liquidation Features",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "multi",
+"pane": "sub",
+"out": "deriv_multi"
+},
+{
+"js": "LongShortRatio",
+"name": "LongShortRatio",
+"label": "Long Short Ratio",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "OIPriceDivergence",
+"name": "OIPriceDivergence",
+"label": "OI Price Divergence",
+"family": "Derivatives",
+"params": [
+20
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "OIWeighted",
+"name": "OIWeighted",
+"label": "OI Weighted",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "OiToVolumeRatio",
+"name": "OiToVolumeRatio",
+"label": "Oi To Volume Ratio",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "OpenInterestDelta",
+"name": "OpenInterestDelta",
+"label": "Open Interest Delta",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "OpenInterestMomentum",
+"name": "OpenInterestMomentum",
+"label": "Open Interest Momentum",
+"family": "Derivatives",
+"params": [
+10
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "PerpetualPremiumIndex",
+"name": "PerpetualPremiumIndex",
+"label": "Perpetual Premium Index",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "TakerBuySellRatio",
+"name": "TakerBuySellRatio",
+"label": "Taker Buy Sell Ratio",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "TermStructureBasis",
+"name": "TermStructureBasis",
+"label": "Term Structure Basis",
+"family": "Derivatives",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "deriv"
+},
+{
+"js": "ADAPTIVECCI",
+"name": "AdaptiveCci",
+"label": "Adaptive Cci",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "AdaptiveCycle",
+"name": "AdaptiveCycle",
+"label": "Adaptive Cycle",
+"family": "Ehlers / Cycle (DSP)",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ADAPTIVERSI",
+"name": "AdaptiveRsi",
+"label": "Adaptive Rsi",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "AUTOCORRPGRAM",
+"name": "AutocorrelationPeriodogram",
+"label": "Autocorrelation Periodogram",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+10,
+48
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "BANDPASS",
+"name": "BandpassFilter",
+"label": "Bandpass Filter",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+20,
+0.3
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "CenterOfGravity",
+"name": "CenterOfGravity",
+"label": "Center Of Gravity",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "CTI",
+"name": "CorrelationTrendIndicator",
+"label": "Correlation Trend Indicator",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "CyberneticCycle",
+"name": "CyberneticCycle",
+"label": "Cybernetic Cycle",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Decycler",
+"name": "Decycler",
+"label": "Decycler",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "DecyclerOscillator",
+"name": "DecyclerOscillator",
+"label": "Decycler Oscillator",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "EhlersStochastic",
+"name": "EhlersStochastic",
+"label": "Ehlers Stochastic",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "EmpiricalModeDecomposition",
+"name": "EmpiricalModeDecomposition",
+"label": "Empirical Mode Decomposition",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+20,
+0.1
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "EVENBETTERSINE",
+"name": "EvenBetterSinewave",
+"label": "Even Better Sinewave",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+40,
+10
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "FAMA",
+"name": "Fama",
+"label": "Fama",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+0.5,
+0.05
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "FisherTransform",
+"name": "FisherTransform",
+"label": "Fisher Transform",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "HIGHPASS",
+"name": "HighpassFilter",
+"label": "Highpass Filter",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "HilbertDominantCycle",
+"name": "HilbertDominantCycle",
+"label": "Hilbert Dominant Cycle",
+"family": "Ehlers / Cycle (DSP)",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "HT_DCPHASE",
+"name": "HtDcPhase",
+"label": "Ht Dc Phase",
+"family": "Ehlers / Cycle (DSP)",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "HT_PHASOR",
+"name": "HtPhasor",
+"label": "Ht Phasor",
+"family": "Ehlers / Cycle (DSP)",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_f64"
+},
+{
+"js": "HT_TRENDMODE",
+"name": "HtTrendMode",
+"label": "Ht Trend Mode",
+"family": "Ehlers / Cycle (DSP)",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "InstantaneousTrendline",
+"name": "InstantaneousTrendline",
+"label": "Instantaneous Trendline",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "InverseFisherTransform",
+"name": "InverseFisherTransform",
+"label": "Inverse Fisher Transform",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "MAMA",
+"name": "Mama",
+"label": "Mama",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+0.5,
+0.05
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_f64"
+},
+{
+"js": "REFLEX",
+"name": "Reflex",
+"label": "Reflex",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RoofingFilter",
+"name": "RoofingFilter",
+"label": "Roofing Filter",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "SineWave",
+"name": "SineWave",
+"label": "Sine Wave",
+"family": "Ehlers / Cycle (DSP)",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "SuperSmoother",
+"name": "SuperSmoother",
+"label": "Super Smoother",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TRENDFLEX",
+"name": "Trendflex",
+"label": "Trendflex",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "UNIVERSALOSC",
+"name": "UniversalOscillator",
+"label": "Universal Oscillator",
+"family": "Ehlers / Cycle (DSP)",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "AutoFib",
+"name": "AutoFib",
+"label": "Auto Fib",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibArcs",
+"name": "FibArcs",
+"label": "Fib Arcs",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibChannel",
+"name": "FibChannel",
+"label": "Fib Channel",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibConfluence",
+"name": "FibConfluence",
+"label": "Fib Confluence",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibExtension",
+"name": "FibExtension",
+"label": "Fib Extension",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibFan",
+"name": "FibFan",
+"label": "Fib Fan",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibProjection",
+"name": "FibProjection",
+"label": "Fib Projection",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibRetracement",
+"name": "FibRetracement",
+"label": "Fib Retracement",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibTimeZones",
+"name": "FibTimeZones",
+"label": "Fib Time Zones",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "GoldenPocket",
+"name": "GoldenPocket",
+"label": "Golden Pocket",
+"family": "Fibonacci",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "Abcd",
+"name": "Abcd",
+"label": "Abcd",
+"family": "Harmonic Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Bat",
+"name": "Bat",
+"label": "Bat",
+"family": "Harmonic Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Butterfly",
+"name": "Butterfly",
+"label": "Butterfly",
+"family": "Harmonic Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Crab",
+"name": "Crab",
+"label": "Crab",
+"family": "Harmonic Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Cypher",
+"name": "Cypher",
+"label": "Cypher",
+"family": "Harmonic Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Gartley",
+"name": "Gartley",
+"label": "Gartley",
+"family": "Harmonic Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Shark",
+"name": "Shark",
+"label": "Shark",
+"family": "Harmonic Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ThreeDrives",
+"name": "ThreeDrives",
+"label": "Three Drives",
+"family": "Harmonic Patterns",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "markers",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "CandleVolume",
+"name": "CandleVolume",
+"label": "Candle Volume",
+"family": "Ichimoku & Charts",
+"params": [
+14
+],
+"sig": "other",
+"feed": "none",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "Equivolume",
+"name": "Equivolume",
+"label": "Equivolume",
+"family": "Ichimoku & Charts",
+"params": [
+14
+],
+"sig": "hlv",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "HeikinAshi",
+"name": "HeikinAshi",
+"label": "Heikin Ashi",
+"family": "Ichimoku & Charts",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "HeikinAshiOscillator",
+"name": "HeikinAshiOscillator",
+"label": "Heikin Ashi Oscillator",
+"family": "Ichimoku & Charts",
+"params": [
+14
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Ichimoku",
+"name": "Ichimoku",
+"label": "Ichimoku",
+"family": "Ichimoku & Charts",
+"params": [
+9,
+26,
+52,
+26
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "SmoothedHeikinAshi",
+"name": "SmoothedHeikinAshi",
+"label": "Smoothed Heikin Ashi",
+"family": "Ichimoku & Charts",
+"params": [
+14
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ThreeLineBreak",
+"name": "ThreeLineBreak",
+"label": "Three Line Break",
+"family": "Ichimoku & Charts",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "AbsoluteBreadthIndex",
+"name": "AbsoluteBreadthIndex",
+"label": "Absolute Breadth Index",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "AdVolumeLine",
+"name": "AdVolumeLine",
+"label": "Ad Volume Line",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "AdvanceDecline",
+"name": "AdvanceDecline",
+"label": "Advance Decline",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "AdvanceDeclineRatio",
+"name": "AdvanceDeclineRatio",
+"label": "Advance Decline Ratio",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "BreadthThrust",
+"name": "BreadthThrust",
+"label": "Breadth Thrust",
+"family": "Market Breadth",
+"params": [
+10
+],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "BullishPercentIndex",
+"name": "BullishPercentIndex",
+"label": "Bullish Percent Index",
+"family": "Market Breadth",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "CumulativeVolumeIndex",
+"name": "CumulativeVolumeIndex",
+"label": "Cumulative Volume Index",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "HighLowIndex",
+"name": "HighLowIndex",
+"label": "High Low Index",
+"family": "Market Breadth",
+"params": [
+10
+],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "McClellanOscillator",
+"name": "McClellanOscillator",
+"label": "Mc Clellan Oscillator",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "McClellanSummationIndex",
+"name": "McClellanSummationIndex",
+"label": "Mc Clellan Summation Index",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "NewHighsNewLows",
+"name": "NewHighsNewLows",
+"label": "New Highs New Lows",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "PercentAboveMa",
+"name": "PercentAboveMa",
+"label": "Percent Above Ma",
+"family": "Market Breadth",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "TickIndex",
+"name": "TickIndex",
+"label": "Tick Index",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "Trin",
+"name": "Trin",
+"label": "Trin",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "UpDownVolumeRatio",
+"name": "UpDownVolumeRatio",
+"label": "Up Down Volume Ratio",
+"family": "Market Breadth",
+"params": [],
+"sig": "cross",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "cross"
+},
+{
+"js": "CompositeProfile",
+"name": "CompositeProfile",
+"label": "Composite Profile",
+"family": "Market Profile",
+"params": [
+20,
+24,
+0.7
+],
+"sig": "hlv",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "HighLowVolumeNodes",
+"name": "HighLowVolumeNodes",
+"label": "High Low Volume Nodes",
+"family": "Market Profile",
+"params": [
+3,
+7
+],
+"sig": "hlv",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "InitialBalance",
+"name": "InitialBalance",
+"label": "Initial Balance",
+"family": "Market Profile",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "NakedPoc",
+"name": "NakedPoc",
+"label": "Naked Poc",
+"family": "Market Profile",
+"params": [
+3,
+7
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "OpeningRange",
+"name": "OpeningRange",
+"label": "Opening Range",
+"family": "Market Profile",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ProfileShape",
+"name": "ProfileShape",
+"label": "Profile Shape",
+"family": "Market Profile",
+"params": [
+3,
+7
+],
+"sig": "hlv",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "SinglePrints",
+"name": "SinglePrints",
+"label": "Single Prints",
+"family": "Market Profile",
+"params": [
+3,
+7
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "TpoProfile",
+"name": "TpoProfile",
+"label": "Tpo Profile",
+"family": "Market Profile",
+"params": [
+30,
+50
+],
+"sig": "hl",
+"feed": "kline",
+"render": "profile",
+"pane": "price",
+"out": "profile_pricebins"
+},
+{
+"js": "ValueArea",
+"name": "ValueArea",
+"label": "Value Area",
+"family": "Market Profile",
+"params": [
+20,
+50,
+0.7
+],
+"sig": "hlv",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "VolumeProfile",
+"name": "VolumeProfile",
+"label": "Volume Profile",
+"family": "Market Profile",
+"params": [
+20,
+50
+],
+"sig": "hlv",
+"feed": "kline",
+"render": "profile",
+"pane": "price",
+"out": "profile_pricebins"
+},
+{
+"js": "AmihudIlliquidity",
+"name": "AmihudIlliquidity",
+"label": "Amihud Illiquidity",
+"family": "Microstructure",
+"params": [
+20
+],
+"sig": "trade",
+"feed": "trade",
+"render": "line",
+"pane": "sub",
+"out": "trade"
+},
+{
+"js": "CumulativeVolumeDelta",
+"name": "CumulativeVolumeDelta",
+"label": "Cumulative Volume Delta",
+"family": "Microstructure",
+"params": [],
+"sig": "trade",
+"feed": "trade",
+"render": "line",
+"pane": "sub",
+"out": "trade"
+},
+{
+"js": "DepthSlope",
+"name": "DepthSlope",
+"label": "Depth Slope",
+"family": "Microstructure",
+"params": [],
+"sig": "ob_top",
+"feed": "orderbook",
+"render": "multi",
+"pane": "sub",
+"out": "ob"
+},
+{
+"js": "EffectiveSpread",
+"name": "EffectiveSpread",
+"label": "Effective Spread",
+"family": "Microstructure",
+"params": [],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "trademid"
+},
+{
+"js": "Footprint",
+"name": "Footprint",
+"label": "Footprint",
+"family": "Microstructure",
+"params": [
+1.0
+],
+"sig": "trade",
+"feed": "trade",
+"render": "profile",
+"pane": "sub",
+"out": "footprint"
+},
+{
+"js": "HasbrouckInformationShare",
+"name": "HasbrouckInformationShare",
+"label": "Hasbrouck Information Share",
+"family": "Microstructure",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "KylesLambda",
+"name": "KylesLambda",
+"label": "Kyles Lambda",
+"family": "Microstructure",
+"params": [
+20
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "trademid"
+},
+{
+"js": "Microprice",
+"name": "Microprice",
+"label": "Microprice",
+"family": "Microstructure",
+"params": [],
+"sig": "ob_top",
+"feed": "orderbook",
+"render": "multi",
+"pane": "sub",
+"out": "ob"
+},
+{
+"js": "OrderBookImbalanceFull",
+"name": "OrderBookImbalanceFull",
+"label": "Order Book Imbalance Full",
+"family": "Microstructure",
+"params": [],
+"sig": "ob_top",
+"feed": "orderbook",
+"render": "multi",
+"pane": "sub",
+"out": "ob"
+},
+{
+"js": "OrderBookImbalanceTopN",
+"name": "OrderBookImbalanceTopN",
+"label": "Order Book Imbalance Top N",
+"family": "Microstructure",
+"params": [
+5
+],
+"sig": "ob_top",
+"feed": "orderbook",
+"render": "multi",
+"pane": "sub",
+"out": "ob"
+},
+{
+"js": "OrderBookImbalanceTop1",
+"name": "OrderBookImbalanceTop1",
+"label": "Order Book Imbalance Top1",
+"family": "Microstructure",
+"params": [],
+"sig": "ob_top",
+"feed": "orderbook",
+"render": "multi",
+"pane": "sub",
+"out": "ob"
+},
+{
+"js": "OrderFlowImbalance",
+"name": "OrderFlowImbalance",
+"label": "Order Flow Imbalance",
+"family": "Microstructure",
+"params": [
+20
+],
+"sig": "ob_top",
+"feed": "orderbook",
+"render": "multi",
+"pane": "sub",
+"out": "ob"
+},
+{
+"js": "Pin",
+"name": "Pin",
+"label": "Pin",
+"family": "Microstructure",
+"params": [
+20
+],
+"sig": "trade",
+"feed": "trade",
+"render": "line",
+"pane": "sub",
+"out": "trade"
+},
+{
+"js": "QuotedSpread",
+"name": "QuotedSpread",
+"label": "Quoted Spread",
+"family": "Microstructure",
+"params": [],
+"sig": "ob_top",
+"feed": "orderbook",
+"render": "multi",
+"pane": "sub",
+"out": "ob"
+},
+{
+"js": "RealizedSpread",
+"name": "RealizedSpread",
+"label": "Realized Spread",
+"family": "Microstructure",
+"params": [
+20
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "trademid"
+},
+{
+"js": "RollMeasure",
+"name": "RollMeasure",
+"label": "Roll Measure",
+"family": "Microstructure",
+"params": [
+20
+],
+"sig": "trade",
+"feed": "trade",
+"render": "line",
+"pane": "sub",
+"out": "trade"
+},
+{
+"js": "SignedVolume",
+"name": "SignedVolume",
+"label": "Signed Volume",
+"family": "Microstructure",
+"params": [],
+"sig": "trade",
+"feed": "trade",
+"render": "line",
+"pane": "sub",
+"out": "trade"
+},
+{
+"js": "TradeImbalance",
+"name": "TradeImbalance",
+"label": "Trade Imbalance",
+"family": "Microstructure",
+"params": [
+20
+],
+"sig": "trade",
+"feed": "trade",
+"render": "line",
+"pane": "sub",
+"out": "trade"
+},
+{
+"js": "TradeSignAutocorrelation",
+"name": "TradeSignAutocorrelation",
+"label": "Trade Sign Autocorrelation",
+"family": "Microstructure",
+"params": [
+20
+],
+"sig": "trade",
+"feed": "trade",
+"render": "line",
+"pane": "sub",
+"out": "trade"
+},
+{
+"js": "Vpin",
+"name": "Vpin",
+"label": "Vpin",
+"family": "Microstructure",
+"params": [
+5000.0,
+10
+],
+"sig": "trade",
+"feed": "trade",
+"render": "line",
+"pane": "sub",
+"out": "trade"
+},
+{
+"js": "AnchoredRSI",
+"name": "AnchoredRsi",
+"label": "Anchored Rsi",
+"family": "Momentum Oscillators",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "AwesomeOscillator",
+"name": "AwesomeOscillator",
+"label": "Awesome Oscillator",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "CCI",
+"name": "Cci",
+"label": "Cci",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "CMO",
+"name": "Cmo",
+"label": "Cmo",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ConnorsRSI",
+"name": "ConnorsRsi",
+"label": "Connors Rsi",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "DerivativeOscillator",
+"name": "DerivativeOscillator",
+"label": "Derivative Oscillator",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7,
+14,
+28
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "DisparityIndex",
+"name": "DisparityIndex",
+"label": "Disparity Index",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "DynamicMomentumIndex",
+"name": "DynamicMomentumIndex",
+"label": "Dynamic Momentum Index",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ElderRay",
+"name": "ElderRay",
+"label": "Elder Ray",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "FisherRSI",
+"name": "FisherRsi",
+"label": "Fisher Rsi",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Inertia",
+"name": "Inertia",
+"label": "Inertia",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "IMI",
+"name": "IntradayMomentumIndex",
+"label": "Intraday Momentum Index",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "KST",
+"name": "Kst",
+"label": "Kst",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7,
+14,
+28,
+35,
+42,
+56,
+63,
+70
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_f64"
+},
+{
+"js": "LaguerreRSI",
+"name": "LaguerreRsi",
+"label": "Laguerre Rsi",
+"family": "Momentum Oscillators",
+"params": [
+0.5
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "MFI",
+"name": "Mfi",
+"label": "Mfi",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "MOM",
+"name": "Mom",
+"label": "Mom",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "PGO",
+"name": "Pgo",
+"label": "Pgo",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "PMO",
+"name": "Pmo",
+"label": "Pmo",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "QQE",
+"name": "Qqe",
+"label": "Qqe",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_f64"
+},
+{
+"js": "RMI",
+"name": "Rmi",
+"label": "Rmi",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ROC",
+"name": "Roc",
+"label": "Roc",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ROCP",
+"name": "Rocp",
+"label": "Rocp",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ROCR",
+"name": "Rocr",
+"label": "Rocr",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ROCR100",
+"name": "Rocr100",
+"label": "Rocr100",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RSI",
+"name": "Rsi",
+"label": "Rsi",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RSX",
+"name": "Rsx",
+"label": "Rsx",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RVI",
+"name": "Rvi",
+"label": "Rvi",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "SMI",
+"name": "Smi",
+"label": "Smi",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "StochRSI",
+"name": "StochRsi",
+"label": "Stoch Rsi",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Stochastic",
+"name": "Stochastic",
+"label": "Stochastic",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "StochasticCCI",
+"name": "StochasticCci",
+"label": "Stochastic Cci",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TSI",
+"name": "Tsi",
+"label": "Tsi",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "UltimateOscillator",
+"name": "UltimateOscillator",
+"label": "Ultimate Oscillator",
+"family": "Momentum Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "WilliamsR",
+"name": "WilliamsR",
+"label": "Williams R",
+"family": "Momentum Oscillators",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "AdaptiveLaguerre",
+"name": "AdaptiveLaguerreFilter",
+"label": "Adaptive Laguerre Filter",
+"family": "Moving Averages",
+"params": [
+20
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "Alligator",
+"name": "Alligator",
+"label": "Alligator",
+"family": "Moving Averages",
+"params": [
+3,
+7,
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ALMA",
+"name": "Alma",
+"label": "Alma",
+"family": "Moving Averages",
+"params": [
+9,
+0.85,
+6.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "DEMA",
+"name": "Dema",
+"label": "Dema",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "EHMA",
+"name": "Ehma",
+"label": "Ehma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "EMA",
+"name": "Ema",
+"label": "Ema",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "EVWMA",
+"name": "Evwma",
+"label": "Evwma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "FRAMA",
+"name": "Frama",
+"label": "Frama",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "GD",
+"name": "GeneralizedDema",
+"label": "Generalized Dema",
+"family": "Moving Averages",
+"params": [
+5,
+0.7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "GMA",
+"name": "GeometricMa",
+"label": "Geometric Ma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "HMA",
+"name": "Hma",
+"label": "Hma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "HoltWinters",
+"name": "HoltWinters",
+"label": "Holt Winters",
+"family": "Moving Averages",
+"params": [
+0.5,
+0.1
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "JMA",
+"name": "Jma",
+"label": "Jma",
+"family": "Moving Averages",
+"params": [
+7,
+0.0,
+2
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "KAMA",
+"name": "Kama",
+"label": "Kama",
+"family": "Moving Averages",
+"params": [
+3,
+7,
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "McGinleyDynamic",
+"name": "McGinleyDynamic",
+"label": "Mc Ginley Dynamic",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "MedianMA",
+"name": "MedianMa",
+"label": "Median Ma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "SWMA",
+"name": "SineWeightedMa",
+"label": "Sine Weighted Ma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "SMA",
+"name": "Sma",
+"label": "Sma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "SMMA",
+"name": "Smma",
+"label": "Smma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "T3",
+"name": "T3",
+"label": "T3",
+"family": "Moving Averages",
+"params": [
+5,
+0.7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "TEMA",
+"name": "Tema",
+"label": "Tema",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "TRIMA",
+"name": "Trima",
+"label": "Trima",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "VIDYA",
+"name": "Vidya",
+"label": "Vidya",
+"family": "Moving Averages",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "VWMA",
+"name": "Vwma",
+"label": "Vwma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "WMA",
+"name": "Wma",
+"label": "Wma",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "ZLEMA",
+"name": "Zlema",
+"label": "Zlema",
+"family": "Moving Averages",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "AndrewsPitchfork",
+"name": "AndrewsPitchfork",
+"label": "Andrews Pitchfork",
+"family": "Pivots & S/R",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "Camarilla",
+"name": "Camarilla",
+"label": "Camarilla",
+"family": "Pivots & S/R",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "CentralPivotRange",
+"name": "CentralPivotRange",
+"label": "Central Pivot Range",
+"family": "Pivots & S/R",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ClassicPivots",
+"name": "ClassicPivots",
+"label": "Classic Pivots",
+"family": "Pivots & S/R",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "DemarkPivots",
+"name": "DemarkPivots",
+"label": "Demark Pivots",
+"family": "Pivots & S/R",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "FibonacciPivots",
+"name": "FibonacciPivots",
+"label": "Fibonacci Pivots",
+"family": "Pivots & S/R",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "MurreyMathLines",
+"name": "MurreyMathLines",
+"label": "Murrey Math Lines",
+"family": "Pivots & S/R",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "PivotReversal",
+"name": "PivotReversal",
+"label": "Pivot Reversal",
+"family": "Pivots & S/R",
+"params": [
+3,
+7
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "VolumeWeightedSr",
+"name": "VolumeWeightedSr",
+"label": "Volume Weighted Sr",
+"family": "Pivots & S/R",
+"params": [
+14
+],
+"sig": "hlv",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "WilliamsFractals",
+"name": "WilliamsFractals",
+"label": "Williams Fractals",
+"family": "Pivots & S/R",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "WoodiePivots",
+"name": "WoodiePivots",
+"label": "Woodie Pivots",
+"family": "Pivots & S/R",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ZigZag",
+"name": "ZigZag",
+"label": "Zig Zag",
+"family": "Pivots & S/R",
+"params": [
+0.02
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "AcceleratorOscillator",
+"name": "AcceleratorOscillator",
+"label": "Accelerator Oscillator",
+"family": "Price Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "APO",
+"name": "Apo",
+"label": "Apo",
+"family": "Price Oscillators",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "AwesomeOscillatorHistogram",
+"name": "AwesomeOscillatorHistogram",
+"label": "Awesome Oscillator Histogram",
+"family": "Price Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "BalanceOfPower",
+"name": "BalanceOfPower",
+"label": "Balance Of Power",
+"family": "Price Oscillators",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "CFO",
+"name": "Cfo",
+"label": "Cfo",
+"family": "Price Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Coppock",
+"name": "Coppock",
+"label": "Coppock",
+"family": "Price Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "DPO",
+"name": "Dpo",
+"label": "Dpo",
+"family": "Price Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ElderImpulse",
+"name": "ElderImpulse",
+"label": "Elder Impulse",
+"family": "Price Oscillators",
+"params": [
+3,
+7,
+14,
+28
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "MacdHistogram",
+"name": "MacdHistogram",
+"label": "Macd Histogram",
+"family": "Price Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "PPO",
+"name": "Ppo",
+"label": "Ppo",
+"family": "Price Oscillators",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "PpoHistogram",
+"name": "PpoHistogram",
+"label": "Ppo Histogram",
+"family": "Price Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "STC",
+"name": "Stc",
+"label": "Stc",
+"family": "Price Oscillators",
+"params": [
+10,
+23,
+10,
+0.5
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TsfOscillator",
+"name": "TsfOscillator",
+"label": "Tsf Oscillator",
+"family": "Price Oscillators",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ZeroLagMACD",
+"name": "ZeroLagMacd",
+"label": "Zero Lag Macd",
+"family": "Price Oscillators",
+"params": [
+3,
+7,
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_f64"
+},
+{
+"js": "Autocorrelation",
+"name": "Autocorrelation",
+"label": "Autocorrelation",
+"family": "Price Statistics",
+"params": [
+10,
+1
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "AVGPRICE",
+"name": "AvgPrice",
+"label": "Avg Price",
+"family": "Price Statistics",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "Beta",
+"name": "Beta",
+"label": "Beta",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "BetaNeutralSpread",
+"name": "BetaNeutralSpread",
+"label": "Beta Neutral Spread",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "BodySizePct",
+"name": "BodySizePct",
+"label": "Body Size Pct",
+"family": "Price Statistics",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "CloseVsOpen",
+"name": "CloseVsOpen",
+"label": "Close Vs Open",
+"family": "Price Statistics",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "CoefficientOfVariation",
+"name": "CoefficientOfVariation",
+"label": "Coefficient Of Variation",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Cointegration",
+"name": "Cointegration",
+"label": "Cointegration",
+"family": "Price Statistics",
+"params": [
+40,
+1
+],
+"sig": "pair",
+"feed": "none",
+"render": "multi",
+"pane": "sub",
+"out": "multi_pairwise"
+},
+{
+"js": "DetrendedStdDev",
+"name": "DetrendedStdDev",
+"label": "Detrended Std Dev",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "DistanceSsd",
+"name": "DistanceSsd",
+"label": "Distance Ssd",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "GrangerCausality",
+"name": "GrangerCausality",
+"label": "Granger Causality",
+"family": "Price Statistics",
+"params": [
+60,
+1
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "HighLowRange",
+"name": "HighLowRange",
+"label": "High Low Range",
+"family": "Price Statistics",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "HurstExponent",
+"name": "HurstExponent",
+"label": "Hurst Exponent",
+"family": "Price Statistics",
+"params": [
+100,
+4
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "JARQUEBERA",
+"name": "JarqueBera",
+"label": "Jarque Bera",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "KalmanHedgeRatio",
+"name": "KalmanHedgeRatio",
+"label": "Kalman Hedge Ratio",
+"family": "Price Statistics",
+"params": [
+0.01,
+0.001
+],
+"sig": "pair",
+"feed": "none",
+"render": "multi",
+"pane": "sub",
+"out": "multi_pairwise"
+},
+{
+"js": "KendallTau",
+"name": "KendallTau",
+"label": "Kendall Tau",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "Kurtosis",
+"name": "Kurtosis",
+"label": "Kurtosis",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "LeadLagCrossCorrelation",
+"name": "LeadLagCrossCorrelation",
+"label": "Lead Lag Cross Correlation",
+"family": "Price Statistics",
+"params": [
+20,
+10
+],
+"sig": "pair",
+"feed": "none",
+"render": "multi",
+"pane": "sub",
+"out": "multi_pairwise"
+},
+{
+"js": "LinRegAngle",
+"name": "LinRegAngle",
+"label": "Lin Reg Angle",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "LINEARREG_INTERCEPT",
+"name": "LinRegIntercept",
+"label": "Lin Reg Intercept",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "LinRegSlope",
+"name": "LinRegSlope",
+"label": "Lin Reg Slope",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "LinearRegression",
+"name": "LinearRegression",
+"label": "Linear Regression",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "LogReturn",
+"name": "LogReturn",
+"label": "Log Return",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "MedianAbsoluteDeviation",
+"name": "MedianAbsoluteDeviation",
+"label": "Median Absolute Deviation",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "MedianPrice",
+"name": "MedianPrice",
+"label": "Median Price",
+"family": "Price Statistics",
+"params": [],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "MIDPOINT",
+"name": "MidPoint",
+"label": "Mid Point",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "MIDPRICE",
+"name": "MidPrice",
+"label": "Mid Price",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "OuHalfLife",
+"name": "OuHalfLife",
+"label": "Ou Half Life",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "PairSpreadZScore",
+"name": "PairSpreadZScore",
+"label": "Pair Spread Z Score",
+"family": "Price Statistics",
+"params": [
+20,
+20
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "PairwiseBeta",
+"name": "PairwiseBeta",
+"label": "Pairwise Beta",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "PearsonCorrelation",
+"name": "PearsonCorrelation",
+"label": "Pearson Correlation",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "RSquared",
+"name": "RSquared",
+"label": "R Squared",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RealizedVolatility",
+"name": "RealizedVolatility",
+"label": "Realized Volatility",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RelativeStrengthAB",
+"name": "RelativeStrengthAB",
+"label": "Relative Strength AB",
+"family": "Price Statistics",
+"params": [
+14,
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "multi",
+"pane": "sub",
+"out": "multi_pairwise"
+},
+{
+"js": "RollingCorrelation",
+"name": "RollingCorrelation",
+"label": "Rolling Correlation",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "RollingCovariance",
+"name": "RollingCovariance",
+"label": "Rolling Covariance",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "RollingIqr",
+"name": "RollingIqr",
+"label": "Rolling Iqr",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ROLLINGMINMAX",
+"name": "RollingMinMaxScaler",
+"label": "Rolling Min Max Scaler",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RollingPercentileRank",
+"name": "RollingPercentileRank",
+"label": "Rolling Percentile Rank",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RollingQuantile",
+"name": "RollingQuantile",
+"label": "Rolling Quantile",
+"family": "Price Statistics",
+"params": [
+20,
+0.5
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "SAMPLEENT",
+"name": "SampleEntropy",
+"label": "Sample Entropy",
+"family": "Price Statistics",
+"params": [
+20,
+2,
+0.2
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "SHANNONENT",
+"name": "ShannonEntropy",
+"label": "Shannon Entropy",
+"family": "Price Statistics",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Skewness",
+"name": "Skewness",
+"label": "Skewness",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "SpearmanCorrelation",
+"name": "SpearmanCorrelation",
+"label": "Spearman Correlation",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "SpreadAr1Coefficient",
+"name": "SpreadAr1Coefficient",
+"label": "Spread Ar1 Coefficient",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "SpreadBollingerBands",
+"name": "SpreadBollingerBands",
+"label": "Spread Bollinger Bands",
+"family": "Price Statistics",
+"params": [
+14,
+2.0
+],
+"sig": "pair",
+"feed": "none",
+"render": "multi",
+"pane": "sub",
+"out": "multi_pairwise"
+},
+{
+"js": "SpreadHurst",
+"name": "SpreadHurst",
+"label": "Spread Hurst",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "StandardError",
+"name": "StandardError",
+"label": "Standard Error",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TSF",
+"name": "Tsf",
+"label": "Tsf",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TypicalPrice",
+"name": "TypicalPrice",
+"label": "Typical Price",
+"family": "Price Statistics",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "Variance",
+"name": "Variance",
+"label": "Variance",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "VarianceRatio",
+"name": "VarianceRatio",
+"label": "Variance Ratio",
+"family": "Price Statistics",
+"params": [
+60,
+2
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "WeightedClose",
+"name": "WeightedClose",
+"label": "Weighted Close",
+"family": "Price Statistics",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "WickRatio",
+"name": "WickRatio",
+"label": "Wick Ratio",
+"family": "Price Statistics",
+"params": [],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "ZScore",
+"name": "ZScore",
+"label": "Z Score",
+"family": "Price Statistics",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Alpha",
+"name": "Alpha",
+"label": "Alpha",
+"family": "Risk / Performance",
+"params": [
+14,
+2.0
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "AverageDrawdown",
+"name": "AverageDrawdown",
+"label": "Average Drawdown",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "BurkeRatio",
+"name": "BurkeRatio",
+"label": "Burke Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "CalmarRatio",
+"name": "CalmarRatio",
+"label": "Calmar Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "CommonSenseRatio",
+"name": "CommonSenseRatio",
+"label": "Common Sense Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ConditionalValueAtRisk",
+"name": "ConditionalValueAtRisk",
+"label": "Conditional Value At Risk",
+"family": "Risk / Performance",
+"params": [
+20,
+0.95
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "DrawdownDuration",
+"name": "DrawdownDuration",
+"label": "Drawdown Duration",
+"family": "Risk / Performance",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Expectancy",
+"name": "Expectancy",
+"label": "Expectancy",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "GainLossRatio",
+"name": "GainLossRatio",
+"label": "Gain Loss Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "GainToPainRatio",
+"name": "GainToPainRatio",
+"label": "Gain To Pain Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "InformationRatio",
+"name": "InformationRatio",
+"label": "Information Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "KRatio",
+"name": "KRatio",
+"label": "K Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "KellyCriterion",
+"name": "KellyCriterion",
+"label": "Kelly Criterion",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "M2Measure",
+"name": "M2Measure",
+"label": "M2 Measure",
+"family": "Risk / Performance",
+"params": [
+14,
+2.0,
+0.5
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "MartinRatio",
+"name": "MartinRatio",
+"label": "Martin Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "MaxDrawdown",
+"name": "MaxDrawdown",
+"label": "Max Drawdown",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "OmegaRatio",
+"name": "OmegaRatio",
+"label": "Omega Ratio",
+"family": "Risk / Performance",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "PainIndex",
+"name": "PainIndex",
+"label": "Pain Index",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ProfitFactor",
+"name": "ProfitFactor",
+"label": "Profit Factor",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "RecoveryFactor",
+"name": "RecoveryFactor",
+"label": "Recovery Factor",
+"family": "Risk / Performance",
+"params": [],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "SharpeRatio",
+"name": "SharpeRatio",
+"label": "Sharpe Ratio",
+"family": "Risk / Performance",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "SortinoRatio",
+"name": "SortinoRatio",
+"label": "Sortino Ratio",
+"family": "Risk / Performance",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "SterlingRatio",
+"name": "SterlingRatio",
+"label": "Sterling Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TailRatio",
+"name": "TailRatio",
+"label": "Tail Ratio",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TreynorRatio",
+"name": "TreynorRatio",
+"label": "Treynor Ratio",
+"family": "Risk / Performance",
+"params": [
+14,
+2.0
+],
+"sig": "pair",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "pairwise"
+},
+{
+"js": "UpsidePotentialRatio",
+"name": "UpsidePotentialRatio",
+"label": "Upside Potential Ratio",
+"family": "Risk / Performance",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "ValueAtRisk",
+"name": "ValueAtRisk",
+"label": "Value At Risk",
+"family": "Risk / Performance",
+"params": [
+20,
+0.95
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "WinRate",
+"name": "WinRate",
+"label": "Win Rate",
+"family": "Risk / Performance",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "AverageDailyRange",
+"name": "AverageDailyRange",
+"label": "Average Daily Range",
+"family": "Seasonality & Session",
+"params": [
+14,
+0
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "DayOfWeekProfile",
+"name": "DayOfWeekProfile",
+"label": "Day Of Week Profile",
+"family": "Seasonality & Session",
+"params": [
+0
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "profile",
+"pane": "sub",
+"out": "profile_bins"
+},
+{
+"js": "IntradayVolatilityProfile",
+"name": "IntradayVolatilityProfile",
+"label": "Intraday Volatility Profile",
+"family": "Seasonality & Session",
+"params": [
+24,
+0
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "profile",
+"pane": "sub",
+"out": "profile_bins"
+},
+{
+"js": "OvernightGap",
+"name": "OvernightGap",
+"label": "Overnight Gap",
+"family": "Seasonality & Session",
+"params": [
+0
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "OvernightIntradayReturn",
+"name": "OvernightIntradayReturn",
+"label": "Overnight Intraday Return",
+"family": "Seasonality & Session",
+"params": [
+14
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "SeasonalZScore",
+"name": "SeasonalZScore",
+"label": "Seasonal Z Score",
+"family": "Seasonality & Session",
+"params": [
+14
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "SessionHighLow",
+"name": "SessionHighLow",
+"label": "Session High Low",
+"family": "Seasonality & Session",
+"params": [
+14
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "SessionRange",
+"name": "SessionRange",
+"label": "Session Range",
+"family": "Seasonality & Session",
+"params": [
+14
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "SessionVwap",
+"name": "SessionVwap",
+"label": "Session Vwap",
+"family": "Seasonality & Session",
+"params": [
+14
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TimeOfDayReturnProfile",
+"name": "TimeOfDayReturnProfile",
+"label": "Time Of Day Return Profile",
+"family": "Seasonality & Session",
+"params": [
+24,
+0
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "profile",
+"pane": "sub",
+"out": "profile_bins"
+},
+{
+"js": "TurnOfMonth",
+"name": "TurnOfMonth",
+"label": "Turn Of Month",
+"family": "Seasonality & Session",
+"params": [
+3,
+3,
+0
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "VolumeByTimeProfile",
+"name": "VolumeByTimeProfile",
+"label": "Volume By Time Profile",
+"family": "Seasonality & Session",
+"params": [
+24,
+0
+],
+"sig": "ohlcv_ts",
+"feed": "kline",
+"render": "profile",
+"pane": "sub",
+"out": "profile_bins"
+},
+{
+"js": "AtrRatchet",
+"name": "AtrRatchet",
+"label": "Atr Ratchet",
+"family": "Trailing Stops",
+"params": [
+14,
+2.0,
+0.5
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "AtrTrailingStop",
+"name": "AtrTrailingStop",
+"label": "Atr Trailing Stop",
+"family": "Trailing Stops",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ChandeKrollStop",
+"name": "ChandeKrollStop",
+"label": "Chande Kroll Stop",
+"family": "Trailing Stops",
+"params": [
+3,
+2.0,
+7
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ChandelierExit",
+"name": "ChandelierExit",
+"label": "Chandelier Exit",
+"family": "Trailing Stops",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "DonchianStop",
+"name": "DonchianStop",
+"label": "Donchian Stop",
+"family": "Trailing Stops",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ElderSafeZone",
+"name": "ElderSafeZone",
+"label": "Elder Safe Zone",
+"family": "Trailing Stops",
+"params": [
+10,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "HiLoActivator",
+"name": "HiLoActivator",
+"label": "Hi Lo Activator",
+"family": "Trailing Stops",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "KaseDevStop",
+"name": "KaseDevStop",
+"label": "Kase Dev Stop",
+"family": "Trailing Stops",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "ModifiedMaStop",
+"name": "ModifiedMaStop",
+"label": "Modified Ma Stop",
+"family": "Trailing Stops",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "Nrtr",
+"name": "Nrtr",
+"label": "Nrtr",
+"family": "Trailing Stops",
+"params": [
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "PercentageTrailingStop",
+"name": "PercentageTrailingStop",
+"label": "Percentage Trailing Stop",
+"family": "Trailing Stops",
+"params": [
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "PSAR",
+"name": "Psar",
+"label": "Psar",
+"family": "Trailing Stops",
+"params": [
+0.02,
+0.02,
+0.2
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "RenkoTrailingStop",
+"name": "RenkoTrailingStop",
+"label": "Renko Trailing Stop",
+"family": "Trailing Stops",
+"params": [
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "SAREXT",
+"name": "SarExt",
+"label": "Sar Ext",
+"family": "Trailing Stops",
+"params": [
+2.0,
+0.5,
+0.5,
+0.5,
+0.5,
+0.5,
+0.5,
+0.5
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "StepTrailingStop",
+"name": "StepTrailingStop",
+"label": "Step Trailing Stop",
+"family": "Trailing Stops",
+"params": [
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "SuperTrend",
+"name": "SuperTrend",
+"label": "Super Trend",
+"family": "Trailing Stops",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "TimeBasedStop",
+"name": "TimeBasedStop",
+"label": "Time Based Stop",
+"family": "Trailing Stops",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "VoltyStop",
+"name": "VoltyStop",
+"label": "Volty Stop",
+"family": "Trailing Stops",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "YoyoExit",
+"name": "YoyoExit",
+"label": "Yoyo Exit",
+"family": "Trailing Stops",
+"params": [
+14,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ADX",
+"name": "Adx",
+"label": "Adx",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "ADXR",
+"name": "Adxr",
+"label": "Adxr",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "Aroon",
+"name": "Aroon",
+"label": "Aroon",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "AroonOscillator",
+"name": "AroonOscillator",
+"label": "Aroon Oscillator",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "ChoppinessIndex",
+"name": "ChoppinessIndex",
+"label": "Choppiness Index",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "DX",
+"name": "Dx",
+"label": "Dx",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "GatorOscillator",
+"name": "GatorOscillator",
+"label": "Gator Oscillator",
+"family": "Trend & Directional",
+"params": [
+3,
+7,
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "KasePermissionStochastic",
+"name": "KasePermissionStochastic",
+"label": "Kase Permission Stochastic",
+"family": "Trend & Directional",
+"params": [
+3,
+7
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "MACDEXT",
+"name": "MacdExt",
+"label": "Macd Ext",
+"family": "Trend & Directional",
+"params": [
+12,
+0,
+26,
+0,
+9,
+0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_f64"
+},
+{
+"js": "MACDFIX",
+"name": "MacdFix",
+"label": "Macd Fix",
+"family": "Trend & Directional",
+"params": [
+9
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_f64"
+},
+{
+"js": "MACD",
+"name": "MacdIndicator",
+"label": "Macd Indicator",
+"family": "Trend & Directional",
+"params": [
+12,
+26,
+9
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_f64"
+},
+{
+"js": "MassIndex",
+"name": "MassIndex",
+"label": "Mass Index",
+"family": "Trend & Directional",
+"params": [
+3,
+7
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "MINUS_DI",
+"name": "MinusDi",
+"label": "Minus Di",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "MINUS_DM",
+"name": "MinusDm",
+"label": "Minus Dm",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "PLUS_DI",
+"name": "PlusDi",
+"label": "Plus Di",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "PLUS_DM",
+"name": "PlusDm",
+"label": "Plus Dm",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "POLARIZED_FRACTAL_EFFICIENCY",
+"name": "PolarizedFractalEfficiency",
+"label": "Polarized Fractal Efficiency",
+"family": "Trend & Directional",
+"params": [
+10,
+5
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Qstick",
+"name": "Qstick",
+"label": "Qstick",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "RWI",
+"name": "Rwi",
+"label": "Rwi",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "TII",
+"name": "Tii",
+"label": "Tii",
+"family": "Trend & Directional",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TrendLabel",
+"name": "TrendLabel",
+"label": "Trend Label",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TREND_STRENGTH_INDEX",
+"name": "TrendStrengthIndex",
+"label": "Trend Strength Index",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TRIX",
+"name": "Trix",
+"label": "Trix",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "TTM_TREND",
+"name": "TtmTrend",
+"label": "Ttm Trend",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "VerticalHorizontalFilter",
+"name": "VerticalHorizontalFilter",
+"label": "Vertical Horizontal Filter",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "Vortex",
+"name": "Vortex",
+"label": "Vortex",
+"family": "Trend & Directional",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "WAVE_PM",
+"name": "WavePm",
+"label": "Wave Pm",
+"family": "Trend & Directional",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_f64"
+},
+{
+"js": "WaveTrend",
+"name": "WaveTrend",
+"label": "Wave Trend",
+"family": "Trend & Directional",
+"params": [
+3,
+7,
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "ATR",
+"name": "Atr",
+"label": "Atr",
+"family": "Volatility & Bands",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "BipowerVariation",
+"name": "BipowerVariation",
+"label": "Bipower Variation",
+"family": "Volatility & Bands",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "BollingerBands",
+"name": "BollingerBands",
+"label": "Bollinger Bands",
+"family": "Volatility & Bands",
+"params": [
+20,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_f64"
+},
+{
+"js": "BollingerBandwidth",
+"name": "BollingerBandwidth",
+"label": "Bollinger Bandwidth",
+"family": "Volatility & Bands",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "ChaikinVolatility",
+"name": "ChaikinVolatility",
+"label": "Chaikin Volatility",
+"family": "Volatility & Bands",
+"params": [
+3,
+7
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "Donchian",
+"name": "Donchian",
+"label": "Donchian",
+"family": "Volatility & Bands",
+"params": [
+14
+],
+"sig": "hl",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "EwmaVolatility",
+"name": "EwmaVolatility",
+"label": "Ewma Volatility",
+"family": "Volatility & Bands",
+"params": [
+0.94
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "Garch11",
+"name": "Garch11",
+"label": "Garch11",
+"family": "Volatility & Bands",
+"params": [
+2e-06,
+0.1,
+0.88
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "GarmanKlassVolatility",
+"name": "GarmanKlassVolatility",
+"label": "Garman Klass Volatility",
+"family": "Volatility & Bands",
+"params": [
+20,
+252
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "HistoricalVolatility",
+"name": "HistoricalVolatility",
+"label": "Historical Volatility",
+"family": "Volatility & Bands",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "JumpIndicator",
+"name": "JumpIndicator",
+"label": "Jump Indicator",
+"family": "Volatility & Bands",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "Keltner",
+"name": "Keltner",
+"label": "Keltner",
+"family": "Volatility & Bands",
+"params": [
+3,
+7,
+2.0
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "NATR",
+"name": "Natr",
+"label": "Natr",
+"family": "Volatility & Bands",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ParkinsonVolatility",
+"name": "ParkinsonVolatility",
+"label": "Parkinson Volatility",
+"family": "Volatility & Bands",
+"params": [
+20,
+252
+],
+"sig": "hl",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "PercentB",
+"name": "PercentB",
+"label": "Percent B",
+"family": "Volatility & Bands",
+"params": [
+14,
+2.0
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "RegimeLabel",
+"name": "RegimeLabel",
+"label": "Regime Label",
+"family": "Volatility & Bands",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "RogersSatchellVolatility",
+"name": "RogersSatchellVolatility",
+"label": "Rogers Satchell Volatility",
+"family": "Volatility & Bands",
+"params": [
+20,
+252
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "RVIVolatility",
+"name": "RviVolatility",
+"label": "Rvi Volatility",
+"family": "Volatility & Bands",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "StdDev",
+"name": "StdDev",
+"label": "Std Dev",
+"family": "Volatility & Bands",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "TrueRange",
+"name": "TrueRange",
+"label": "True Range",
+"family": "Volatility & Bands",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "UlcerIndex",
+"name": "UlcerIndex",
+"label": "Ulcer Index",
+"family": "Volatility & Bands",
+"params": [
+14
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "VolatilityCone",
+"name": "VolatilityCone",
+"label": "Volatility Cone",
+"family": "Volatility & Bands",
+"params": [
+3,
+7
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "multi",
+"pane": "price",
+"out": "multi_candle"
+},
+{
+"js": "VolatilityOfVolatility",
+"name": "VolatilityOfVolatility",
+"label": "Volatility Of Volatility",
+"family": "Volatility & Bands",
+"params": [
+3,
+7
+],
+"sig": "scalar",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_f64"
+},
+{
+"js": "VolatilityRatio",
+"name": "VolatilityRatio",
+"label": "Volatility Ratio",
+"family": "Volatility & Bands",
+"params": [
+14
+],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "YangZhangVolatility",
+"name": "YangZhangVolatility",
+"label": "Yang Zhang Volatility",
+"family": "Volatility & Bands",
+"params": [
+20,
+252
+],
+"sig": "ohlc",
+"feed": "kline",
+"render": "line",
+"pane": "price",
+"out": "scalar_candle"
+},
+{
+"js": "ADOSC",
+"name": "AdOscillator",
+"label": "Ad Oscillator",
+"family": "Volume",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "ADL",
+"name": "Adl",
+"label": "Adl",
+"family": "Volume",
+"params": [],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "AnchoredVWAP",
+"name": "AnchoredVwap",
+"label": "Anchored Vwap",
+"family": "Volume",
+"params": [],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "BetterVolume",
+"name": "BetterVolume",
+"label": "Better Volume",
+"family": "Volume",
+"params": [
+14
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "ChaikinMoneyFlow",
+"name": "ChaikinMoneyFlow",
+"label": "Chaikin Money Flow",
+"family": "Volume",
+"params": [
+20
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "ChaikinOscillator",
+"name": "ChaikinOscillator",
+"label": "Chaikin Oscillator",
+"family": "Volume",
+"params": [
+3,
+7
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "DemandIndex",
+"name": "DemandIndex",
+"label": "Demand Index",
+"family": "Volume",
+"params": [
+14
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "EaseOfMovement",
+"name": "EaseOfMovement",
+"label": "Ease Of Movement",
+"family": "Volume",
+"params": [
+14,
+100000000.0
+],
+"sig": "hlv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "ForceIndex",
+"name": "ForceIndex",
+"label": "Force Index",
+"family": "Volume",
+"params": [
+14
+],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "IntradayIntensity",
+"name": "IntradayIntensity",
+"label": "Intraday Intensity",
+"family": "Volume",
+"params": [],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "KVO",
+"name": "Kvo",
+"label": "Kvo",
+"family": "Volume",
+"params": [
+3,
+7
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "MarketFacilitationIndex",
+"name": "MarketFacilitationIndex",
+"label": "Market Facilitation Index",
+"family": "Volume",
+"params": [],
+"sig": "hlv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "NVI",
+"name": "Nvi",
+"label": "Nvi",
+"family": "Volume",
+"params": [],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "OBV",
+"name": "Obv",
+"label": "Obv",
+"family": "Volume",
+"params": [],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "PVI",
+"name": "Pvi",
+"label": "Pvi",
+"family": "Volume",
+"params": [],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "RollingVWAP",
+"name": "RollingVwap",
+"label": "Rolling Vwap",
+"family": "Volume",
+"params": [
+14
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TradeVolumeIndex",
+"name": "TradeVolumeIndex",
+"label": "Trade Volume Index",
+"family": "Volume",
+"params": [
+2.0
+],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TSV",
+"name": "Tsv",
+"label": "Tsv",
+"family": "Volume",
+"params": [
+14
+],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "TwiggsMoneyFlow",
+"name": "TwiggsMoneyFlow",
+"label": "Twiggs Money Flow",
+"family": "Volume",
+"params": [
+14
+],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "VolumeOscillator",
+"name": "VolumeOscillator",
+"label": "Volume Oscillator",
+"family": "Volume",
+"params": [
+3,
+7
+],
+"sig": "other",
+"feed": "none",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "VolumePriceTrend",
+"name": "VolumePriceTrend",
+"label": "Volume Price Trend",
+"family": "Volume",
+"params": [],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "VolumeRsi",
+"name": "VolumeRsi",
+"label": "Volume Rsi",
+"family": "Volume",
+"params": [
+14
+],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "VolumeWeightedMacd",
+"name": "VolumeWeightedMacd",
+"label": "Volume Weighted Macd",
+"family": "Volume",
+"params": [
+3,
+7,
+14
+],
+"sig": "cv",
+"feed": "kline",
+"render": "multi",
+"pane": "sub",
+"out": "multi_candle"
+},
+{
+"js": "VWAP",
+"name": "Vwap",
+"label": "Vwap",
+"family": "Volume",
+"params": [],
+"sig": "hlcv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "VZO",
+"name": "Vzo",
+"label": "Vzo",
+"family": "Volume",
+"params": [
+14
+],
+"sig": "cv",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+},
+{
+"js": "Wad",
+"name": "Wad",
+"label": "Wad",
+"family": "Volume",
+"params": [],
+"sig": "hlc",
+"feed": "kline",
+"render": "line",
+"pane": "sub",
+"out": "scalar_candle"
+}
+]
