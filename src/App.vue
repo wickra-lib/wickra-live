@@ -251,14 +251,15 @@ onBeforeUnmount(() => {
   <div class="app">
     <header class="topbar">
       <div class="nav">
-        <a class="brand" href="https://wickra.org" target="_blank" rel="noreferrer">
-          <img class="brand-logo" src="https://wickra.org/wickra-mark.svg" alt="Wickra" width="22" height="22" />
-          <span class="brand-name">Wickra</span>
-          <span class="live-badge">LIVE</span>
+        <a class="nav-brand" href="https://wickra.org" target="_blank" rel="noreferrer">
+          <img class="nav-logo" src="https://wickra.org/wickra-mark.svg" alt="Wickra" width="24" height="24" />
+          <span class="nav-title">Wickra</span>
         </a>
-        <nav class="nav-links">
+        <nav class="nav-menu">
           <a href="https://wickra.org" target="_blank" rel="noreferrer">Home</a>
+          <a href="https://wickra.org/demo" target="_blank" rel="noreferrer">Demo</a>
           <a href="https://docs.wickra.org" target="_blank" rel="noreferrer">Docs</a>
+          <a href="https://wickra.org/benchmarks" target="_blank" rel="noreferrer">Benchmarks</a>
           <a href="https://github.com/wickra-lib/wickra" target="_blank" rel="noreferrer">GitHub</a>
         </nav>
       </div>
@@ -290,22 +291,20 @@ onBeforeUnmount(() => {
       </aside>
     </main>
 
-    <footer class="foot">
-      <div class="foot-badges">
+    <footer class="wk-footer">
+      <div class="wk-footer-badges">
         <a v-for="b in badges" :key="b.alt" :href="b.href" target="_blank" rel="noreferrer"
-        ><img :src="b.file" :alt="b.alt" :width="b.width" :height="b.height" loading="lazy" decoding="async" /></a>
+        ><img :src="b.file" :alt="b.alt" :width="b.width" :height="b.height" loading="eager" decoding="async" /></a>
       </div>
-      <p class="foot-license">Released under the MIT OR Apache-2.0 license — not a trading system, use at your own risk.</p>
-      <p class="foot-sub">
+      <p class="wk-footer-meta">Released under the MIT OR Apache-2.0 license — not a trading system, use at your own risk.</p>
+      <p class="wk-footer-meta wk-footer-meta-sub">
         <span>Copyright © 2026 kingchenc</span>
-        <span class="sep">·</span>
-        <span>wickra-wasm<template v-if="wasmVer"> v{{ wasmVer }}</template></span>
-        <span class="sep">·</span>
-        <a href="https://wickra.org" target="_blank" rel="noreferrer">wickra.org</a>
-        <span class="sep">·</span>
-        <a href="https://docs.wickra.org" target="_blank" rel="noreferrer">Docs</a>
-        <span class="sep">·</span>
-        <a href="https://github.com/wickra-lib/wickra" target="_blank" rel="noreferrer">GitHub</a>
+        <span class="wk-sep">·</span>
+        <a href="https://wickra.org/about" target="_blank" rel="noreferrer">About</a>
+        <span class="wk-sep">·</span>
+        <a href="https://wickra.org/security" target="_blank" rel="noreferrer">Security</a>
+        <span class="wk-sep">·</span>
+        <a href="https://wickra.org/privacy" target="_blank" rel="noreferrer">Privacy</a>
       </p>
     </footer>
   </div>
