@@ -69,7 +69,9 @@ body {
   html, body, #app { height: auto; min-height: 100%; }
   .app { display: block; height: auto; }
 
-  .bar { flex-wrap: wrap; gap: 6px; padding: 8px 12px; }
+  /* Pin the header at the top like the wickra.org / docs nav, so it stays
+     visible while scrolling the indicator list. */
+  .bar { position: sticky; top: 0; z-index: 30; flex-wrap: wrap; gap: 6px; padding: 8px 12px; }
   .brand .tag { display: none; }
   .brand .logo { font-size: 15px; }
   .controls { width: 100%; flex-wrap: wrap; gap: 6px; }
