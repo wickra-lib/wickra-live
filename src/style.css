@@ -57,7 +57,23 @@ body {
 }
 .foot a { color: var(--accent); text-decoration: none; }
 
-@media (max-width: 800px) {
-  .main { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
-  .side { border-left: none; border-top: 1px solid var(--line); max-height: 45%; }
+@media (max-width: 820px) {
+  .bar { flex-wrap: wrap; gap: 6px; padding: 6px 10px; }
+  .brand strong { font-size: 14px; }
+  .brand .tag { display: none; }
+  .controls { width: 100%; flex-wrap: wrap; gap: 6px; }
+  .controls select { flex: 1 1 84px; min-width: 0; padding: 6px; font-size: 14px; }
+  .status { order: 1; }
+  .price { margin-left: auto; }
+
+  /* Chart on top at a usable height; the panel below scrolls. */
+  .main { grid-template-columns: 1fr; grid-template-rows: 52vh 1fr; }
+  .chart-wrap { min-height: 52vh; }
+  .side { border-left: none; border-top: 1px solid var(--line); }
+  .note { max-width: 86%; font-size: 12px; }
+  .foot { font-size: 10.5px; padding: 5px 10px; }
+  .foot a { white-space: nowrap; }
 }
+
+/* Avoid sideways scrolling on small screens. */
+html { overflow-x: hidden; }

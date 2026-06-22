@@ -39,6 +39,15 @@ const asks = ref<[number, number][]>([])
 
 let feed: BinanceFeed | null = null
 let seq = 0
+// The depth (10/s) and trade streams are the main mobile-lag source, so they are
+// opt-in: only subscribed while an order-book / trade indicator is active.
+let feedDepth = false
+let feedTrades = false
+function needsDepth(): boolean { return active.value.some((a) => a.entry.feed === 'orderbook') }
+function needsTrades(): boolean { return active.value.some((a) => a.entry.feed === 'trade') }
+async function ensureFeed(): Promise<void> {
+  if (needsDepth() !== feedDepth || needsTrades() !== feedTrades) await restart()
+}
 
 const activeView = (): ActiveView[] =>
   active.value.map((a) => ({
@@ -100,6 +109,7 @@ async function add(entry: Entry): Promise<void> {
   replay(a)
   active.value = [...active.value, a]
   syncRows()
+  await ensureFeed()
 }
 
 function remove(id: string): void {
@@ -108,6 +118,7 @@ function remove(id: string): void {
   chart.removeIndicator(id)
   active.value = active.value.filter((x) => x.id !== id)
   syncRows()
+  void ensureFeed()
 }
 
 // --- live wiring --------------------------------------------------------------
@@ -164,9 +175,13 @@ async function restart(): Promise<void> {
   for (const a of active.value) replay(a)
   syncRows()
 
-  feed = new BinanceFeed(symbol.value, interval.value, {
-    onKline, onTrade, onDepth, onStatus: (s) => (status.value = s),
-  })
+  feedDepth = needsDepth()
+  feedTrades = needsTrades()
+  feed = new BinanceFeed(
+    symbol.value, interval.value,
+    { onKline, onTrade, onDepth, onStatus: (s) => (status.value = s) },
+    feedDepth, feedTrades,
+  )
   feed.connect()
 }
 
