@@ -13,7 +13,12 @@ interface Active {
   id: string
   entry: Entry
   ind: WasmIndicator
+  params: number[]
   value: string
+}
+
+function sameParams(a: number[], b: number[]): boolean {
+  return a.length === b.length && a.every((v, i) => v === b[i])
 }
 
 const symbol = ref<string>('BTCUSDT')
@@ -52,7 +57,7 @@ async function ensureFeed(): Promise<void> {
 const activeView = (): ActiveView[] =>
   active.value.map((a) => ({
     id: a.id, label: a.entry.label, family: a.entry.family,
-    pane: a.entry.pane, feed: a.entry.feed, value: a.value,
+    pane: a.entry.pane, feed: a.entry.feed, value: a.value, params: a.params.slice(),
   }))
 const activeRows = ref<ActiveView[]>([])
 function syncRows() { activeRows.value = activeView() }
@@ -103,13 +108,36 @@ async function add(entry: Entry): Promise<void> {
   }
   const mod = wasmMod.value
   if (!mod) return
+  // No exact duplicates — the same indicator with the same parameters adds
+  // nothing; tweak its parameters in the active list instead.
+  if (active.value.some((a) => a.entry.js === entry.js && sameParams(a.params, entry.params))) {
+    note.value = `${entry.label} is already active — edit its parameters in the active list.`
+    return
+  }
   const ind = makeIndicator(mod, entry.js, entry.params)
   if (!ind) { note.value = `${entry.label} is not exposed in this wickra-wasm build.`; return }
-  const a: Active = { id: `i${seq++}`, entry, ind, value: '—' }
+  const a: Active = { id: `i${seq++}`, entry, ind, params: entry.params.slice(), value: '—' }
   replay(a)
   active.value = [...active.value, a]
   syncRows()
   await ensureFeed()
+}
+
+// Re-instantiate an active indicator with edited parameters and redraw it.
+function updateParams(id: string, newParams: number[]): void {
+  const mod = wasmMod.value
+  if (!mod) return
+  const a = active.value.find((x) => x.id === id)
+  if (!a) return
+  const ind = makeIndicator(mod, a.entry.js, newParams)
+  if (!ind) { note.value = `Invalid parameters for ${a.entry.label}.`; return }
+  a.ind.free?.()
+  a.ind = ind
+  a.params = newParams
+  chart.removeIndicator(id) // drop the old series; replay recreates them
+  replay(a)
+  active.value = [...active.value]
+  syncRows()
 }
 
 function remove(id: string): void {
@@ -166,7 +194,7 @@ async function restart(): Promise<void> {
   if (mod) {
     active.value = active.value.map((a) => {
       a.ind.free?.()
-      const ind = makeIndicator(mod, a.entry.js, a.entry.params)
+      const ind = makeIndicator(mod, a.entry.js, a.params)
       return ind ? { ...a, ind, value: '—' } : a
     })
   }
@@ -248,8 +276,8 @@ onBeforeUnmount(() => {
         <div v-if="!wasmReady" class="loading">Loading wickra-wasm…</div>
       </section>
       <aside class="side">
+        <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" />
         <IndicatorPicker @select="add" />
-        <ActiveList :items="activeRows" @remove="remove" />
         <OrderBook :bids="bids" :asks="asks" />
       </aside>
     </main>

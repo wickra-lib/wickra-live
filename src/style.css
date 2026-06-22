@@ -52,7 +52,6 @@ body {
 
 .side { border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; background: var(--bg2); }
 .side > * { min-height: 0; }
-.side > :first-child { flex: 1; }
 
 .foot {
   display: flex; justify-content: space-between; align-items: center; gap: 12px;

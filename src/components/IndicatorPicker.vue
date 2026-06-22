@@ -5,8 +5,8 @@ import { byFamily, CATALOG, type Entry } from '../lib/catalog'
 const emit = defineEmits<{ (e: 'select', entry: Entry): void }>()
 
 const query = ref('')
-// First family expanded for affordance; the rest render on demand.
-const expanded = ref<Set<string>>(new Set([byFamily(CATALOG)[0]?.family].filter(Boolean) as string[]))
+// All families collapsed by default — tap a family to expand its indicators.
+const expanded = ref<Set<string>>(new Set())
 
 const groups = computed(() => {
   const q = query.value.trim().toLowerCase()
@@ -67,7 +67,7 @@ function feedTag(e: Entry): string {
 </template>
 
 <style scoped>
-.picker { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.picker { display: flex; flex-direction: column; height: 100%; min-height: 0; flex: 1; }
 .picker-head { padding: 8px; border-bottom: 1px solid var(--line); }
 .picker-head input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg2); color: inherit; font-size: 16px; }
 .count { display: block; font-size: 11px; opacity: 0.6; margin-top: 4px; }
