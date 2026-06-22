@@ -8,6 +8,7 @@ import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
 import { feedKline, feedTopOfBook, feedTrade, type Candle, type IndicatorResult } from './lib/feed'
 import { loadWasm, makeIndicator, wasmVersion, type WasmIndicator } from './lib/wasm'
 import { TOTAL, type Entry } from './lib/catalog'
+import badges from './badges.json'
 
 interface Active {
   id: string
@@ -248,13 +249,20 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="app">
-    <header class="bar">
-      <div class="brand">
-        <a class="logo" href="https://wickra.org" target="_blank" rel="noreferrer">Wickra</a>
-        <span class="live-badge">LIVE</span>
-        <span class="tag">{{ TOTAL }} indicators · in your browser · 0 backend</span>
+    <header class="topbar">
+      <div class="nav">
+        <a class="brand" href="https://wickra.org" target="_blank" rel="noreferrer">
+          <img class="brand-logo" src="https://wickra.org/wickra-mark.svg" alt="Wickra" width="22" height="22" />
+          <span class="brand-name">Wickra</span>
+          <span class="live-badge">LIVE</span>
+        </a>
+        <nav class="nav-links">
+          <a href="https://wickra.org" target="_blank" rel="noreferrer">Home</a>
+          <a href="https://docs.wickra.org" target="_blank" rel="noreferrer">Docs</a>
+          <a href="https://github.com/wickra-lib/wickra" target="_blank" rel="noreferrer">GitHub</a>
+        </nav>
       </div>
-      <div class="controls">
+      <div class="toolbar">
         <select v-model="symbol" @change="restart">
           <option v-for="s in SYMBOLS" :key="s" :value="s">{{ s }}</option>
         </select>
@@ -283,12 +291,22 @@ onBeforeUnmount(() => {
     </main>
 
     <footer class="foot">
-      <span class="foot-meta">wickra-wasm <template v-if="wasmVer">v{{ wasmVer }} </template>· live Binance WS · {{ updates }} updates</span>
-      <nav class="foot-links">
+      <div class="foot-badges">
+        <a v-for="b in badges" :key="b.alt" :href="b.href" target="_blank" rel="noreferrer"
+        ><img :src="b.file" :alt="b.alt" :width="b.width" :height="b.height" loading="lazy" decoding="async" /></a>
+      </div>
+      <p class="foot-license">Released under the MIT OR Apache-2.0 license — not a trading system, use at your own risk.</p>
+      <p class="foot-sub">
+        <span>Copyright © 2026 kingchenc</span>
+        <span class="sep">·</span>
+        <span>wickra-wasm<template v-if="wasmVer"> v{{ wasmVer }}</template></span>
+        <span class="sep">·</span>
         <a href="https://wickra.org" target="_blank" rel="noreferrer">wickra.org</a>
+        <span class="sep">·</span>
         <a href="https://docs.wickra.org" target="_blank" rel="noreferrer">Docs</a>
+        <span class="sep">·</span>
         <a href="https://github.com/wickra-lib/wickra" target="_blank" rel="noreferrer">GitHub</a>
-      </nav>
+      </p>
     </footer>
   </div>
 </template>

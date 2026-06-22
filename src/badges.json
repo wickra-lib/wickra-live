@@ -1,0 +1,114 @@
+[
+  {
+    "alt": "CI",
+    "href": "https://github.com/wickra-lib/wickra/actions/workflows/ci.yml",
+    "file": "/badges/ci.svg",
+    "width": 90,
+    "height": 20
+  },
+  {
+    "alt": "CodeQL",
+    "href": "https://github.com/wickra-lib/wickra/actions/workflows/codeql.yml",
+    "file": "/badges/codeql.svg",
+    "width": 120,
+    "height": 20
+  },
+  {
+    "alt": "codecov",
+    "href": "https://codecov.io/gh/wickra-lib/wickra",
+    "file": "/badges/codecov.svg",
+    "width": 122,
+    "height": 20
+  },
+  {
+    "alt": "GitHub release",
+    "href": "https://github.com/wickra-lib/wickra/releases/latest",
+    "file": "/badges/release.svg",
+    "width": 111,
+    "height": 20
+  },
+  {
+    "alt": "crates.io",
+    "href": "https://crates.io/crates/wickra",
+    "file": "/badges/crates.svg",
+    "width": 119,
+    "height": 20
+  },
+  {
+    "alt": "PyPI",
+    "href": "https://pypi.org/project/wickra/",
+    "file": "/badges/pypi.svg",
+    "width": 95,
+    "height": 20
+  },
+  {
+    "alt": "npm",
+    "href": "https://www.npmjs.com/package/wickra",
+    "file": "/badges/npm.svg",
+    "width": 97,
+    "height": 20
+  },
+  {
+    "alt": "NuGet",
+    "href": "https://www.nuget.org/packages/Wickra",
+    "file": "/badges/nuget.svg",
+    "width": 103,
+    "height": 20
+  },
+  {
+    "alt": "Maven Central",
+    "href": "https://central.sonatype.com/artifact/org.wickra/wickra",
+    "file": "/badges/maven.svg",
+    "width": 153,
+    "height": 20
+  },
+  {
+    "alt": "Go module",
+    "href": "https://pkg.go.dev/github.com/wickra-lib/wickra-go",
+    "file": "/badges/go.svg",
+    "width": 85,
+    "height": 20
+  },
+  {
+    "alt": "r-universe",
+    "href": "https://wickra-lib.r-universe.dev",
+    "file": "/badges/r-universe.svg",
+    "width": 106,
+    "height": 20
+  },
+  {
+    "alt": "License: MIT OR Apache-2.0",
+    "href": "https://github.com/wickra-lib/wickra#license",
+    "file": "/badges/license.svg",
+    "width": 164,
+    "height": 20
+  },
+  {
+    "alt": "OpenSSF Scorecard",
+    "href": "https://scorecard.dev/viewer/?uri=github.com/wickra-lib/wickra",
+    "file": "/badges/scorecard.svg",
+    "width": 136,
+    "height": 20
+  },
+  {
+    "alt": "OpenSSF Best Practices",
+    "href": "https://www.bestpractices.dev/projects/13094",
+    "file": "/badges/best-practices.svg",
+    "width": 172,
+    "height": 20
+  },
+  {
+    "alt": "Build provenance",
+    "href": "https://github.com/wickra-lib/wickra/attestations",
+    "file": "/badges/provenance.svg",
+    "width": 147,
+    "height": 20
+  },
+  {
+    "alt": "Verified across 10 languages",
+    "href": "https://docs.wickra.org/FAQ#do-all-the-language-bindings-compute-the-same-values",
+    "file": "/badges/verified.svg",
+    "width": 134,
+    "height": 20
+  }
+]
