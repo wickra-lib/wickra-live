@@ -47,7 +47,7 @@ npm run build    # static output in dist/
 npm run preview  # serve the production build
 ```
 
-Requires Node.js 20+. There is nothing else to install — `wickra-wasm` is pulled
+Requires Node.js 22+. There is nothing else to install — `wickra-wasm` is pulled
 from npm and runs in the browser.
 
 ## Use it as a template
