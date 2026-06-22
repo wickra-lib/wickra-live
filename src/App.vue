@@ -222,8 +222,9 @@ onBeforeUnmount(() => {
   <div class="app">
     <header class="bar">
       <div class="brand">
-        <strong>Wickra Live</strong>
-        <span class="tag">{{ TOTAL }} streaming indicators · 100% in your browser · 0 backend</span>
+        <a class="logo" href="https://wickra.org" target="_blank" rel="noreferrer">Wickra</a>
+        <span class="live-badge">LIVE</span>
+        <span class="tag">{{ TOTAL }} indicators · in your browser · 0 backend</span>
       </div>
       <div class="controls">
         <select v-model="symbol" @change="restart">
@@ -254,8 +255,12 @@ onBeforeUnmount(() => {
     </main>
 
     <footer class="foot">
-      <span>wickra-wasm <template v-if="wasmVer">v{{ wasmVer }}</template> · live Binance WebSocket · {{ updates }} closed-bar updates</span>
-      <a href="https://github.com/wickra-lib/wickra" target="_blank" rel="noreferrer">wickra-lib/wickra</a>
+      <span class="foot-meta">wickra-wasm <template v-if="wasmVer">v{{ wasmVer }} </template>· live Binance WS · {{ updates }} updates</span>
+      <nav class="foot-links">
+        <a href="https://wickra.org" target="_blank" rel="noreferrer">wickra.org</a>
+        <a href="https://docs.wickra.org" target="_blank" rel="noreferrer">Docs</a>
+        <a href="https://github.com/wickra-lib/wickra" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
     </footer>
   </div>
 </template>

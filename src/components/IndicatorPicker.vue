@@ -81,4 +81,13 @@ function feedTag(e: Entry): string {
 .ind:hover, .ind:active { background: var(--bg2); }
 .ind-special { opacity: 0.7; }
 .ind-feed { font-size: 10px; opacity: 0.6; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+
+/* On phones the whole page scrolls, so the picker grows with its content
+   instead of being a tiny inner scroll area. The search stays pinned on top. */
+@media (max-width: 820px) {
+  .picker { height: auto; }
+  .picker-list { overflow: visible; flex: none; }
+  .picker-head { position: sticky; top: 0; background: var(--bg2); z-index: 5; }
+  .ind { padding-top: 9px; padding-bottom: 9px; }
+}
 </style>
