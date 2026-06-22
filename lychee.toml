@@ -13,7 +13,11 @@ exclude_all_private = true
 
 # Known false positives (valid URLs; lychee can't verify them as a non-browser
 # client): crates.io and npmjs.com return 403/404 to non-browser requests.
+# TODO(deploy): drop the live.wickra.org exclude once the Cloudflare Pages site
+# + DNS are live — until then the README links the intended URL ahead of it
+# resolving.
 exclude = [
   'crates\.io/crates/',
   'www\.npmjs\.com/package/',
+  'live\.wickra\.org',
 ]
