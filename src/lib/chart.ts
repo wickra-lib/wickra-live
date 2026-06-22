@@ -26,78 +26,124 @@ function chartOptions(dark: boolean) {
   }
 }
 
-/** Imperative wrapper over lightweight-charts. One chart with two stacked price
- *  scales: candles + price-overlay indicators share the top region, and
- *  oscillator-pane indicators get a dedicated band at the bottom (TradingView
- *  style). The split only appears once at least one sub-pane indicator exists. */
+/** Imperative wrapper over lightweight-charts. A main chart holds the candles
+ *  and price-overlay indicators; oscillator (sub-pane) indicators get a real
+ *  second chart stacked below, time-synced to the main one — TradingView style.
+ *  The sub chart is created on demand and removed when no oscillator is active. */
 export class ChartController {
-  private chart: IChartApi | null = null
+  private dark = true
+  private container: HTMLElement | null = null
+  private mainEl: HTMLDivElement | null = null
+  private subEl: HTMLDivElement | null = null
+
+  private main: IChartApi | null = null
+  private sub: IChartApi | null = null
   private price: ISeriesApi<'Candlestick'> | null = null
+
   private series = new Map<string, { s: ISeriesApi<'Line'>; pane: Pane }>()
   private colorIdx = 0
   private markersById = new Map<string, SeriesMarker<Time>[]>()
   private ro: ResizeObserver | null = null
+  private syncing = false
 
   init(container: HTMLElement, dark: boolean): void {
     this.destroy()
-    const chart = createChart(container, {
+    this.dark = dark
+    this.container = container
+    container.style.display = 'flex'
+    container.style.flexDirection = 'column'
+
+    this.mainEl = document.createElement('div')
+    this.mainEl.style.cssText = 'flex:1 1 0;min-height:0;'
+    this.subEl = document.createElement('div')
+    this.subEl.style.cssText = 'flex:0 0 0;min-height:0;'
+    container.append(this.mainEl, this.subEl)
+
+    this.main = createChart(this.mainEl, {
       ...chartOptions(dark),
-      width: container.clientWidth,
-      height: container.clientHeight,
+      width: this.mainEl.clientWidth, height: this.mainEl.clientHeight,
     })
-    this.chart = chart
-    this.price = chart.addCandlestickSeries({
+    this.price = this.main.addCandlestickSeries({
       upColor: '#22c55e', downColor: '#ef4444',
       borderVisible: false, wickUpColor: '#22c55e', wickDownColor: '#ef4444',
       priceLineVisible: false, lastValueVisible: false,
     })
-    this.applyLayout()
-    this.ro = new ResizeObserver(() => {
-      if (this.chart) this.chart.applyOptions({ width: container.clientWidth, height: container.clientHeight })
-    })
+    this.main.priceScale('right').applyOptions({ scaleMargins: { top: 0.08, bottom: 0.08 }, borderVisible: false })
+
+    this.ro = new ResizeObserver(() => this.resize())
     this.ro.observe(container)
   }
 
-  /** Reserve the bottom band for the oscillator scale only when it is in use. */
-  private applyLayout(): void {
-    const chart = this.chart
-    if (!chart) return
-    const hasSub = [...this.series.values()].some((v) => v.pane === 'sub')
-    chart.priceScale('right').applyOptions({
-      scaleMargins: hasSub ? { top: 0.06, bottom: 0.32 } : { top: 0.08, bottom: 0.08 },
-      borderVisible: false,
-    })
-    chart.priceScale('osc').applyOptions({
-      scaleMargins: { top: 0.72, bottom: 0.02 },
-      borderVisible: false,
-    })
+  private resize(): void {
+    if (this.main && this.mainEl) this.main.applyOptions({ width: this.mainEl.clientWidth, height: this.mainEl.clientHeight })
+    if (this.sub && this.subEl) this.sub.applyOptions({ width: this.subEl.clientWidth, height: this.subEl.clientHeight })
+  }
+
+  private ensureSub(): IChartApi | null {
+    if (this.sub) return this.sub
+    if (!this.subEl || !this.main) return null
+    try {
+      this.subEl.style.cssText = 'flex:0 0 30%;min-height:0;border-top:1px solid rgba(148,163,184,0.22);'
+      this.resize()
+      const sub = createChart(this.subEl, {
+        ...chartOptions(this.dark),
+        width: this.subEl.clientWidth, height: this.subEl.clientHeight,
+      })
+      sub.timeScale().applyOptions({ visible: false }) // main carries the x-axis
+      this.sub = sub
+      // Two-way time-scale sync.
+      this.main.timeScale().subscribeVisibleLogicalRangeChange((r) => {
+        if (this.syncing || !r || !this.sub) return
+        this.syncing = true
+        try { this.sub.timeScale().setVisibleLogicalRange(r) } catch { /* ignore */ }
+        this.syncing = false
+      })
+      sub.timeScale().subscribeVisibleLogicalRangeChange((r) => {
+        if (this.syncing || !r || !this.main) return
+        this.syncing = true
+        try { this.main.timeScale().setVisibleLogicalRange(r) } catch { /* ignore */ }
+        this.syncing = false
+      })
+      const range = this.main.timeScale().getVisibleLogicalRange()
+      if (range) sub.timeScale().setVisibleLogicalRange(range)
+      this.resize()
+      return sub
+    } catch {
+      // Never let a sub-pane failure break the main chart.
+      this.sub = null
+      return null
+    }
+  }
+
+  private destroySub(): void {
+    if (this.sub) { try { this.sub.remove() } catch { /* ignore */ } this.sub = null }
+    if (this.subEl) this.subEl.style.cssText = 'flex:0 0 0;min-height:0;'
+    this.resize()
   }
 
   setCandles(data: Candle[]): void {
     this.price?.setData(data.map(toBar))
-    this.chart?.timeScale().fitContent()
+    this.main?.timeScale().fitContent()
   }
 
   updateCandle(k: Candle): void {
     this.price?.update(toBar(k))
   }
 
-  private lineFor(key: string, pane: Pane): ISeriesApi<'Line'> {
+  private lineFor(key: string, pane: Pane): ISeriesApi<'Line'> | null {
     const existing = this.series.get(key)
     if (existing) return existing.s
     const color = PALETTE[this.colorIdx++ % PALETTE.length]
-    const s = this.chart!.addLineSeries({
-      color, lineWidth: 2, priceLineVisible: false, lastValueVisible: false,
-      priceScaleId: pane === 'sub' ? 'osc' : 'right',
-    })
+    const host = pane === 'sub' ? (this.ensureSub() ?? this.main) : this.main
+    if (!host) return null
+    const s = host.addLineSeries({ color, lineWidth: 2, priceLineVisible: false, lastValueVisible: false })
     this.series.set(key, { s, pane })
-    if (pane === 'sub') this.applyLayout()
     return s
   }
 
   pushPoint(id: string, field: string, time: number, value: number, pane: Pane): void {
-    if (!this.chart || !Number.isFinite(value)) return
-    this.lineFor(`${id}:${field}`, pane).update({ time: time as UTCTimestamp, value })
+    if (!Number.isFinite(value)) return
+    this.lineFor(`${id}:${field}`, pane)?.update({ time: time as UTCTimestamp, value })
   }
 
   pushMarker(id: string, time: number, up: boolean): void {
@@ -121,36 +167,40 @@ export class ChartController {
   }
 
   removeIndicator(id: string): void {
-    let hadSub = false
     for (const [key, v] of this.series) {
       if (key.startsWith(`${id}:`)) {
-        if (v.pane === 'sub') hadSub = true
-        this.chart?.removeSeries(v.s)
+        const host = v.pane === 'sub' ? this.sub : this.main
+        try { host?.removeSeries(v.s) } catch { /* ignore */ }
         this.series.delete(key)
       }
     }
     this.markersById.delete(id)
     this.flushMarkers()
-    if (hadSub) this.applyLayout()
+    if (![...this.series.values()].some((v) => v.pane === 'sub')) this.destroySub()
   }
 
   clearIndicators(): void {
-    for (const v of this.series.values()) this.chart?.removeSeries(v.s)
+    for (const v of this.series.values()) {
+      const host = v.pane === 'sub' ? this.sub : this.main
+      try { host?.removeSeries(v.s) } catch { /* ignore */ }
+    }
     this.series.clear()
     this.markersById.clear()
     this.colorIdx = 0
     this.price?.setMarkers([])
-    this.applyLayout()
+    this.destroySub()
   }
 
   destroy(): void {
     this.ro?.disconnect()
     this.ro = null
-    this.chart?.remove()
-    this.chart = null
+    if (this.sub) { try { this.sub.remove() } catch { /* ignore */ } this.sub = null }
+    if (this.main) { try { this.main.remove() } catch { /* ignore */ } this.main = null }
     this.price = null
     this.series.clear()
     this.markersById.clear()
+    if (this.container) { this.container.innerHTML = ''; this.container.style.display = '' }
+    this.mainEl = this.subEl = null
   }
 }
 
