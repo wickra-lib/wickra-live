@@ -9,8 +9,6 @@
 [![License: MIT OR Apache-2.0](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/license.svg)](#license)
 [![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/docs.svg)](https://docs.wickra.org)
 
-# Wickra Live
-
 **All 514 [Wickra](https://github.com/wickra-lib/wickra) streaming indicators, computed live over real Binance market data — 100% in your browser. Zero backend, zero API key.**
 
 The same Rust kernel that powers `pip install wickra` and `cargo add wickra` is
