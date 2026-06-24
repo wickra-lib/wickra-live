@@ -514,7 +514,9 @@ async function loadLayout(name: string): Promise<void> {
   for (const a of active.value) if (a.hidden) chart.setVisible(a.id, false)
   persist()
 }
+const canSaveLayout = computed(() => active.value.length > 0)
 function saveCurrentLayout(): void {
+  if (!canSaveLayout.value) return
   const name = window.prompt('Save layout as:', currentLayout.value || 'My layout')?.trim()
   if (!name) return
   layouts.value = { ...layouts.value, [name]: sessionSnapshot() }
@@ -601,7 +603,7 @@ onBeforeUnmount(() => {
         <button class="tgl" type="button" :title="paused ? 'Resume live feed' : 'Pause live feed'" @click="togglePause">{{ paused ? 'Resume' : 'Pause' }}</button>
         <button class="tgl" :class="{ on: showMicro }" type="button" title="Live order book + trades" @click="toggleMicro">Order flow</button>
         <ProfilesMenu
-          :names="layoutNames" :current="currentLayout"
+          :names="layoutNames" :current="currentLayout" :can-save="canSaveLayout"
           @load="loadLayout" @save="saveCurrentLayout" @rename="renameCurrentLayout" @delete="deleteCurrentLayout"
         />
         <template v-if="pairActive">
