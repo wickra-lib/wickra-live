@@ -3,12 +3,20 @@ import {
   LineType,
   type IChartApi,
   type ISeriesApi,
+  type LineWidth,
   type SeriesMarker,
   type Time,
   type UTCTimestamp,
 } from 'lightweight-charts'
 import type { Candle } from './feed'
 import type { Pane } from './catalog'
+
+/** Per-indicator line style applied when a series is first created. */
+export interface PointStyle {
+  color?: string
+  width?: number
+  step?: boolean
+}
 
 const PALETTE = [
   '#3b82f6', '#f59e0b', '#10b981', '#ec4899', '#8b5cf6',
@@ -48,6 +56,9 @@ export class ChartController {
   // strictly-increasing times; on a WS reconnect / warmup overlap the same bar
   // time can recur, which throws "Cannot update oldest data". Drop those.
   private lastTimeByKey = new Map<string, number>()
+  // Indicators the user has hidden — their line series get visible:false and
+  // their markers are filtered out of the flush.
+  private hiddenIds = new Set<string>()
   private ro: ResizeObserver | null = null
   private syncing = false
 
@@ -135,16 +146,18 @@ export class ChartController {
     this.price?.update(toBar(k))
   }
 
-  private lineFor(key: string, pane: Pane, step = false): ISeriesApi<'Line'> | null {
+  private lineFor(id: string, field: string, pane: Pane, opts?: PointStyle): ISeriesApi<'Line'> | null {
+    const key = `${id}:${field}`
     const existing = this.series.get(key)
     if (existing) return existing.s
-    const color = PALETTE[this.colorIdx++ % PALETTE.length]
+    const color = opts?.color ?? PALETTE[this.colorIdx++ % PALETTE.length]
     const host = pane === 'sub' ? (this.ensureSub() ?? this.main) : this.main
     if (!host) return null
     const s = host.addLineSeries({
       color,
-      lineWidth: 2,
-      lineType: step ? LineType.WithSteps : LineType.Simple,
+      lineWidth: (opts?.width ?? 2) as LineWidth,
+      lineType: opts?.step ? LineType.WithSteps : LineType.Simple,
+      visible: !this.hiddenIds.has(id),
       priceLineVisible: false,
       lastValueVisible: false,
     })
@@ -152,13 +165,30 @@ export class ChartController {
     return s
   }
 
-  pushPoint(id: string, field: string, time: number, value: number, pane: Pane, step = false): void {
+  pushPoint(id: string, field: string, time: number, value: number, pane: Pane, opts?: PointStyle): void {
     if (!Number.isFinite(value) || !Number.isFinite(time)) return
     const key = `${id}:${field}`
     const last = this.lastTimeByKey.get(key)
     if (last !== undefined && time <= last) return
     this.lastTimeByKey.set(key, time)
-    this.lineFor(key, pane, step)?.update({ time: time as UTCTimestamp, value })
+    this.lineFor(id, field, pane, opts)?.update({ time: time as UTCTimestamp, value })
+  }
+
+  /** Recolour / re-weight all of an indicator's line series live. */
+  setStyle(id: string, color: string, width: number): void {
+    for (const [key, v] of this.series) {
+      if (key.startsWith(`${id}:`)) v.s.applyOptions({ color, lineWidth: width as LineWidth })
+    }
+  }
+
+  /** Show/hide all of an indicator's series (and its markers). */
+  setVisible(id: string, visible: boolean): void {
+    if (visible) this.hiddenIds.delete(id)
+    else this.hiddenIds.add(id)
+    for (const [key, v] of this.series) {
+      if (key.startsWith(`${id}:`)) v.s.applyOptions({ visible })
+    }
+    this.flushMarkers()
   }
 
   pushMarker(id: string, time: number, up: boolean): void {
@@ -176,7 +206,9 @@ export class ChartController {
 
   private flushMarkers(): void {
     const all: SeriesMarker<Time>[] = []
-    for (const list of this.markersById.values()) all.push(...list)
+    for (const [id, list] of this.markersById) {
+      if (!this.hiddenIds.has(id)) all.push(...list)
+    }
     all.sort((a, b) => (a.time as number) - (b.time as number))
     this.price?.setMarkers(all)
   }
@@ -192,6 +224,7 @@ export class ChartController {
     for (const key of this.lastTimeByKey.keys()) {
       if (key.startsWith(`${id}:`)) this.lastTimeByKey.delete(key)
     }
+    this.hiddenIds.delete(id)
     this.markersById.delete(id)
     this.flushMarkers()
     if (![...this.series.values()].some((v) => v.pane === 'sub')) this.destroySub()

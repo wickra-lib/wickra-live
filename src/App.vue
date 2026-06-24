@@ -20,11 +20,22 @@ interface Active {
   ind: WasmIndicator
   params: number[]
   value: string
+  color: string
+  width: number
+  hidden: boolean
 }
 
 function sameParams(a: number[], b: number[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])
 }
+
+// Default line colours handed out round-robin as indicators are added (matches
+// the chart's fallback palette); the user can override per indicator.
+const COLORS = [
+  '#3b82f6', '#f59e0b', '#10b981', '#ec4899', '#8b5cf6',
+  '#06b6d4', '#ef4444', '#84cc16', '#f97316', '#a855f7',
+]
+let colorCursor = 0
 
 const symbol = ref<string>('BTCUSDT')
 const interval = ref<string>('1m')
@@ -50,9 +61,12 @@ const asks = ref<[number, number][]>([])
 const trades = ref<Trade[]>([])
 // Latest profile snapshot per active profile indicator (histogram panel).
 const profiles = ref<Record<string, { label: string; snap: ProfileSnapshot }>>({})
-const profileList = computed(() =>
-  Object.entries(profiles.value).map(([id, p]) => ({ id, label: p.label, snap: p.snap })),
-)
+const profileList = computed(() => {
+  const hidden = new Set(active.value.filter((a) => a.hidden).map((a) => a.id))
+  return Object.entries(profiles.value)
+    .filter(([id]) => !hidden.has(id))
+    .map(([id, p]) => ({ id, label: p.label, snap: p.snap }))
+})
 // Microstructure panel (order book + trades tape) under the chart, toggleable.
 const showMicro = ref(false)
 
@@ -112,6 +126,7 @@ const activeView = (): ActiveView[] =>
   active.value.map((a) => ({
     id: a.id, label: a.entry.label, family: a.entry.family,
     pane: a.entry.pane, feed: a.entry.sig === 'pair' ? 'pair' : a.entry.feed, value: a.value, params: a.params.slice(),
+    color: a.color, width: a.width, hidden: a.hidden, render: a.entry.render,
   }))
 const activeRows = ref<ActiveView[]>([])
 function syncRows() { activeRows.value = activeView() }
@@ -133,7 +148,7 @@ function applyResult(a: Active, res: IndicatorResult, time: number): void {
       for (const bar of res) {
         const p = barPrice(bar)
         if (Number.isFinite(p)) {
-          chart.pushPoint(id, 'bar', time + i, p, 'price', true)
+          chart.pushPoint(id, 'bar', time + i, p, 'price', { color: a.color, width: a.width, step: true })
           i++
           a.value = fmt(p)
         }
@@ -151,14 +166,16 @@ function applyResult(a: Active, res: IndicatorResult, time: number): void {
   }
   if (typeof res === 'number') {
     if (Number.isFinite(res)) {
-      chart.pushPoint(id, 'value', time, res, entry.pane)
+      chart.pushPoint(id, 'value', time, res, entry.pane, { color: a.color, width: a.width })
       a.value = fmt(res)
     }
   } else if (res && typeof res === 'object') {
+    // Multi-output: keep each field a distinct auto colour by default; a manual
+    // colour override (setStyle) recolours every field of the indicator.
     let first: number | null = null
     for (const [k, v] of Object.entries(res)) {
       if (typeof v === 'number' && Number.isFinite(v)) {
-        chart.pushPoint(id, k, time, v, entry.pane)
+        chart.pushPoint(id, k, time, v, entry.pane, { width: a.width })
         if (first === null) first = v
       }
     }
@@ -250,7 +267,10 @@ async function add(entry: Entry): Promise<void> {
   try { ind = makeIndicator(mod, entry.js, entry.params) }
   catch (e) { note.value = `${entry.label}: ${errMsg(e)}`; return }
   if (!ind) { note.value = `${entry.label} is not exposed in this wickra-wasm build.`; return }
-  const a: Active = { id: `i${seq++}`, entry, ind, params: entry.params.slice(), value: '—' }
+  const a: Active = {
+    id: `i${seq++}`, entry, ind, params: entry.params.slice(), value: '—',
+    color: COLORS[colorCursor++ % COLORS.length], width: 2, hidden: false,
+  }
   replay(a)
   active.value = [...active.value, a]
   syncRows()
@@ -273,6 +293,24 @@ function updateParams(id: string, newParams: number[]): void {
   chart.removeIndicator(id) // drop the old series; replay recreates them
   delete profiles.value[id]
   replay(a)
+  active.value = [...active.value]
+  syncRows()
+}
+
+function updateStyle(id: string, color: string, width: number): void {
+  const a = active.value.find((x) => x.id === id)
+  if (!a) return
+  a.color = color
+  a.width = width
+  chart.setStyle(id, color, width)
+  syncRows()
+}
+
+function toggleHidden(id: string): void {
+  const a = active.value.find((x) => x.id === id)
+  if (!a) return
+  a.hidden = !a.hidden
+  chart.setVisible(id, !a.hidden)
   active.value = [...active.value]
   syncRows()
 }
@@ -477,7 +515,7 @@ onBeforeUnmount(() => {
         <ProfilePanel v-if="profileList.length" :items="profileList" class="profilebar" />
       </div>
       <aside class="side">
-        <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" />
+        <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" @update-style="updateStyle" @toggle-hidden="toggleHidden" />
         <IndicatorPicker @select="add" />
       </aside>
     </main>
