@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import IndicatorPicker from './components/IndicatorPicker.vue'
 import ActiveList, { type ActiveView } from './components/ActiveList.vue'
 import OrderBook from './components/OrderBook.vue'
@@ -7,7 +7,7 @@ import TradesTape from './components/TradesTape.vue'
 import BackToTop from './components/BackToTop.vue'
 import { ChartController } from './lib/chart'
 import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
-import { feedKline, feedOrderBook, feedTrade, type Candle, type IndicatorResult, type Trade } from './lib/feed'
+import { feedKline, feedOrderBook, feedPair, feedTrade, type Candle, type IndicatorResult, type Trade } from './lib/feed'
 import { loadWasm, makeIndicator, wasmVersion, type WasmIndicator } from './lib/wasm'
 import { TOTAL, type Entry } from './lib/catalog'
 import badges from './badges.json'
@@ -59,17 +59,36 @@ let feedTrades = false
 function wantDepth(): boolean { return showMicro.value || active.value.some((a) => a.entry.feed === 'orderbook') }
 function wantTrades(): boolean { return showMicro.value || active.value.some((a) => a.entry.feed === 'trade') }
 async function ensureFeed(): Promise<void> {
-  if (wantDepth() !== feedDepth || wantTrades() !== feedTrades) await restart()
+  if (wantDepth() !== feedDepth || wantTrades() !== feedTrades || wantRef() !== refOn) await restart()
 }
 async function toggleMicro(): Promise<void> {
   showMicro.value = !showMicro.value
   await ensureFeed()
 }
 
+// Pair / spread indicators (sig 'pair') need a second synchronized price series.
+// A kline-only WS for a reference symbol streams its close; pair indicators are
+// fed (primaryClose, refClose) on each primary close. Subscribed only while a
+// pair indicator is active.
+const refSymbol = ref<string>('ETHUSDT')
+const pairActive = computed(() => active.value.some((a) => a.entry.sig === 'pair'))
+let refFeed: BinanceFeed | null = null
+let refOn = false
+let refCloseLatest = Number.NaN
+const refCloseByTime = new Map<number, number>()
+function wantRef(): boolean { return pairActive.value }
+function onRefKline(k: Candle, closed: boolean): void {
+  refCloseLatest = k.close
+  if (closed) {
+    refCloseByTime.set(k.time, k.close)
+    if (refCloseByTime.size > 6000) refCloseByTime.delete(refCloseByTime.keys().next().value as number)
+  }
+}
+
 const activeView = (): ActiveView[] =>
   active.value.map((a) => ({
     id: a.id, label: a.entry.label, family: a.entry.family,
-    pane: a.entry.pane, feed: a.entry.feed, value: a.value, params: a.params.slice(),
+    pane: a.entry.pane, feed: a.entry.sig === 'pair' ? 'pair' : a.entry.feed, value: a.value, params: a.params.slice(),
   }))
 const activeRows = ref<ActiveView[]>([])
 function syncRows() { activeRows.value = activeView() }
@@ -118,18 +137,32 @@ function drive(a: Active, res: () => IndicatorResult, time: number): void {
   }
 }
 
-// --- feed an indicator over the in-memory history (kline indicators only) -----
+// --- feed an indicator over the in-memory history ----------------------------
+// kline indicators replay over the candle history; pair indicators replay over
+// the candles zipped with the reference symbol's close at each time (carried
+// forward). Trade/order-book indicators have no history to replay.
 function replay(a: Active): void {
-  if (a.entry.feed !== 'kline') return
-  a.ind.reset?.()
-  for (const k of candles.value) drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
+  if (a.entry.feed === 'kline') {
+    a.ind.reset?.()
+    for (const k of candles.value) drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
+  } else if (a.entry.sig === 'pair') {
+    a.ind.reset?.()
+    let lastRef = Number.NaN
+    for (const k of candles.value) {
+      const r = refCloseByTime.get(k.time)
+      if (r !== undefined) lastRef = r
+      if (Number.isFinite(lastRef)) drive(a, () => feedPair(a.ind, k.close, lastRef), k.time)
+    }
+  }
 }
 
 // --- add / remove -------------------------------------------------------------
 async function add(entry: Entry): Promise<void> {
   note.value = null
-  if (entry.feed === 'none') {
-    note.value = `${entry.label} needs data this demo doesn't stream (2nd symbol / breadth / derivatives).`
+  // Pair indicators (sig 'pair') ARE streamable via the reference symbol; only
+  // breadth (cross) and derivatives (other) genuinely have no feed here.
+  if (entry.feed === 'none' && entry.sig !== 'pair') {
+    note.value = `${entry.label} needs data this demo doesn't stream (breadth / derivatives).`
     return
   }
   const mod = wasmMod.value
@@ -186,8 +219,10 @@ function onKline(k: Candle, closed: boolean): void {
   if (!closed) return
   candles.value.push(k)
   if (candles.value.length > 5000) candles.value.shift()
+  const refClose = refCloseByTime.get(k.time) ?? refCloseLatest
   for (const a of active.value) {
     if (a.entry.feed === 'kline') drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
+    else if (a.entry.sig === 'pair' && Number.isFinite(refClose)) drive(a, () => feedPair(a.ind, k.close, refClose), k.time)
   }
   updates.value++
   syncRows()
@@ -217,6 +252,10 @@ function onDepth(_top: { bidPx: number; bidSz: number; askPx: number; askSz: num
 // --- (re)start the feed for the current symbol/interval/history ---------------
 async function restart(): Promise<void> {
   feed?.close()
+  refFeed?.close()
+  refFeed = null
+  refCloseByTime.clear()
+  refCloseLatest = Number.NaN
   candles.value = []
   bids.value = []
   asks.value = []
@@ -233,6 +272,7 @@ async function restart(): Promise<void> {
   }
 
   await loadHistory()
+  await loadRefHistory()
   for (const a of active.value) replay(a)
   syncRows()
 
@@ -244,6 +284,24 @@ async function restart(): Promise<void> {
     feedDepth, feedTrades,
   )
   feed.connect()
+
+  // Reference-symbol kline-only stream for pair indicators.
+  refOn = wantRef()
+  if (refOn) {
+    refFeed = new BinanceFeed(refSymbol.value, interval.value, { onKline: onRefKline }, false, false)
+    refFeed.connect()
+  }
+}
+
+async function loadRefHistory(): Promise<void> {
+  if (!wantRef() || historyDepth.value <= 0) return
+  try {
+    const hist = await fetchKlines(refSymbol.value, interval.value, historyDepth.value)
+    for (const k of hist) refCloseByTime.set(k.time, k.close)
+    if (hist.length) refCloseLatest = hist[hist.length - 1].close
+  } catch {
+    // Reference warmup blocked (CORS) — pair indicators pair live-only.
+  }
 }
 
 async function loadHistory(): Promise<void> {
@@ -275,6 +333,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   feed?.close()
+  refFeed?.close()
   chart.destroy()
 })
 </script>
@@ -311,6 +370,12 @@ onBeforeUnmount(() => {
           <option v-for="h in HISTORY_OPTIONS" :key="h" :value="h">{{ h === 0 ? 'live only' : h + ' bars' }}</option>
         </select>
         <button class="tgl" :class="{ on: showMicro }" type="button" title="Live order book + trades" @click="toggleMicro">Order flow</button>
+        <template v-if="pairActive">
+          <span class="vs">vs</span>
+          <select v-model="refSymbol" title="Reference symbol for pair indicators" @change="restart">
+            <option v-for="s in SYMBOLS" :key="s" :value="s">{{ s }}</option>
+          </select>
+        </template>
         <span class="status" :class="status">{{ status }}</span>
         <span class="price" v-if="lastPrice != null">{{ lastPrice.toFixed(2) }}</span>
       </div>
