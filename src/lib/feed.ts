@@ -25,7 +25,9 @@ export interface TopOfBook {
   askSz: number
 }
 
-export type IndicatorResult = number | Record<string, number> | null | undefined
+// A scalar, a struct (object of numbers), an array of bar objects (bar-builder),
+// or null/undefined during warmup. Renderers in App.vue narrow it by `render`.
+export type IndicatorResult = unknown
 
 /** Feed one candle into an indicator according to its update() signature. */
 export function feedKline(ind: WasmIndicator, sig: Sig, k: Candle): IndicatorResult {
@@ -44,9 +46,27 @@ export function feedKline(ind: WasmIndicator, sig: Sig, k: Candle): IndicatorRes
 }
 
 export function feedTrade(ind: WasmIndicator, t: Trade): IndicatorResult {
-  return ind.update(t.price, t.size, t.isBuy ? 1 : 0)
+  return ind.update(t.price, t.size, t.isBuy)
 }
 
-export function feedTopOfBook(ind: WasmIndicator, b: TopOfBook): IndicatorResult {
-  return ind.update(b.bidPx, b.bidSz, b.askPx, b.askSz)
+/** Order-book indicators take the FULL book as four parallel Float64Arrays
+ *  (bid_px, bid_sz, ask_px, ask_sz) — not a scalar top-of-book. Passing scalars
+ *  was the cause of "invalid order book: at least one bid and one ask". */
+export function feedOrderBook(
+  ind: WasmIndicator,
+  bids: [number, number][],
+  asks: [number, number][],
+): IndicatorResult {
+  if (!bids.length || !asks.length) return undefined
+  const bidPx = Float64Array.from(bids, (l) => l[0])
+  const bidSz = Float64Array.from(bids, (l) => l[1])
+  const askPx = Float64Array.from(asks, (l) => l[0])
+  const askSz = Float64Array.from(asks, (l) => l[1])
+  return ind.update(bidPx, bidSz, askPx, askSz)
+}
+
+/** Pair / spread indicators take two synchronized price series: the primary
+ *  symbol's close (a) and the reference symbol's close (b). */
+export function feedPair(ind: WasmIndicator, a: number, b: number): IndicatorResult {
+  return ind.update(a, b)
 }

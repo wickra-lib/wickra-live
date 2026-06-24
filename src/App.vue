@@ -1,14 +1,22 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import IndicatorPicker from './components/IndicatorPicker.vue'
 import ActiveList, { type ActiveView } from './components/ActiveList.vue'
 import OrderBook from './components/OrderBook.vue'
+import TradesTape from './components/TradesTape.vue'
+import ProfilePanel from './components/ProfilePanel.vue'
 import BackToTop from './components/BackToTop.vue'
+import { toProfileSnapshot, type ProfileSnapshot } from './lib/profile'
 import { ChartController } from './lib/chart'
 import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
-import { feedKline, feedTopOfBook, feedTrade, type Candle, type IndicatorResult } from './lib/feed'
+import { feedKline, feedOrderBook, feedPair, feedTrade, type Candle, type IndicatorResult, type Trade } from './lib/feed'
 import { loadWasm, makeIndicator, wasmVersion, type WasmIndicator } from './lib/wasm'
-import { TOTAL, type Entry } from './lib/catalog'
+import { findByJs, TOTAL, type Entry } from './lib/catalog'
+import {
+  loadSession, saveSession, loadProfiles, saveProfiles,
+  type PersistedSession, type ProfileMap,
+} from './lib/persist'
+import ProfilesMenu from './components/ProfilesMenu.vue'
 import badges from './badges.json'
 
 interface Active {
@@ -17,11 +25,22 @@ interface Active {
   ind: WasmIndicator
   params: number[]
   value: string
+  color: string
+  width: number
+  hidden: boolean
 }
 
 function sameParams(a: number[], b: number[]): boolean {
   return a.length === b.length && a.every((v, i) => v === b[i])
 }
+
+// Default line colours handed out round-robin as indicators are added (matches
+// the chart's fallback palette); the user can override per indicator.
+const COLORS = [
+  '#3b82f6', '#f59e0b', '#10b981', '#ec4899', '#8b5cf6',
+  '#06b6d4', '#ef4444', '#84cc16', '#f97316', '#a855f7',
+]
+let colorCursor = 0
 
 const symbol = ref<string>('BTCUSDT')
 const interval = ref<string>('1m')
@@ -44,23 +63,76 @@ const candles = ref<Candle[]>([])
 const active = shallowRef<Active[]>([])
 const bids = ref<[number, number][]>([])
 const asks = ref<[number, number][]>([])
+const trades = ref<Trade[]>([])
+// Latest profile snapshot per active profile indicator (histogram panel).
+const profiles = ref<Record<string, { label: string; snap: ProfileSnapshot }>>({})
+const profileList = computed(() => {
+  const hidden = new Set(active.value.filter((a) => a.hidden).map((a) => a.id))
+  return Object.entries(profiles.value)
+    .filter(([id]) => !hidden.has(id))
+    .map(([id, p]) => ({ id, label: p.label, snap: p.snap }))
+})
+// Microstructure panel (order book + trades tape) under the chart, toggleable.
+const showMicro = ref(false)
 
 let feed: BinanceFeed | null = null
 let seq = 0
 // The depth (10/s) and trade streams are the main mobile-lag source, so they are
-// opt-in: only subscribed while an order-book / trade indicator is active.
+// opt-in: subscribed only while an order-book / trade indicator is active OR the
+// microstructure panel is open.
 let feedDepth = false
 let feedTrades = false
-function needsDepth(): boolean { return active.value.some((a) => a.entry.feed === 'orderbook') }
-function needsTrades(): boolean { return active.value.some((a) => a.entry.feed === 'trade') }
+function wantDepth(): boolean { return showMicro.value || active.value.some((a) => a.entry.feed === 'orderbook') }
+function wantTrades(): boolean { return showMicro.value || active.value.some((a) => a.entry.feed === 'trade') }
 async function ensureFeed(): Promise<void> {
-  if (needsDepth() !== feedDepth || needsTrades() !== feedTrades) await restart()
+  if (wantDepth() !== feedDepth || wantTrades() !== feedTrades || wantRef() !== refOn) await restart()
+}
+async function toggleMicro(): Promise<void> {
+  showMicro.value = !showMicro.value
+  await ensureFeed()
+  persist()
+}
+
+// Pause/Resume the live feed without touching indicator state (handoff Phase 1).
+// Pause closes the WS; resume reconnects the same streams and keeps computing
+// from where the bars resume (the gap while paused is expected).
+const paused = ref(false)
+function togglePause(): void {
+  paused.value = !paused.value
+  if (paused.value) {
+    feed?.close()
+    refFeed?.close()
+    status.value = 'closed'
+  } else {
+    feed?.connect()
+    if (refOn) refFeed?.connect()
+  }
+}
+
+// Pair / spread indicators (sig 'pair') need a second synchronized price series.
+// A kline-only WS for a reference symbol streams its close; pair indicators are
+// fed (primaryClose, refClose) on each primary close. Subscribed only while a
+// pair indicator is active.
+const refSymbol = ref<string>('ETHUSDT')
+const pairActive = computed(() => active.value.some((a) => a.entry.sig === 'pair'))
+let refFeed: BinanceFeed | null = null
+let refOn = false
+let refCloseLatest = Number.NaN
+const refCloseByTime = new Map<number, number>()
+function wantRef(): boolean { return pairActive.value }
+function onRefKline(k: Candle, closed: boolean): void {
+  refCloseLatest = k.close
+  if (closed) {
+    refCloseByTime.set(k.time, k.close)
+    if (refCloseByTime.size > 6000) refCloseByTime.delete(refCloseByTime.keys().next().value as number)
+  }
 }
 
 const activeView = (): ActiveView[] =>
   active.value.map((a) => ({
     id: a.id, label: a.entry.label, family: a.entry.family,
-    pane: a.entry.pane, feed: a.entry.feed, value: a.value, params: a.params.slice(),
+    pane: a.entry.pane, feed: a.entry.sig === 'pair' ? 'pair' : a.entry.feed, value: a.value, params: a.params.slice(),
+    color: a.color, width: a.width, hidden: a.hidden, render: a.entry.render,
   }))
 const activeRows = ref<ActiveView[]>([])
 function syncRows() { activeRows.value = activeView() }
@@ -73,16 +145,43 @@ function applyResult(a: Active, res: IndicatorResult, time: number): void {
     if (typeof res === 'number' && res !== 0) a.value = res > 0 ? '▲' : '▼'
     return
   }
+  if (entry.render === 'bars') {
+    // Bar-builders emit 0..n completed bars per candle. Plot each bar's
+    // representative price as a stepped line on the price pane. Multiple bars
+    // from one candle get +1s offsets so chart times stay strictly increasing.
+    if (Array.isArray(res)) {
+      let i = 0
+      for (const bar of res) {
+        const p = barPrice(bar)
+        if (Number.isFinite(p)) {
+          chart.pushPoint(id, 'bar', time + i, p, 'price', { color: a.color, width: a.width, step: true })
+          i++
+          a.value = fmt(p)
+        }
+      }
+    }
+    return
+  }
+  if (entry.render === 'profile') {
+    const snap = toProfileSnapshot(res)
+    if (snap) {
+      profiles.value[id] = { label: entry.label, snap }
+      a.value = profileValue(snap)
+    }
+    return
+  }
   if (typeof res === 'number') {
     if (Number.isFinite(res)) {
-      chart.pushPoint(id, 'value', time, res, entry.pane)
+      chart.pushPoint(id, 'value', time, res, entry.pane, { color: a.color, width: a.width })
       a.value = fmt(res)
     }
   } else if (res && typeof res === 'object') {
+    // Multi-output: keep each field a distinct auto colour by default; a manual
+    // colour override (setStyle) recolours every field of the indicator.
     let first: number | null = null
     for (const [k, v] of Object.entries(res)) {
       if (typeof v === 'number' && Number.isFinite(v)) {
-        chart.pushPoint(id, k, time, v, entry.pane)
+        chart.pushPoint(id, k, time, v, entry.pane, { width: a.width })
         if (first === null) first = v
       }
     }
@@ -93,6 +192,31 @@ function applyResult(a: Active, res: IndicatorResult, time: number): void {
 function fmt(v: number): string {
   const abs = Math.abs(v)
   return abs >= 1000 ? v.toFixed(0) : abs >= 1 ? v.toFixed(2) : v.toFixed(4)
+}
+
+// Representative price for a bar-builder bar across the different shapes
+// (Renko close, Kagi end, PnF high/low mid, OHLC close, …).
+function barPrice(bar: unknown): number {
+  if (!bar || typeof bar !== 'object') return Number.NaN
+  const o = bar as Record<string, number>
+  if (typeof o.close === 'number') return o.close
+  if (typeof o.end === 'number') return o.end
+  if (typeof o.high === 'number' && typeof o.low === 'number') return (o.high + o.low) / 2
+  if (typeof o.open === 'number') return o.open
+  return Number.NaN
+}
+
+// One-line summary of a profile snapshot for the active list.
+function profileValue(s: ProfileSnapshot): string {
+  if (s.kind === 'price') {
+    let poc = 0
+    for (let i = 1; i < s.bins.length; i++) if (s.bins[i] > s.bins[poc]) poc = i
+    const span = s.priceHigh - s.priceLow
+    const price = s.priceLow + (s.bins.length > 1 ? (span * poc) / (s.bins.length - 1) : 0)
+    return `POC ${fmt(price)}`
+  }
+  if (s.kind === 'footprint') return `${s.levels.length} lvl`
+  return `${s.values.length} bkt`
 }
 
 function errMsg(e: unknown): string {
@@ -109,18 +233,32 @@ function drive(a: Active, res: () => IndicatorResult, time: number): void {
   }
 }
 
-// --- feed an indicator over the in-memory history (kline indicators only) -----
+// --- feed an indicator over the in-memory history ----------------------------
+// kline indicators replay over the candle history; pair indicators replay over
+// the candles zipped with the reference symbol's close at each time (carried
+// forward). Trade/order-book indicators have no history to replay.
 function replay(a: Active): void {
-  if (a.entry.feed !== 'kline') return
-  a.ind.reset?.()
-  for (const k of candles.value) drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
+  if (a.entry.feed === 'kline') {
+    a.ind.reset?.()
+    for (const k of candles.value) drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
+  } else if (a.entry.sig === 'pair') {
+    a.ind.reset?.()
+    let lastRef = Number.NaN
+    for (const k of candles.value) {
+      const r = refCloseByTime.get(k.time)
+      if (r !== undefined) lastRef = r
+      if (Number.isFinite(lastRef)) drive(a, () => feedPair(a.ind, k.close, lastRef), k.time)
+    }
+  }
 }
 
 // --- add / remove -------------------------------------------------------------
 async function add(entry: Entry): Promise<void> {
   note.value = null
-  if (entry.feed === 'none') {
-    note.value = `${entry.label} needs data this demo doesn't stream (2nd symbol / breadth / derivatives).`
+  // Pair indicators (sig 'pair') ARE streamable via the reference symbol; only
+  // breadth (cross) and derivatives (other) genuinely have no feed here.
+  if (entry.feed === 'none' && entry.sig !== 'pair') {
+    note.value = `${entry.label} needs data this demo doesn't stream (breadth / derivatives).`
     return
   }
   const mod = wasmMod.value
@@ -135,11 +273,15 @@ async function add(entry: Entry): Promise<void> {
   try { ind = makeIndicator(mod, entry.js, entry.params) }
   catch (e) { note.value = `${entry.label}: ${errMsg(e)}`; return }
   if (!ind) { note.value = `${entry.label} is not exposed in this wickra-wasm build.`; return }
-  const a: Active = { id: `i${seq++}`, entry, ind, params: entry.params.slice(), value: '—' }
+  const a: Active = {
+    id: `i${seq++}`, entry, ind, params: entry.params.slice(), value: '—',
+    color: COLORS[colorCursor++ % COLORS.length], width: 2, hidden: false,
+  }
   replay(a)
   active.value = [...active.value, a]
   syncRows()
   await ensureFeed()
+  persist()
 }
 
 // Re-instantiate an active indicator with edited parameters and redraw it.
@@ -156,18 +298,42 @@ function updateParams(id: string, newParams: number[]): void {
   a.ind = ind
   a.params = newParams
   chart.removeIndicator(id) // drop the old series; replay recreates them
+  delete profiles.value[id]
   replay(a)
   active.value = [...active.value]
   syncRows()
+  persist()
+}
+
+function updateStyle(id: string, color: string, width: number): void {
+  const a = active.value.find((x) => x.id === id)
+  if (!a) return
+  a.color = color
+  a.width = width
+  chart.setStyle(id, color, width)
+  syncRows()
+  persist()
+}
+
+function toggleHidden(id: string): void {
+  const a = active.value.find((x) => x.id === id)
+  if (!a) return
+  a.hidden = !a.hidden
+  chart.setVisible(id, !a.hidden)
+  active.value = [...active.value]
+  syncRows()
+  persist()
 }
 
 function remove(id: string): void {
   const a = active.value.find((x) => x.id === id)
   a?.ind.free?.()
   chart.removeIndicator(id)
+  delete profiles.value[id]
   active.value = active.value.filter((x) => x.id !== id)
   syncRows()
   void ensureFeed()
+  persist()
 }
 
 // --- live wiring --------------------------------------------------------------
@@ -177,14 +343,18 @@ function onKline(k: Candle, closed: boolean): void {
   if (!closed) return
   candles.value.push(k)
   if (candles.value.length > 5000) candles.value.shift()
+  const refClose = refCloseByTime.get(k.time) ?? refCloseLatest
   for (const a of active.value) {
     if (a.entry.feed === 'kline') drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
+    else if (a.entry.sig === 'pair' && Number.isFinite(refClose)) drive(a, () => feedPair(a.ind, k.close, refClose), k.time)
   }
   updates.value++
   syncRows()
 }
 
-function onTrade(t: { price: number; size: number; isBuy: boolean; time: number }): void {
+function onTrade(t: Trade): void {
+  trades.value.push(t)
+  if (trades.value.length > 80) trades.value.shift()
   let touched = false
   for (const a of active.value) {
     if (a.entry.feed === 'trade') { drive(a, () => feedTrade(a.ind, t), t.time); touched = true }
@@ -192,23 +362,30 @@ function onTrade(t: { price: number; size: number; isBuy: boolean; time: number 
   if (touched) syncRows()
 }
 
-function onDepth(top: { bidPx: number; bidSz: number; askPx: number; askSz: number }, b: [number, number][], a: [number, number][]): void {
+function onDepth(_top: { bidPx: number; bidSz: number; askPx: number; askSz: number }, b: [number, number][], a: [number, number][]): void {
   bids.value = b
   asks.value = a
   const t = Math.trunc(Date.now() / 1000)
   let touched = false
   for (const ind of active.value) {
-    if (ind.entry.feed === 'orderbook') { drive(ind, () => feedTopOfBook(ind.ind, top), t); touched = true }
+    if (ind.entry.feed === 'orderbook') { drive(ind, () => feedOrderBook(ind.ind, b, a), t); touched = true }
   }
   if (touched) syncRows()
 }
 
 // --- (re)start the feed for the current symbol/interval/history ---------------
 async function restart(): Promise<void> {
+  paused.value = false
   feed?.close()
+  refFeed?.close()
+  refFeed = null
+  refCloseByTime.clear()
+  refCloseLatest = Number.NaN
   candles.value = []
   bids.value = []
   asks.value = []
+  trades.value = []
+  profiles.value = {}
   chart.clearIndicators()
   // Fresh indicator state for the new market.
   const mod = wasmMod.value
@@ -221,17 +398,37 @@ async function restart(): Promise<void> {
   }
 
   await loadHistory()
+  await loadRefHistory()
   for (const a of active.value) replay(a)
   syncRows()
 
-  feedDepth = needsDepth()
-  feedTrades = needsTrades()
+  feedDepth = wantDepth()
+  feedTrades = wantTrades()
   feed = new BinanceFeed(
     symbol.value, interval.value,
     { onKline, onTrade, onDepth, onStatus: (s) => (status.value = s) },
     feedDepth, feedTrades,
   )
   feed.connect()
+
+  // Reference-symbol kline-only stream for pair indicators.
+  refOn = wantRef()
+  if (refOn) {
+    refFeed = new BinanceFeed(refSymbol.value, interval.value, { onKline: onRefKline }, false, false)
+    refFeed.connect()
+  }
+  persist()
+}
+
+async function loadRefHistory(): Promise<void> {
+  if (!wantRef() || historyDepth.value <= 0) return
+  try {
+    const hist = await fetchKlines(refSymbol.value, interval.value, historyDepth.value)
+    for (const k of hist) refCloseByTime.set(k.time, k.close)
+    if (hist.length) refCloseLatest = hist[hist.length - 1].close
+  } catch {
+    // Reference warmup blocked (CORS) — pair indicators pair live-only.
+  }
 }
 
 async function loadHistory(): Promise<void> {
@@ -246,6 +443,107 @@ async function loadHistory(): Promise<void> {
   }
 }
 
+// --- persistence --------------------------------------------------------------
+function sessionSnapshot(): PersistedSession {
+  return {
+    symbol: symbol.value,
+    interval: interval.value,
+    historyDepth: historyDepth.value,
+    refSymbol: refSymbol.value,
+    showMicro: showMicro.value,
+    indicators: active.value.map((a) => ({
+      js: a.entry.js, params: a.params.slice(), color: a.color, width: a.width, hidden: a.hidden,
+    })),
+  }
+}
+
+function persist(): void {
+  saveSession(sessionSnapshot())
+}
+
+// Apply a session: validate + set market settings, then rebuild the active
+// indicators from it. The caller is responsible for the following restart().
+function applySession(s: PersistedSession): void {
+  const syms = SYMBOLS as readonly string[]
+  const ivs = INTERVALS as readonly string[]
+  if (syms.includes(s.symbol)) symbol.value = s.symbol
+  if (ivs.includes(s.interval)) interval.value = s.interval
+  if (HISTORY_OPTIONS.includes(s.historyDepth)) historyDepth.value = s.historyDepth
+  if (syms.includes(s.refSymbol)) refSymbol.value = s.refSymbol
+  showMicro.value = !!s.showMicro
+
+  const mod = wasmMod.value
+  if (!mod) return
+  for (const a of active.value) a.ind.free?.()
+  const restored: Active[] = []
+  for (const pi of s.indicators) {
+    const entry = findByJs(pi.js)
+    if (!entry) continue
+    let ind: WasmIndicator | null = null
+    try { ind = makeIndicator(mod, pi.js, pi.params) } catch { continue }
+    if (!ind) continue
+    restored.push({
+      id: `i${seq++}`, entry, ind, params: pi.params.slice(), value: '—',
+      color: pi.color || COLORS[restored.length % COLORS.length],
+      width: pi.width || 2,
+      hidden: !!pi.hidden,
+    })
+  }
+  active.value = restored
+  colorCursor = restored.length
+  syncRows()
+}
+
+// Restore the always-on last session before the first restart().
+function restoreSession(): void {
+  const s = loadSession()
+  if (s) applySession(s)
+}
+
+// --- named layout profiles ----------------------------------------------------
+const layouts = ref<ProfileMap>(loadProfiles())
+const layoutNames = computed(() => Object.keys(layouts.value).sort())
+const currentLayout = ref('')
+
+async function loadLayout(name: string): Promise<void> {
+  const s = layouts.value[name]
+  if (!s) { currentLayout.value = ''; return }
+  currentLayout.value = name
+  applySession(s)
+  await restart()
+  for (const a of active.value) if (a.hidden) chart.setVisible(a.id, false)
+  persist()
+}
+const canSaveLayout = computed(() => active.value.length > 0)
+function saveCurrentLayout(): void {
+  if (!canSaveLayout.value) return
+  const name = window.prompt('Save layout as:', currentLayout.value || 'My layout')?.trim()
+  if (!name) return
+  layouts.value = { ...layouts.value, [name]: sessionSnapshot() }
+  saveProfiles(layouts.value)
+  currentLayout.value = name
+}
+function renameCurrentLayout(): void {
+  const old = currentLayout.value
+  if (!old) return
+  const name = window.prompt('Rename layout:', old)?.trim()
+  if (!name || name === old) return
+  const next: ProfileMap = { ...layouts.value, [name]: layouts.value[old] }
+  delete next[old]
+  layouts.value = next
+  saveProfiles(next)
+  currentLayout.value = name
+}
+function deleteCurrentLayout(): void {
+  const name = currentLayout.value
+  if (!name || !window.confirm(`Delete layout "${name}"?`)) return
+  const next: ProfileMap = { ...layouts.value }
+  delete next[name]
+  layouts.value = next
+  saveProfiles(next)
+  currentLayout.value = ''
+}
+
 // --- lifecycle ----------------------------------------------------------------
 onMounted(async () => {
   if (chartEl.value) chart.init(chartEl.value, true)
@@ -258,11 +556,15 @@ onMounted(async () => {
     note.value = `Failed to load wickra-wasm: ${String(e)}`
     return
   }
+  restoreSession()
   await restart()
+  // Apply restored visibility to the freshly drawn series.
+  for (const a of active.value) if (a.hidden) chart.setVisible(a.id, false)
 })
 
 onBeforeUnmount(() => {
   feed?.close()
+  refFeed?.close()
   chart.destroy()
 })
 </script>
@@ -298,6 +600,18 @@ onBeforeUnmount(() => {
         <select v-model.number="historyDepth" @change="restart">
           <option v-for="h in HISTORY_OPTIONS" :key="h" :value="h">{{ h === 0 ? 'live only' : h + ' bars' }}</option>
         </select>
+        <button class="tgl" type="button" :title="paused ? 'Resume live feed' : 'Pause live feed'" @click="togglePause">{{ paused ? 'Resume' : 'Pause' }}</button>
+        <button class="tgl" :class="{ on: showMicro }" type="button" title="Live order book + trades" @click="toggleMicro">Order flow</button>
+        <ProfilesMenu
+          :names="layoutNames" :current="currentLayout" :can-save="canSaveLayout"
+          @load="loadLayout" @save="saveCurrentLayout" @rename="renameCurrentLayout" @delete="deleteCurrentLayout"
+        />
+        <template v-if="pairActive">
+          <span class="vs">vs</span>
+          <select v-model="refSymbol" title="Reference symbol for pair indicators" @change="restart">
+            <option v-for="s in SYMBOLS" :key="s" :value="s">{{ s }}</option>
+          </select>
+        </template>
         <span class="status" :class="status">{{ status }}</span>
         <span class="price" v-if="lastPrice != null">{{ lastPrice.toFixed(2) }}</span>
       </div>
@@ -313,11 +627,16 @@ onBeforeUnmount(() => {
           <code class="errtext">{{ note }}</code>
           <button class="errclear" type="button" title="Clear" @click="note = null">Clear</button>
         </div>
+        <div v-if="showMicro" class="micro">
+          <OrderBook :bids="bids" :asks="asks" />
+          <TradesTape :trades="trades" />
+          <p v-if="!bids.length && !trades.length" class="micro-wait">Waiting for live order book &amp; trades…</p>
+        </div>
+        <ProfilePanel v-if="profileList.length" :items="profileList" class="profilebar" />
       </div>
       <aside class="side">
-        <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" />
+        <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" @update-style="updateStyle" @toggle-hidden="toggleHidden" />
         <IndicatorPicker @select="add" />
-        <OrderBook :bids="bids" :asks="asks" />
       </aside>
     </main>
 
