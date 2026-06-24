@@ -4,7 +4,9 @@ import IndicatorPicker from './components/IndicatorPicker.vue'
 import ActiveList, { type ActiveView } from './components/ActiveList.vue'
 import OrderBook from './components/OrderBook.vue'
 import TradesTape from './components/TradesTape.vue'
+import ProfilePanel from './components/ProfilePanel.vue'
 import BackToTop from './components/BackToTop.vue'
+import { toProfileSnapshot, type ProfileSnapshot } from './lib/profile'
 import { ChartController } from './lib/chart'
 import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
 import { feedKline, feedOrderBook, feedPair, feedTrade, type Candle, type IndicatorResult, type Trade } from './lib/feed'
@@ -46,6 +48,11 @@ const active = shallowRef<Active[]>([])
 const bids = ref<[number, number][]>([])
 const asks = ref<[number, number][]>([])
 const trades = ref<Trade[]>([])
+// Latest profile snapshot per active profile indicator (histogram panel).
+const profiles = ref<Record<string, { label: string; snap: ProfileSnapshot }>>({})
+const profileList = computed(() =>
+  Object.entries(profiles.value).map(([id, p]) => ({ id, label: p.label, snap: p.snap })),
+)
 // Microstructure panel (order book + trades tape) under the chart, toggleable.
 const showMicro = ref(false)
 
@@ -101,6 +108,31 @@ function applyResult(a: Active, res: IndicatorResult, time: number): void {
     if (typeof res === 'number' && res !== 0) a.value = res > 0 ? '▲' : '▼'
     return
   }
+  if (entry.render === 'bars') {
+    // Bar-builders emit 0..n completed bars per candle. Plot each bar's
+    // representative price as a stepped line on the price pane. Multiple bars
+    // from one candle get +1s offsets so chart times stay strictly increasing.
+    if (Array.isArray(res)) {
+      let i = 0
+      for (const bar of res) {
+        const p = barPrice(bar)
+        if (Number.isFinite(p)) {
+          chart.pushPoint(id, 'bar', time + i, p, 'price', true)
+          i++
+          a.value = fmt(p)
+        }
+      }
+    }
+    return
+  }
+  if (entry.render === 'profile') {
+    const snap = toProfileSnapshot(res)
+    if (snap) {
+      profiles.value[id] = { label: entry.label, snap }
+      a.value = profileValue(snap)
+    }
+    return
+  }
   if (typeof res === 'number') {
     if (Number.isFinite(res)) {
       chart.pushPoint(id, 'value', time, res, entry.pane)
@@ -121,6 +153,31 @@ function applyResult(a: Active, res: IndicatorResult, time: number): void {
 function fmt(v: number): string {
   const abs = Math.abs(v)
   return abs >= 1000 ? v.toFixed(0) : abs >= 1 ? v.toFixed(2) : v.toFixed(4)
+}
+
+// Representative price for a bar-builder bar across the different shapes
+// (Renko close, Kagi end, PnF high/low mid, OHLC close, …).
+function barPrice(bar: unknown): number {
+  if (!bar || typeof bar !== 'object') return Number.NaN
+  const o = bar as Record<string, number>
+  if (typeof o.close === 'number') return o.close
+  if (typeof o.end === 'number') return o.end
+  if (typeof o.high === 'number' && typeof o.low === 'number') return (o.high + o.low) / 2
+  if (typeof o.open === 'number') return o.open
+  return Number.NaN
+}
+
+// One-line summary of a profile snapshot for the active list.
+function profileValue(s: ProfileSnapshot): string {
+  if (s.kind === 'price') {
+    let poc = 0
+    for (let i = 1; i < s.bins.length; i++) if (s.bins[i] > s.bins[poc]) poc = i
+    const span = s.priceHigh - s.priceLow
+    const price = s.priceLow + (s.bins.length > 1 ? (span * poc) / (s.bins.length - 1) : 0)
+    return `POC ${fmt(price)}`
+  }
+  if (s.kind === 'footprint') return `${s.levels.length} lvl`
+  return `${s.values.length} bkt`
 }
 
 function errMsg(e: unknown): string {
@@ -198,6 +255,7 @@ function updateParams(id: string, newParams: number[]): void {
   a.ind = ind
   a.params = newParams
   chart.removeIndicator(id) // drop the old series; replay recreates them
+  delete profiles.value[id]
   replay(a)
   active.value = [...active.value]
   syncRows()
@@ -207,6 +265,7 @@ function remove(id: string): void {
   const a = active.value.find((x) => x.id === id)
   a?.ind.free?.()
   chart.removeIndicator(id)
+  delete profiles.value[id]
   active.value = active.value.filter((x) => x.id !== id)
   syncRows()
   void ensureFeed()
@@ -260,6 +319,7 @@ async function restart(): Promise<void> {
   bids.value = []
   asks.value = []
   trades.value = []
+  profiles.value = {}
   chart.clearIndicators()
   // Fresh indicator state for the new market.
   const mod = wasmMod.value
@@ -396,6 +456,7 @@ onBeforeUnmount(() => {
           <TradesTape :trades="trades" />
           <p v-if="!bids.length && !trades.length" class="micro-wait">Waiting for live order book &amp; trades…</p>
         </div>
+        <ProfilePanel v-if="profileList.length" :items="profileList" class="profilebar" />
       </div>
       <aside class="side">
         <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" />

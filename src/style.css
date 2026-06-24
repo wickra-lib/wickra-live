@@ -80,6 +80,9 @@ body {
 .micro > * { background: var(--bg); }
 .micro-wait { grid-column: 1 / -1; margin: 0; padding: 14px 12px; text-align: center; font-size: 12px; opacity: 0.6; }
 
+/* Profile histograms (volume/TPO/footprint/seasonality) under the chart. */
+.profilebar { flex: 0 0 auto; border-top: 1px solid var(--line); max-height: 40vh; overflow: auto; }
+
 .side { border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; background: var(--bg2); }
 .side > * { min-height: 0; }
 

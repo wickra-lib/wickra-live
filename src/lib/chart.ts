@@ -1,5 +1,6 @@
 import {
   createChart,
+  LineType,
   type IChartApi,
   type ISeriesApi,
   type SeriesMarker,
@@ -134,24 +135,30 @@ export class ChartController {
     this.price?.update(toBar(k))
   }
 
-  private lineFor(key: string, pane: Pane): ISeriesApi<'Line'> | null {
+  private lineFor(key: string, pane: Pane, step = false): ISeriesApi<'Line'> | null {
     const existing = this.series.get(key)
     if (existing) return existing.s
     const color = PALETTE[this.colorIdx++ % PALETTE.length]
     const host = pane === 'sub' ? (this.ensureSub() ?? this.main) : this.main
     if (!host) return null
-    const s = host.addLineSeries({ color, lineWidth: 2, priceLineVisible: false, lastValueVisible: false })
+    const s = host.addLineSeries({
+      color,
+      lineWidth: 2,
+      lineType: step ? LineType.WithSteps : LineType.Simple,
+      priceLineVisible: false,
+      lastValueVisible: false,
+    })
     this.series.set(key, { s, pane })
     return s
   }
 
-  pushPoint(id: string, field: string, time: number, value: number, pane: Pane): void {
+  pushPoint(id: string, field: string, time: number, value: number, pane: Pane, step = false): void {
     if (!Number.isFinite(value) || !Number.isFinite(time)) return
     const key = `${id}:${field}`
     const last = this.lastTimeByKey.get(key)
     if (last !== undefined && time <= last) return
     this.lastTimeByKey.set(key, time)
-    this.lineFor(key, pane)?.update({ time: time as UTCTimestamp, value })
+    this.lineFor(key, pane, step)?.update({ time: time as UTCTimestamp, value })
   }
 
   pushMarker(id: string, time: number, up: boolean): void {
