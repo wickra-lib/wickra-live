@@ -3,10 +3,11 @@ import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import IndicatorPicker from './components/IndicatorPicker.vue'
 import ActiveList, { type ActiveView } from './components/ActiveList.vue'
 import OrderBook from './components/OrderBook.vue'
+import TradesTape from './components/TradesTape.vue'
 import BackToTop from './components/BackToTop.vue'
 import { ChartController } from './lib/chart'
 import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
-import { feedKline, feedOrderBook, feedTrade, type Candle, type IndicatorResult } from './lib/feed'
+import { feedKline, feedOrderBook, feedTrade, type Candle, type IndicatorResult, type Trade } from './lib/feed'
 import { loadWasm, makeIndicator, wasmVersion, type WasmIndicator } from './lib/wasm'
 import { TOTAL, type Entry } from './lib/catalog'
 import badges from './badges.json'
@@ -44,17 +45,25 @@ const candles = ref<Candle[]>([])
 const active = shallowRef<Active[]>([])
 const bids = ref<[number, number][]>([])
 const asks = ref<[number, number][]>([])
+const trades = ref<Trade[]>([])
+// Microstructure panel (order book + trades tape) under the chart, toggleable.
+const showMicro = ref(false)
 
 let feed: BinanceFeed | null = null
 let seq = 0
 // The depth (10/s) and trade streams are the main mobile-lag source, so they are
-// opt-in: only subscribed while an order-book / trade indicator is active.
+// opt-in: subscribed only while an order-book / trade indicator is active OR the
+// microstructure panel is open.
 let feedDepth = false
 let feedTrades = false
-function needsDepth(): boolean { return active.value.some((a) => a.entry.feed === 'orderbook') }
-function needsTrades(): boolean { return active.value.some((a) => a.entry.feed === 'trade') }
+function wantDepth(): boolean { return showMicro.value || active.value.some((a) => a.entry.feed === 'orderbook') }
+function wantTrades(): boolean { return showMicro.value || active.value.some((a) => a.entry.feed === 'trade') }
 async function ensureFeed(): Promise<void> {
-  if (needsDepth() !== feedDepth || needsTrades() !== feedTrades) await restart()
+  if (wantDepth() !== feedDepth || wantTrades() !== feedTrades) await restart()
+}
+async function toggleMicro(): Promise<void> {
+  showMicro.value = !showMicro.value
+  await ensureFeed()
 }
 
 const activeView = (): ActiveView[] =>
@@ -184,7 +193,9 @@ function onKline(k: Candle, closed: boolean): void {
   syncRows()
 }
 
-function onTrade(t: { price: number; size: number; isBuy: boolean; time: number }): void {
+function onTrade(t: Trade): void {
+  trades.value.push(t)
+  if (trades.value.length > 80) trades.value.shift()
   let touched = false
   for (const a of active.value) {
     if (a.entry.feed === 'trade') { drive(a, () => feedTrade(a.ind, t), t.time); touched = true }
@@ -209,6 +220,7 @@ async function restart(): Promise<void> {
   candles.value = []
   bids.value = []
   asks.value = []
+  trades.value = []
   chart.clearIndicators()
   // Fresh indicator state for the new market.
   const mod = wasmMod.value
@@ -224,8 +236,8 @@ async function restart(): Promise<void> {
   for (const a of active.value) replay(a)
   syncRows()
 
-  feedDepth = needsDepth()
-  feedTrades = needsTrades()
+  feedDepth = wantDepth()
+  feedTrades = wantTrades()
   feed = new BinanceFeed(
     symbol.value, interval.value,
     { onKline, onTrade, onDepth, onStatus: (s) => (status.value = s) },
@@ -298,6 +310,7 @@ onBeforeUnmount(() => {
         <select v-model.number="historyDepth" @change="restart">
           <option v-for="h in HISTORY_OPTIONS" :key="h" :value="h">{{ h === 0 ? 'live only' : h + ' bars' }}</option>
         </select>
+        <button class="tgl" :class="{ on: showMicro }" type="button" title="Live order book + trades" @click="toggleMicro">Order flow</button>
         <span class="status" :class="status">{{ status }}</span>
         <span class="price" v-if="lastPrice != null">{{ lastPrice.toFixed(2) }}</span>
       </div>
@@ -313,11 +326,15 @@ onBeforeUnmount(() => {
           <code class="errtext">{{ note }}</code>
           <button class="errclear" type="button" title="Clear" @click="note = null">Clear</button>
         </div>
+        <div v-if="showMicro" class="micro">
+          <OrderBook :bids="bids" :asks="asks" />
+          <TradesTape :trades="trades" />
+          <p v-if="!bids.length && !trades.length" class="micro-wait">Waiting for live order book &amp; trades…</p>
+        </div>
       </div>
       <aside class="side">
         <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" />
         <IndicatorPicker @select="add" />
-        <OrderBook :bids="bids" :asks="asks" />
       </aside>
     </main>
 

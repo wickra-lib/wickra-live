@@ -49,6 +49,12 @@ body {
   background: var(--bg); color: var(--fg); border: 1px solid var(--line);
   border-radius: 6px; padding: 5px 8px; font-size: 13px;
 }
+.toolbar .tgl {
+  background: var(--bg); color: var(--fg2); border: 1px solid var(--line);
+  border-radius: 6px; padding: 5px 10px; font-size: 13px; cursor: pointer;
+}
+.toolbar .tgl:hover { color: var(--fg); border-color: var(--fg2); }
+.toolbar .tgl.on { color: var(--accent); border-color: var(--accent); background: rgba(56, 189, 248, 0.1); }
 .status { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); }
 .status.open { color: #22c55e; border-color: rgba(34, 197, 94, 0.4); }
 .status.connecting { color: #f59e0b; }
@@ -66,6 +72,12 @@ body {
 .errtext { flex: 1; min-width: 0; margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.5; color: #fca5a5; white-space: pre-wrap; word-break: break-word; user-select: text; -webkit-user-select: text; }
 .errclear { flex: 0 0 auto; background: none; border: 1px solid var(--line); color: var(--fg2); border-radius: 6px; padding: 3px 12px; font-size: 12px; cursor: pointer; }
 .errclear:hover { color: var(--fg); border-color: var(--fg2); }
+
+/* Microstructure panel under the chart: order book + trades tape side by side
+   (stacked on phones). flex:0 0 auto so it sits below the chart, not over it. */
+.micro { flex: 0 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0 1px; background: var(--line); border-top: 1px solid var(--line); max-height: 38vh; overflow: auto; }
+.micro > * { background: var(--bg); }
+.micro-wait { grid-column: 1 / -1; margin: 0; padding: 14px 12px; text-align: center; font-size: 12px; opacity: 0.6; }
 
 .side { border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; background: var(--bg2); }
 .side > * { min-height: 0; }
@@ -124,6 +136,7 @@ body {
   .main { display: block; }
   .chart-col { display: block; }
   .chart-wrap { height: 44vh; }
+  .micro { grid-template-columns: 1fr; max-height: none; gap: 0; }
   .side { border-left: none; border-top: 1px solid var(--line); display: block; }
 
   .wk-footer { padding: 14px 12px; }
