@@ -4,6 +4,7 @@
 // (private mode, quota) is swallowed and the app runs with defaults.
 
 const KEY = 'wickra-live-session-v1'
+const PROFILES_KEY = 'wickra-live-profiles-v1'
 
 export interface PersistedIndicator {
   js: string
@@ -37,6 +38,30 @@ export function loadSession(): PersistedSession | null {
 export function saveSession(session: PersistedSession): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(session))
+  } catch {
+    // ignore (storage unavailable / full)
+  }
+}
+
+// --- named profiles ----------------------------------------------------------
+// A map of user-named layouts the user can save, load, rename and delete from
+// the toolbar (independent of the always-on last-session auto-restore).
+
+export type ProfileMap = Record<string, PersistedSession>
+
+export function loadProfiles(): ProfileMap {
+  try {
+    const raw = localStorage.getItem(PROFILES_KEY)
+    const obj = raw ? JSON.parse(raw) : null
+    return obj && typeof obj === 'object' ? (obj as ProfileMap) : {}
+  } catch {
+    return {}
+  }
+}
+
+export function saveProfiles(profiles: ProfileMap): void {
+  try {
+    localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles))
   } catch {
     // ignore (storage unavailable / full)
   }

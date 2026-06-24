@@ -12,7 +12,11 @@ import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
 import { feedKline, feedOrderBook, feedPair, feedTrade, type Candle, type IndicatorResult, type Trade } from './lib/feed'
 import { loadWasm, makeIndicator, wasmVersion, type WasmIndicator } from './lib/wasm'
 import { findByJs, TOTAL, type Entry } from './lib/catalog'
-import { loadSession, saveSession } from './lib/persist'
+import {
+  loadSession, saveSession, loadProfiles, saveProfiles,
+  type PersistedSession, type ProfileMap,
+} from './lib/persist'
+import ProfilesMenu from './components/ProfilesMenu.vue'
 import badges from './badges.json'
 
 interface Active {
@@ -440,8 +444,8 @@ async function loadHistory(): Promise<void> {
 }
 
 // --- persistence --------------------------------------------------------------
-function persist(): void {
-  saveSession({
+function sessionSnapshot(): PersistedSession {
+  return {
     symbol: symbol.value,
     interval: interval.value,
     historyDepth: historyDepth.value,
@@ -450,14 +454,16 @@ function persist(): void {
     indicators: active.value.map((a) => ({
       js: a.entry.js, params: a.params.slice(), color: a.color, width: a.width, hidden: a.hidden,
     })),
-  })
+  }
 }
 
-// Rebuild the saved session (market settings + active indicators) after wasm is
-// ready, before the first restart() so the indicators replay over history.
-function restoreSession(): void {
-  const s = loadSession()
-  if (!s) return
+function persist(): void {
+  saveSession(sessionSnapshot())
+}
+
+// Apply a session: validate + set market settings, then rebuild the active
+// indicators from it. The caller is responsible for the following restart().
+function applySession(s: PersistedSession): void {
   const syms = SYMBOLS as readonly string[]
   const ivs = INTERVALS as readonly string[]
   if (syms.includes(s.symbol)) symbol.value = s.symbol
@@ -468,6 +474,7 @@ function restoreSession(): void {
 
   const mod = wasmMod.value
   if (!mod) return
+  for (const a of active.value) a.ind.free?.()
   const restored: Active[] = []
   for (const pi of s.indicators) {
     const entry = findByJs(pi.js)
@@ -484,6 +491,55 @@ function restoreSession(): void {
   }
   active.value = restored
   colorCursor = restored.length
+  syncRows()
+}
+
+// Restore the always-on last session before the first restart().
+function restoreSession(): void {
+  const s = loadSession()
+  if (s) applySession(s)
+}
+
+// --- named layout profiles ----------------------------------------------------
+const layouts = ref<ProfileMap>(loadProfiles())
+const layoutNames = computed(() => Object.keys(layouts.value).sort())
+const currentLayout = ref('')
+
+async function loadLayout(name: string): Promise<void> {
+  const s = layouts.value[name]
+  if (!s) { currentLayout.value = ''; return }
+  currentLayout.value = name
+  applySession(s)
+  await restart()
+  for (const a of active.value) if (a.hidden) chart.setVisible(a.id, false)
+  persist()
+}
+function saveCurrentLayout(): void {
+  const name = window.prompt('Save layout as:', currentLayout.value || 'My layout')?.trim()
+  if (!name) return
+  layouts.value = { ...layouts.value, [name]: sessionSnapshot() }
+  saveProfiles(layouts.value)
+  currentLayout.value = name
+}
+function renameCurrentLayout(): void {
+  const old = currentLayout.value
+  if (!old) return
+  const name = window.prompt('Rename layout:', old)?.trim()
+  if (!name || name === old) return
+  const next: ProfileMap = { ...layouts.value, [name]: layouts.value[old] }
+  delete next[old]
+  layouts.value = next
+  saveProfiles(next)
+  currentLayout.value = name
+}
+function deleteCurrentLayout(): void {
+  const name = currentLayout.value
+  if (!name || !window.confirm(`Delete layout "${name}"?`)) return
+  const next: ProfileMap = { ...layouts.value }
+  delete next[name]
+  layouts.value = next
+  saveProfiles(next)
+  currentLayout.value = ''
 }
 
 // --- lifecycle ----------------------------------------------------------------
@@ -544,6 +600,10 @@ onBeforeUnmount(() => {
         </select>
         <button class="tgl" type="button" :title="paused ? 'Resume live feed' : 'Pause live feed'" @click="togglePause">{{ paused ? 'Resume' : 'Pause' }}</button>
         <button class="tgl" :class="{ on: showMicro }" type="button" title="Live order book + trades" @click="toggleMicro">Order flow</button>
+        <ProfilesMenu
+          :names="layoutNames" :current="currentLayout"
+          @load="loadLayout" @save="saveCurrentLayout" @rename="renameCurrentLayout" @delete="deleteCurrentLayout"
+        />
         <template v-if="pairActive">
           <span class="vs">vs</span>
           <select v-model="refSymbol" title="Reference symbol for pair indicators" @change="restart">
