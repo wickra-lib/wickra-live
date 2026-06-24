@@ -1,9 +1,12 @@
 :root {
-  --bg: #0b0f17;
-  --bg2: #131a26;
-  --line: rgba(148, 163, 184, 0.18);
-  --fg: #e2e8f0;
-  --accent: #3b82f6;
+  /* VitePress dark defaults, matching the wickra.org / docs sites. */
+  --bg: #1b1b1f;        /* --vp-c-bg (page, nav, footer) */
+  --bg2: #202127;       /* --vp-c-bg-soft (sidebar, cards, inputs) */
+  --line: #2e2e32;      /* --vp-c-divider */
+  --fg: rgba(255, 255, 245, 0.86);   /* --vp-c-text-1 */
+  --fg2: rgba(235, 235, 245, 0.6);   /* --vp-c-text-2 */
+  --fg3: rgba(235, 235, 245, 0.38);  /* --vp-c-text-3 */
+  --accent: #38bdf8;    /* --vp-c-brand-1 (dark) */
   color-scheme: dark;
 }
 
@@ -20,17 +23,29 @@ body {
 
 .app { display: grid; grid-template-rows: auto 1fr auto; height: 100%; }
 
-.bar {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 8px 14px; border-bottom: 1px solid var(--line); background: var(--bg2);
+/* Header = the VitePress site nav, replicated: 24px logo + "Wickra" title on the
+   left, nav menu on the right, on a bordered bar. A toolbar row (the app's
+   symbol / timeframe / history controls) sits below it. */
+.topbar { background: var(--bg); }
+.nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  height: 55px; padding: 0 16px; border-bottom: 1px solid var(--line);
 }
-.brand { display: flex; align-items: center; gap: 8px; }
-.brand .logo { font-size: 16px; font-weight: 800; letter-spacing: 0.02em; color: var(--fg); text-decoration: none; }
-.brand .logo:hover { color: var(--accent); }
-.brand .live-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.5); border-radius: 4px; padding: 1px 5px; }
-.brand .tag { font-size: 12px; opacity: 0.6; }
-.controls { display: flex; align-items: center; gap: 8px; }
-.controls select {
+.nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--fg); }
+.nav-logo { display: block; width: 24px; height: 24px; }
+.nav-title { font-size: 16px; font-weight: 600; }
+.nav-menu { display: flex; align-items: center; gap: 22px; }
+.nav-menu a { color: var(--fg); text-decoration: none; font-size: 14px; font-weight: 500; opacity: 0.85; }
+.nav-menu a:hover { color: var(--accent); opacity: 1; }
+/* Hamburger (desktop: hidden; shown on mobile, where the menu collapses). */
+.nav-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 34px; height: 34px; padding: 7px; background: none; border: none; cursor: pointer; }
+.nav-burger span { display: block; width: 100%; height: 2px; background: var(--fg); border-radius: 2px; transition: transform 0.2s ease, opacity 0.2s ease; }
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.toolbar { display: flex; align-items: center; gap: 8px; padding: 7px 14px; border-top: 1px solid var(--line); }
+.toolbar select {
   background: var(--bg); color: var(--fg); border: 1px solid var(--line);
   border-radius: 6px; padding: 5px 8px; font-size: 13px;
 }
@@ -38,50 +53,81 @@ body {
 .status.open { color: #22c55e; border-color: rgba(34, 197, 94, 0.4); }
 .status.connecting { color: #f59e0b; }
 .status.closed, .status.error { color: #ef4444; }
-.price { font-variant-numeric: tabular-nums; font-weight: 600; }
+.price { font-variant-numeric: tabular-nums; font-weight: 600; margin-left: auto; }
 
 .main { display: grid; grid-template-columns: 1fr 340px; min-height: 0; }
-.chart-wrap { position: relative; min-width: 0; }
+.chart-col { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.chart-wrap { position: relative; min-width: 0; min-height: 0; flex: 1; }
 .chart { position: absolute; inset: 0; }
-.note {
-  position: absolute; left: 12px; bottom: 12px; max-width: 60%;
-  background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #fecaca; padding: 6px 10px; border-radius: 8px; font-size: 12.5px;
-}
 .loading { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0.6; }
+
+/* Copyable error output below the chart — shows the latest message only. */
+.errbar { flex: 0 0 auto; display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border-top: 1px solid var(--line); background: rgba(239, 68, 68, 0.08); }
+.errtext { flex: 1; min-width: 0; margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.5; color: #fca5a5; white-space: pre-wrap; word-break: break-word; user-select: text; -webkit-user-select: text; }
+.errclear { flex: 0 0 auto; background: none; border: 1px solid var(--line); color: var(--fg2); border-radius: 6px; padding: 3px 12px; font-size: 12px; cursor: pointer; }
+.errclear:hover { color: var(--fg); border-color: var(--fg2); }
 
 .side { border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; background: var(--bg2); }
 .side > * { min-height: 0; }
 
-.foot {
-  display: flex; justify-content: space-between; align-items: center; gap: 12px;
-  padding: 6px 14px; border-top: 1px solid var(--line); font-size: 11.5px;
+/* Footer = the site SiteFooter, 1:1 (VitePress vars mapped to ours). */
+.wk-footer { box-sizing: border-box; border-top: 1px solid var(--line); background: var(--bg); padding: 8px 20px; text-align: center; }
+.wk-footer-badges { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 8px; margin: 0 0 5px; }
+.wk-footer-badges a { display: inline-flex; }
+.wk-footer-badges img { height: 16px; width: auto; display: block; }
+.wk-footer-meta { margin: 0; color: var(--fg2); font-size: 12px; line-height: 1.55; }
+.wk-footer-meta-sub { margin-top: 2px; color: var(--fg3); }
+.wk-footer-meta .wk-sep { margin: 0 8px; opacity: 0.5; }
+/* Like the site: footer links inherit the muted text colour (not brand blue). */
+.wk-footer-meta a { color: inherit; text-decoration: inherit; }
+
+/* Floating back-to-top control, 1:1 from the site (vars mapped to ours). */
+.wk-backtotop {
+  position: fixed; right: 22px; bottom: 22px; z-index: 31;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--bg2); color: var(--accent);
+  cursor: pointer; box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 }
-.foot-meta { opacity: 0.65; }
-.foot-links { display: flex; gap: 14px; }
-.foot a { color: var(--accent); text-decoration: none; }
-.foot a:hover { text-decoration: underline; }
+.wk-backtotop:hover { transform: translateY(-2px); background: rgba(56, 189, 248, 0.18); border-color: var(--accent); }
+.wk-bt-fade-enter-active, .wk-bt-fade-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
+.wk-bt-fade-enter-from, .wk-bt-fade-leave-to { opacity: 0; transform: translateY(10px); }
 
 @media (max-width: 820px) {
-  /* Single scrolling column: header, a fixed-height chart, then the full
-     searchable indicator list and footer flow below — the whole PAGE scrolls
-     instead of squeezing the list into a tiny inner scroll area. */
+  /* Plain document flow: header, a fixed-height chart, the full indicator list,
+     then the footer — all stacked, the whole PAGE scrolls. No grid/flex/sticky
+     tricks (those hid the header/footer on iOS). */
   html, body, #app { height: auto; min-height: 100%; }
-  .app { height: auto; min-height: 100dvh; display: flex; flex-direction: column; }
+  .app { display: block; height: auto; }
 
-  .bar { position: sticky; top: 0; z-index: 20; flex-wrap: wrap; gap: 6px; padding: 6px 10px; }
-  .brand .tag { display: none; }
-  .brand .logo { font-size: 15px; }
-  .controls { width: 100%; flex-wrap: wrap; gap: 6px; }
-  .controls select { flex: 1 1 84px; min-width: 0; padding: 7px 6px; font-size: 14px; }
+  /* Pin the branded top bar (nav + toolbar) so it stays visible while scrolling
+     the indicator list. The nav wraps on narrow screens. */
+  .topbar { position: sticky; top: 0; z-index: 30; }
+  .nav { height: 55px; padding: 0 12px; position: relative; }
+  .nav-title { font-size: 15px; }
+  .nav-burger { display: flex; }
+  /* Collapse the menu into a hamburger dropdown, like the VitePress mobile nav. */
+  .nav-menu {
+    display: none; position: absolute; top: 100%; right: 8px; z-index: 40;
+    flex-direction: column; min-width: 190px;
+    background: var(--bg2); border: 1px solid var(--line); border-radius: 10px;
+    padding: 6px; box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.55);
+  }
+  .nav-menu.open { display: flex; }
+  .nav-menu a { padding: 10px 12px; border-radius: 6px; font-size: 14px; opacity: 0.9; }
+  .nav-menu a:hover { background: var(--bg); opacity: 1; }
+  .toolbar { flex-wrap: wrap; gap: 6px; padding: 7px 12px; }
+  .toolbar select { flex: 1 1 84px; min-width: 0; padding: 7px 6px; font-size: 14px; }
   .price { margin-left: auto; }
 
-  .main { display: flex; flex-direction: column; min-height: 0; }
-  .chart-wrap { height: 44vh; flex: 0 0 auto; }
+  .main { display: block; }
+  .chart-col { display: block; }
+  .chart-wrap { height: 44vh; }
   .side { border-left: none; border-top: 1px solid var(--line); display: block; }
 
-  .note { max-width: 86%; font-size: 12px; }
-  .foot { flex-direction: column; align-items: flex-start; gap: 4px; font-size: 11px; padding: 8px 12px; }
+  .wk-footer { padding: 14px 12px; }
+  .wk-footer-meta .wk-sep { margin: 0 6px; }
 }
 
 /* Avoid sideways scrolling on small screens. */

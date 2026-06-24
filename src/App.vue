@@ -3,11 +3,13 @@ import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import IndicatorPicker from './components/IndicatorPicker.vue'
 import ActiveList, { type ActiveView } from './components/ActiveList.vue'
 import OrderBook from './components/OrderBook.vue'
+import BackToTop from './components/BackToTop.vue'
 import { ChartController } from './lib/chart'
 import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
 import { feedKline, feedTopOfBook, feedTrade, type Candle, type IndicatorResult } from './lib/feed'
 import { loadWasm, makeIndicator, wasmVersion, type WasmIndicator } from './lib/wasm'
 import { TOTAL, type Entry } from './lib/catalog'
+import badges from './badges.json'
 
 interface Active {
   id: string
@@ -26,6 +28,7 @@ const interval = ref<string>('1m')
 const historyDepth = ref<number>(500)
 const HISTORY_OPTIONS = [0, 200, 500, 1000]
 
+const navOpen = ref(false)
 const status = ref<'connecting' | 'open' | 'closed' | 'error'>('connecting')
 const wasmReady = ref(false)
 const wasmVer = ref('')
@@ -92,11 +95,25 @@ function fmt(v: number): string {
   return abs >= 1000 ? v.toFixed(0) : abs >= 1 ? v.toFixed(2) : v.toFixed(4)
 }
 
+function errMsg(e: unknown): string {
+  return e instanceof Error ? e.message : String(e)
+}
+
+// Feed an indicator, surfacing any thrown error to the error bar (latest only)
+// instead of letting it break the update loop or vanish into the console.
+function drive(a: Active, res: () => IndicatorResult, time: number): void {
+  try {
+    applyResult(a, res(), time)
+  } catch (e) {
+    note.value = `${a.entry.label}: ${errMsg(e)}`
+  }
+}
+
 // --- feed an indicator over the in-memory history (kline indicators only) -----
 function replay(a: Active): void {
   if (a.entry.feed !== 'kline') return
   a.ind.reset?.()
-  for (const k of candles.value) applyResult(a, feedKline(a.ind, a.entry.sig, k), k.time)
+  for (const k of candles.value) drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
 }
 
 // --- add / remove -------------------------------------------------------------
@@ -114,7 +131,9 @@ async function add(entry: Entry): Promise<void> {
     note.value = `${entry.label} is already active — edit its parameters in the active list.`
     return
   }
-  const ind = makeIndicator(mod, entry.js, entry.params)
+  let ind: WasmIndicator | null = null
+  try { ind = makeIndicator(mod, entry.js, entry.params) }
+  catch (e) { note.value = `${entry.label}: ${errMsg(e)}`; return }
   if (!ind) { note.value = `${entry.label} is not exposed in this wickra-wasm build.`; return }
   const a: Active = { id: `i${seq++}`, entry, ind, params: entry.params.slice(), value: '—' }
   replay(a)
@@ -129,7 +148,9 @@ function updateParams(id: string, newParams: number[]): void {
   if (!mod) return
   const a = active.value.find((x) => x.id === id)
   if (!a) return
-  const ind = makeIndicator(mod, a.entry.js, newParams)
+  let ind: WasmIndicator | null = null
+  try { ind = makeIndicator(mod, a.entry.js, newParams) }
+  catch (e) { note.value = `${a.entry.label}: ${errMsg(e)}`; return }
   if (!ind) { note.value = `Invalid parameters for ${a.entry.label}.`; return }
   a.ind.free?.()
   a.ind = ind
@@ -157,7 +178,7 @@ function onKline(k: Candle, closed: boolean): void {
   candles.value.push(k)
   if (candles.value.length > 5000) candles.value.shift()
   for (const a of active.value) {
-    if (a.entry.feed === 'kline') applyResult(a, feedKline(a.ind, a.entry.sig, k), k.time)
+    if (a.entry.feed === 'kline') drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
   }
   updates.value++
   syncRows()
@@ -166,7 +187,7 @@ function onKline(k: Candle, closed: boolean): void {
 function onTrade(t: { price: number; size: number; isBuy: boolean; time: number }): void {
   let touched = false
   for (const a of active.value) {
-    if (a.entry.feed === 'trade') { applyResult(a, feedTrade(a.ind, t), t.time); touched = true }
+    if (a.entry.feed === 'trade') { drive(a, () => feedTrade(a.ind, t), t.time); touched = true }
   }
   if (touched) syncRows()
 }
@@ -177,7 +198,7 @@ function onDepth(top: { bidPx: number; bidSz: number; askPx: number; askSz: numb
   const t = Math.trunc(Date.now() / 1000)
   let touched = false
   for (const ind of active.value) {
-    if (ind.entry.feed === 'orderbook') { applyResult(ind, feedTopOfBook(ind.ind, top), t); touched = true }
+    if (ind.entry.feed === 'orderbook') { drive(ind, () => feedTopOfBook(ind.ind, top), t); touched = true }
   }
   if (touched) syncRows()
 }
@@ -248,13 +269,26 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="app">
-    <header class="bar">
-      <div class="brand">
-        <a class="logo" href="https://wickra.org" target="_blank" rel="noreferrer">Wickra</a>
-        <span class="live-badge">LIVE</span>
-        <span class="tag">{{ TOTAL }} indicators · in your browser · 0 backend</span>
+    <header class="topbar">
+      <div class="nav">
+        <a class="nav-brand" href="https://wickra.org" target="_blank" rel="noreferrer">
+          <img class="nav-logo" src="https://wickra.org/wickra-mark.svg" alt="Wickra" width="24" height="24" />
+          <span class="nav-title">Wickra</span>
+        </a>
+        <button
+          class="nav-burger" :class="{ open: navOpen }"
+          type="button" aria-label="Menu" :aria-expanded="navOpen"
+          @click="navOpen = !navOpen"
+        ><span></span><span></span><span></span></button>
+        <nav class="nav-menu" :class="{ open: navOpen }" @click="navOpen = false">
+          <a href="https://wickra.org" target="_blank" rel="noreferrer">Home</a>
+          <a href="https://wickra.org/demo" target="_blank" rel="noreferrer">Demo</a>
+          <a href="https://docs.wickra.org" target="_blank" rel="noreferrer">Docs</a>
+          <a href="https://wickra.org/benchmarks" target="_blank" rel="noreferrer">Benchmarks</a>
+          <a href="https://github.com/wickra-lib/wickra" target="_blank" rel="noreferrer">GitHub</a>
+        </nav>
       </div>
-      <div class="controls">
+      <div class="toolbar">
         <select v-model="symbol" @change="restart">
           <option v-for="s in SYMBOLS" :key="s" :value="s">{{ s }}</option>
         </select>
@@ -270,11 +304,16 @@ onBeforeUnmount(() => {
     </header>
 
     <main class="main">
-      <section class="chart-wrap">
-        <div ref="chartEl" class="chart"></div>
-        <div v-if="note" class="note">{{ note }}</div>
-        <div v-if="!wasmReady" class="loading">Loading wickra-wasm…</div>
-      </section>
+      <div class="chart-col">
+        <section class="chart-wrap">
+          <div ref="chartEl" class="chart"></div>
+          <div v-if="!wasmReady" class="loading">Loading wickra-wasm…</div>
+        </section>
+        <div v-if="note" class="errbar">
+          <code class="errtext">{{ note }}</code>
+          <button class="errclear" type="button" title="Clear" @click="note = null">Clear</button>
+        </div>
+      </div>
       <aside class="side">
         <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" />
         <IndicatorPicker @select="add" />
@@ -282,13 +321,22 @@ onBeforeUnmount(() => {
       </aside>
     </main>
 
-    <footer class="foot">
-      <span class="foot-meta">wickra-wasm <template v-if="wasmVer">v{{ wasmVer }} </template>· live Binance WS · {{ updates }} updates</span>
-      <nav class="foot-links">
-        <a href="https://wickra.org" target="_blank" rel="noreferrer">wickra.org</a>
-        <a href="https://docs.wickra.org" target="_blank" rel="noreferrer">Docs</a>
-        <a href="https://github.com/wickra-lib/wickra" target="_blank" rel="noreferrer">GitHub</a>
-      </nav>
+    <footer class="wk-footer">
+      <div class="wk-footer-badges">
+        <a v-for="b in badges" :key="b.alt" :href="b.href" target="_blank" rel="noreferrer"
+        ><img :src="b.file" :alt="b.alt" :width="b.width" :height="b.height" loading="eager" decoding="async" /></a>
+      </div>
+      <p class="wk-footer-meta">Released under the MIT OR Apache-2.0 license — not a trading system, use at your own risk.</p>
+      <p class="wk-footer-meta wk-footer-meta-sub">
+        <span>Copyright © 2026 kingchenc</span>
+        <span class="wk-sep">·</span>
+        <a href="https://wickra.org/about" target="_blank" rel="noreferrer">About</a>
+        <span class="wk-sep">·</span>
+        <a href="https://wickra.org/security" target="_blank" rel="noreferrer">Security</a>
+        <span class="wk-sep">·</span>
+        <a href="https://wickra.org/privacy" target="_blank" rel="noreferrer">Privacy</a>
+      </p>
     </footer>
+    <BackToTop />
   </div>
 </template>

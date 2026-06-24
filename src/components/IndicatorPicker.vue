@@ -87,7 +87,6 @@ function feedTag(e: Entry): string {
 @media (max-width: 820px) {
   .picker { height: auto; }
   .picker-list { overflow: visible; flex: none; }
-  .picker-head { position: sticky; top: 0; background: var(--bg2); z-index: 5; }
   .ind { padding-top: 9px; padding-bottom: 9px; }
 }
 </style>
