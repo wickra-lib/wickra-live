@@ -73,6 +73,22 @@ async function toggleMicro(): Promise<void> {
   await ensureFeed()
 }
 
+// Pause/Resume the live feed without touching indicator state (handoff Phase 1).
+// Pause closes the WS; resume reconnects the same streams and keeps computing
+// from where the bars resume (the gap while paused is expected).
+const paused = ref(false)
+function togglePause(): void {
+  paused.value = !paused.value
+  if (paused.value) {
+    feed?.close()
+    refFeed?.close()
+    status.value = 'closed'
+  } else {
+    feed?.connect()
+    if (refOn) refFeed?.connect()
+  }
+}
+
 // Pair / spread indicators (sig 'pair') need a second synchronized price series.
 // A kline-only WS for a reference symbol streams its close; pair indicators are
 // fed (primaryClose, refClose) on each primary close. Subscribed only while a
@@ -310,6 +326,7 @@ function onDepth(_top: { bidPx: number; bidSz: number; askPx: number; askSz: num
 
 // --- (re)start the feed for the current symbol/interval/history ---------------
 async function restart(): Promise<void> {
+  paused.value = false
   feed?.close()
   refFeed?.close()
   refFeed = null
@@ -429,6 +446,7 @@ onBeforeUnmount(() => {
         <select v-model.number="historyDepth" @change="restart">
           <option v-for="h in HISTORY_OPTIONS" :key="h" :value="h">{{ h === 0 ? 'live only' : h + ' bars' }}</option>
         </select>
+        <button class="tgl" type="button" :title="paused ? 'Resume live feed' : 'Pause live feed'" @click="togglePause">{{ paused ? 'Resume' : 'Pause' }}</button>
         <button class="tgl" :class="{ on: showMicro }" type="button" title="Live order book + trades" @click="toggleMicro">Order flow</button>
         <template v-if="pairActive">
           <span class="vs">vs</span>
