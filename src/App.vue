@@ -6,7 +6,7 @@ import OrderBook from './components/OrderBook.vue'
 import BackToTop from './components/BackToTop.vue'
 import { ChartController } from './lib/chart'
 import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
-import { feedKline, feedTopOfBook, feedTrade, type Candle, type IndicatorResult } from './lib/feed'
+import { feedKline, feedOrderBook, feedTrade, type Candle, type IndicatorResult } from './lib/feed'
 import { loadWasm, makeIndicator, wasmVersion, type WasmIndicator } from './lib/wasm'
 import { TOTAL, type Entry } from './lib/catalog'
 import badges from './badges.json'
@@ -192,13 +192,13 @@ function onTrade(t: { price: number; size: number; isBuy: boolean; time: number 
   if (touched) syncRows()
 }
 
-function onDepth(top: { bidPx: number; bidSz: number; askPx: number; askSz: number }, b: [number, number][], a: [number, number][]): void {
+function onDepth(_top: { bidPx: number; bidSz: number; askPx: number; askSz: number }, b: [number, number][], a: [number, number][]): void {
   bids.value = b
   asks.value = a
   const t = Math.trunc(Date.now() / 1000)
   let touched = false
   for (const ind of active.value) {
-    if (ind.entry.feed === 'orderbook') { drive(ind, () => feedTopOfBook(ind.ind, top), t); touched = true }
+    if (ind.entry.feed === 'orderbook') { drive(ind, () => feedOrderBook(ind.ind, b, a), t); touched = true }
   }
   if (touched) syncRows()
 }

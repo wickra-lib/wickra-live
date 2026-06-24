@@ -3,8 +3,15 @@
 // classes are looked up by name on the resolved module (catalog-driven), so the
 // whole surface is treated as `any` here on purpose.
 
+// An indicator's `update` is fed positional args whose types depend on the
+// input family: scalars/candles pass `number`, order-book passes four
+// `Float64Array`s, trades pass a trailing `boolean`, time-anchored indicators a
+// `bigint`. The return is equally varied: a scalar, a struct (object of
+// numbers), or — for bar-builders — an array of bar objects. Modelled loosely
+// on purpose; callers in `feed.ts` narrow per family.
+export type WasmInput = number | bigint | boolean | Float64Array
 export interface WasmIndicator {
-  update: (...args: (number | bigint)[]) => number | Record<string, number> | null | undefined
+  update: (...args: WasmInput[]) => unknown
   reset?: () => void
   free?: () => void
 }

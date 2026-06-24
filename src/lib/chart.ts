@@ -43,6 +43,10 @@ export class ChartController {
   private series = new Map<string, { s: ISeriesApi<'Line'>; pane: Pane }>()
   private colorIdx = 0
   private markersById = new Map<string, SeriesMarker<Time>[]>()
+  // Last plotted time per line key. lightweight-charts' update() requires
+  // strictly-increasing times; on a WS reconnect / warmup overlap the same bar
+  // time can recur, which throws "Cannot update oldest data". Drop those.
+  private lastTimeByKey = new Map<string, number>()
   private ro: ResizeObserver | null = null
   private syncing = false
 
@@ -142,8 +146,12 @@ export class ChartController {
   }
 
   pushPoint(id: string, field: string, time: number, value: number, pane: Pane): void {
-    if (!Number.isFinite(value)) return
-    this.lineFor(`${id}:${field}`, pane)?.update({ time: time as UTCTimestamp, value })
+    if (!Number.isFinite(value) || !Number.isFinite(time)) return
+    const key = `${id}:${field}`
+    const last = this.lastTimeByKey.get(key)
+    if (last !== undefined && time <= last) return
+    this.lastTimeByKey.set(key, time)
+    this.lineFor(key, pane)?.update({ time: time as UTCTimestamp, value })
   }
 
   pushMarker(id: string, time: number, up: boolean): void {
@@ -174,6 +182,9 @@ export class ChartController {
         this.series.delete(key)
       }
     }
+    for (const key of this.lastTimeByKey.keys()) {
+      if (key.startsWith(`${id}:`)) this.lastTimeByKey.delete(key)
+    }
     this.markersById.delete(id)
     this.flushMarkers()
     if (![...this.series.values()].some((v) => v.pane === 'sub')) this.destroySub()
@@ -185,6 +196,7 @@ export class ChartController {
       try { host?.removeSeries(v.s) } catch { /* ignore */ }
     }
     this.series.clear()
+    this.lastTimeByKey.clear()
     this.markersById.clear()
     this.colorIdx = 0
     this.price?.setMarkers([])
