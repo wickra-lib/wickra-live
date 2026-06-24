@@ -3,6 +3,7 @@ import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue'
 import IndicatorPicker from './components/IndicatorPicker.vue'
 import ActiveList, { type ActiveView } from './components/ActiveList.vue'
 import OrderBook from './components/OrderBook.vue'
+import BackToTop from './components/BackToTop.vue'
 import { ChartController } from './lib/chart'
 import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
 import { feedKline, feedTopOfBook, feedTrade, type Candle, type IndicatorResult } from './lib/feed'
@@ -307,5 +308,6 @@ onBeforeUnmount(() => {
         <a href="https://wickra.org/privacy" target="_blank" rel="noreferrer">Privacy</a>
       </p>
     </footer>
+    <BackToTop />
   </div>
 </template>
