@@ -11,7 +11,8 @@ import { ChartController } from './lib/chart'
 import { BinanceFeed, fetchKlines, INTERVALS, SYMBOLS } from './lib/binance'
 import { feedKline, feedOrderBook, feedPair, feedTrade, type Candle, type IndicatorResult, type Trade } from './lib/feed'
 import { loadWasm, makeIndicator, wasmVersion, type WasmIndicator } from './lib/wasm'
-import { TOTAL, type Entry } from './lib/catalog'
+import { findByJs, TOTAL, type Entry } from './lib/catalog'
+import { loadSession, saveSession } from './lib/persist'
 import badges from './badges.json'
 
 interface Active {
@@ -85,6 +86,7 @@ async function ensureFeed(): Promise<void> {
 async function toggleMicro(): Promise<void> {
   showMicro.value = !showMicro.value
   await ensureFeed()
+  persist()
 }
 
 // Pause/Resume the live feed without touching indicator state (handoff Phase 1).
@@ -275,6 +277,7 @@ async function add(entry: Entry): Promise<void> {
   active.value = [...active.value, a]
   syncRows()
   await ensureFeed()
+  persist()
 }
 
 // Re-instantiate an active indicator with edited parameters and redraw it.
@@ -295,6 +298,7 @@ function updateParams(id: string, newParams: number[]): void {
   replay(a)
   active.value = [...active.value]
   syncRows()
+  persist()
 }
 
 function updateStyle(id: string, color: string, width: number): void {
@@ -304,6 +308,7 @@ function updateStyle(id: string, color: string, width: number): void {
   a.width = width
   chart.setStyle(id, color, width)
   syncRows()
+  persist()
 }
 
 function toggleHidden(id: string): void {
@@ -313,6 +318,7 @@ function toggleHidden(id: string): void {
   chart.setVisible(id, !a.hidden)
   active.value = [...active.value]
   syncRows()
+  persist()
 }
 
 function remove(id: string): void {
@@ -323,6 +329,7 @@ function remove(id: string): void {
   active.value = active.value.filter((x) => x.id !== id)
   syncRows()
   void ensureFeed()
+  persist()
 }
 
 // --- live wiring --------------------------------------------------------------
@@ -406,6 +413,7 @@ async function restart(): Promise<void> {
     refFeed = new BinanceFeed(refSymbol.value, interval.value, { onKline: onRefKline }, false, false)
     refFeed.connect()
   }
+  persist()
 }
 
 async function loadRefHistory(): Promise<void> {
@@ -431,6 +439,53 @@ async function loadHistory(): Promise<void> {
   }
 }
 
+// --- persistence --------------------------------------------------------------
+function persist(): void {
+  saveSession({
+    symbol: symbol.value,
+    interval: interval.value,
+    historyDepth: historyDepth.value,
+    refSymbol: refSymbol.value,
+    showMicro: showMicro.value,
+    indicators: active.value.map((a) => ({
+      js: a.entry.js, params: a.params.slice(), color: a.color, width: a.width, hidden: a.hidden,
+    })),
+  })
+}
+
+// Rebuild the saved session (market settings + active indicators) after wasm is
+// ready, before the first restart() so the indicators replay over history.
+function restoreSession(): void {
+  const s = loadSession()
+  if (!s) return
+  const syms = SYMBOLS as readonly string[]
+  const ivs = INTERVALS as readonly string[]
+  if (syms.includes(s.symbol)) symbol.value = s.symbol
+  if (ivs.includes(s.interval)) interval.value = s.interval
+  if (HISTORY_OPTIONS.includes(s.historyDepth)) historyDepth.value = s.historyDepth
+  if (syms.includes(s.refSymbol)) refSymbol.value = s.refSymbol
+  showMicro.value = !!s.showMicro
+
+  const mod = wasmMod.value
+  if (!mod) return
+  const restored: Active[] = []
+  for (const pi of s.indicators) {
+    const entry = findByJs(pi.js)
+    if (!entry) continue
+    let ind: WasmIndicator | null = null
+    try { ind = makeIndicator(mod, pi.js, pi.params) } catch { continue }
+    if (!ind) continue
+    restored.push({
+      id: `i${seq++}`, entry, ind, params: pi.params.slice(), value: '—',
+      color: pi.color || COLORS[restored.length % COLORS.length],
+      width: pi.width || 2,
+      hidden: !!pi.hidden,
+    })
+  }
+  active.value = restored
+  colorCursor = restored.length
+}
+
 // --- lifecycle ----------------------------------------------------------------
 onMounted(async () => {
   if (chartEl.value) chart.init(chartEl.value, true)
@@ -443,7 +498,10 @@ onMounted(async () => {
     note.value = `Failed to load wickra-wasm: ${String(e)}`
     return
   }
+  restoreSession()
   await restart()
+  // Apply restored visibility to the freshly drawn series.
+  for (const a of active.value) if (a.hidden) chart.setVisible(a.id, false)
 })
 
 onBeforeUnmount(() => {
