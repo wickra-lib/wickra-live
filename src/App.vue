@@ -28,6 +28,7 @@ const interval = ref<string>('1m')
 const historyDepth = ref<number>(500)
 const HISTORY_OPTIONS = [0, 200, 500, 1000]
 
+const navOpen = ref(false)
 const status = ref<'connecting' | 'open' | 'closed' | 'error'>('connecting')
 const wasmReady = ref(false)
 const wasmVer = ref('')
@@ -256,7 +257,12 @@ onBeforeUnmount(() => {
           <img class="nav-logo" src="https://wickra.org/wickra-mark.svg" alt="Wickra" width="24" height="24" />
           <span class="nav-title">Wickra</span>
         </a>
-        <nav class="nav-menu">
+        <button
+          class="nav-burger" :class="{ open: navOpen }"
+          type="button" aria-label="Menu" :aria-expanded="navOpen"
+          @click="navOpen = !navOpen"
+        ><span></span><span></span><span></span></button>
+        <nav class="nav-menu" :class="{ open: navOpen }" @click="navOpen = false">
           <a href="https://wickra.org" target="_blank" rel="noreferrer">Home</a>
           <a href="https://wickra.org/demo" target="_blank" rel="noreferrer">Demo</a>
           <a href="https://docs.wickra.org" target="_blank" rel="noreferrer">Docs</a>
