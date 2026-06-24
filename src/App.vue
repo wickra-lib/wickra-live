@@ -95,11 +95,25 @@ function fmt(v: number): string {
   return abs >= 1000 ? v.toFixed(0) : abs >= 1 ? v.toFixed(2) : v.toFixed(4)
 }
 
+function errMsg(e: unknown): string {
+  return e instanceof Error ? e.message : String(e)
+}
+
+// Feed an indicator, surfacing any thrown error to the error bar (latest only)
+// instead of letting it break the update loop or vanish into the console.
+function drive(a: Active, res: () => IndicatorResult, time: number): void {
+  try {
+    applyResult(a, res(), time)
+  } catch (e) {
+    note.value = `${a.entry.label}: ${errMsg(e)}`
+  }
+}
+
 // --- feed an indicator over the in-memory history (kline indicators only) -----
 function replay(a: Active): void {
   if (a.entry.feed !== 'kline') return
   a.ind.reset?.()
-  for (const k of candles.value) applyResult(a, feedKline(a.ind, a.entry.sig, k), k.time)
+  for (const k of candles.value) drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
 }
 
 // --- add / remove -------------------------------------------------------------
@@ -117,7 +131,9 @@ async function add(entry: Entry): Promise<void> {
     note.value = `${entry.label} is already active — edit its parameters in the active list.`
     return
   }
-  const ind = makeIndicator(mod, entry.js, entry.params)
+  let ind: WasmIndicator | null = null
+  try { ind = makeIndicator(mod, entry.js, entry.params) }
+  catch (e) { note.value = `${entry.label}: ${errMsg(e)}`; return }
   if (!ind) { note.value = `${entry.label} is not exposed in this wickra-wasm build.`; return }
   const a: Active = { id: `i${seq++}`, entry, ind, params: entry.params.slice(), value: '—' }
   replay(a)
@@ -132,7 +148,9 @@ function updateParams(id: string, newParams: number[]): void {
   if (!mod) return
   const a = active.value.find((x) => x.id === id)
   if (!a) return
-  const ind = makeIndicator(mod, a.entry.js, newParams)
+  let ind: WasmIndicator | null = null
+  try { ind = makeIndicator(mod, a.entry.js, newParams) }
+  catch (e) { note.value = `${a.entry.label}: ${errMsg(e)}`; return }
   if (!ind) { note.value = `Invalid parameters for ${a.entry.label}.`; return }
   a.ind.free?.()
   a.ind = ind
@@ -160,7 +178,7 @@ function onKline(k: Candle, closed: boolean): void {
   candles.value.push(k)
   if (candles.value.length > 5000) candles.value.shift()
   for (const a of active.value) {
-    if (a.entry.feed === 'kline') applyResult(a, feedKline(a.ind, a.entry.sig, k), k.time)
+    if (a.entry.feed === 'kline') drive(a, () => feedKline(a.ind, a.entry.sig, k), k.time)
   }
   updates.value++
   syncRows()
@@ -169,7 +187,7 @@ function onKline(k: Candle, closed: boolean): void {
 function onTrade(t: { price: number; size: number; isBuy: boolean; time: number }): void {
   let touched = false
   for (const a of active.value) {
-    if (a.entry.feed === 'trade') { applyResult(a, feedTrade(a.ind, t), t.time); touched = true }
+    if (a.entry.feed === 'trade') { drive(a, () => feedTrade(a.ind, t), t.time); touched = true }
   }
   if (touched) syncRows()
 }
@@ -180,7 +198,7 @@ function onDepth(top: { bidPx: number; bidSz: number; askPx: number; askSz: numb
   const t = Math.trunc(Date.now() / 1000)
   let touched = false
   for (const ind of active.value) {
-    if (ind.entry.feed === 'orderbook') { applyResult(ind, feedTopOfBook(ind.ind, top), t); touched = true }
+    if (ind.entry.feed === 'orderbook') { drive(ind, () => feedTopOfBook(ind.ind, top), t); touched = true }
   }
   if (touched) syncRows()
 }
@@ -286,11 +304,16 @@ onBeforeUnmount(() => {
     </header>
 
     <main class="main">
-      <section class="chart-wrap">
-        <div ref="chartEl" class="chart"></div>
-        <div v-if="note" class="note">{{ note }}</div>
-        <div v-if="!wasmReady" class="loading">Loading wickra-wasm…</div>
-      </section>
+      <div class="chart-col">
+        <section class="chart-wrap">
+          <div ref="chartEl" class="chart"></div>
+          <div v-if="!wasmReady" class="loading">Loading wickra-wasm…</div>
+        </section>
+        <div v-if="note" class="errbar">
+          <code class="errtext">{{ note }}</code>
+          <button class="errclear" type="button" title="Clear" @click="note = null">Clear</button>
+        </div>
+      </div>
       <aside class="side">
         <ActiveList :items="activeRows" @remove="remove" @update-params="updateParams" />
         <IndicatorPicker @select="add" />

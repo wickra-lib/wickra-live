@@ -56,14 +56,16 @@ body {
 .price { font-variant-numeric: tabular-nums; font-weight: 600; margin-left: auto; }
 
 .main { display: grid; grid-template-columns: 1fr 340px; min-height: 0; }
-.chart-wrap { position: relative; min-width: 0; }
+.chart-col { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.chart-wrap { position: relative; min-width: 0; min-height: 0; flex: 1; }
 .chart { position: absolute; inset: 0; }
-.note {
-  position: absolute; left: 12px; bottom: 12px; max-width: 60%;
-  background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #fecaca; padding: 6px 10px; border-radius: 8px; font-size: 12.5px;
-}
 .loading { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0.6; }
+
+/* Copyable error output below the chart — shows the latest message only. */
+.errbar { flex: 0 0 auto; display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border-top: 1px solid var(--line); background: rgba(239, 68, 68, 0.08); }
+.errtext { flex: 1; min-width: 0; margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.5; color: #fca5a5; white-space: pre-wrap; word-break: break-word; user-select: text; -webkit-user-select: text; }
+.errclear { flex: 0 0 auto; background: none; border: 1px solid var(--line); color: var(--fg2); border-radius: 6px; padding: 3px 12px; font-size: 12px; cursor: pointer; }
+.errclear:hover { color: var(--fg); border-color: var(--fg2); }
 
 .side { border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; background: var(--bg2); }
 .side > * { min-height: 0; }
@@ -120,10 +122,10 @@ body {
   .price { margin-left: auto; }
 
   .main { display: block; }
+  .chart-col { display: block; }
   .chart-wrap { height: 44vh; }
   .side { border-left: none; border-top: 1px solid var(--line); display: block; }
 
-  .note { max-width: 86%; font-size: 12px; }
   .wk-footer { padding: 14px 12px; }
   .wk-footer-meta .wk-sep { margin: 0 6px; }
 }
