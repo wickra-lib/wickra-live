@@ -70,8 +70,8 @@ body {
 .wk-footer-meta { margin: 0; color: var(--fg2); font-size: 12px; line-height: 1.55; }
 .wk-footer-meta-sub { margin-top: 2px; color: var(--fg3); }
 .wk-footer-meta .wk-sep { margin: 0 8px; opacity: 0.5; }
-.wk-footer-meta a { color: var(--accent); text-decoration: none; }
-.wk-footer-meta a:hover { text-decoration: underline; }
+/* Like the site: footer links inherit the muted text colour (not brand blue). */
+.wk-footer-meta a { color: inherit; text-decoration: inherit; }
 
 /* Floating back-to-top control, 1:1 from the site (vars mapped to ours). */
 .wk-backtotop {
