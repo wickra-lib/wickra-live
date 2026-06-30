@@ -1,21 +1,21 @@
-<svg width="105.8" height="20" viewBox="0 0 1058 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="r-universe: 0.9.8">
+<svg width="105.8" height="20" viewBox="0 0 1058 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="r-universe: 0.9.9">
   <a href="https://wickra-lib.r-universe.dev/wickra" alt="r-universe">
-  <title>r-universe: 0.9.8</title>
-  <linearGradient id="FJLda" x2="0" y2="100%">
+  <title>r-universe: 0.9.9</title>
+  <linearGradient id="LjFqs" x2="0" y2="100%">
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
   </linearGradient>
-  <mask id="mPSqZ"><rect width="1058" height="200" rx="30" fill="#FFF"/></mask>
-  <g mask="url(#mPSqZ)">
+  <mask id="cXbpo"><rect width="1058" height="200" rx="30" fill="#FFF"/></mask>
+  <g mask="url(#cXbpo)">
     <rect width="668" height="200" fill="#555"/>
     <rect width="390" height="200" fill="#3C1" x="668"/>
-    <rect width="1058" height="200" fill="url(#FJLda)"/>
+    <rect width="1058" height="200" fill="url(#LjFqs)"/>
   </g>
   <g aria-hidden="true" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="568" fill="#000" opacity="0.25">r-universe</text>
     <text x="50" y="138" textLength="568" fill="#fff">r-universe</text>
-    <text x="723" y="148" textLength="290" fill="#000" opacity="0.25">0.9.8</text>
-    <text x="713" y="138" textLength="290" fill="#fff">0.9.8</text>
+    <text x="723" y="148" textLength="290" fill="#000" opacity="0.25">0.9.9</text>
+    <text x="713" y="138" textLength="290" fill="#fff">0.9.9</text>
   </g>
   
   </a>
