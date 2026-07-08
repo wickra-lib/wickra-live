@@ -1,15 +1,15 @@
 <svg width="105.8" height="20" viewBox="0 0 1058 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="r-universe: 0.9.9">
   <a href="https://wickra-lib.r-universe.dev/wickra" alt="r-universe">
   <title>r-universe: 0.9.9</title>
-  <linearGradient id="YFhkL" x2="0" y2="100%">
+  <linearGradient id="RgklO" x2="0" y2="100%">
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
   </linearGradient>
-  <mask id="sIxIW"><rect width="1058" height="200" rx="30" fill="#FFF"/></mask>
-  <g mask="url(#sIxIW)">
+  <mask id="NIdpJ"><rect width="1058" height="200" rx="30" fill="#FFF"/></mask>
+  <g mask="url(#NIdpJ)">
     <rect width="668" height="200" fill="#555"/>
     <rect width="390" height="200" fill="#3C1" x="668"/>
-    <rect width="1058" height="200" fill="url(#YFhkL)"/>
+    <rect width="1058" height="200" fill="url(#RgklO)"/>
   </g>
   <g aria-hidden="true" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="568" fill="#000" opacity="0.25">r-universe</text>
