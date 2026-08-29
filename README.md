@@ -6,8 +6,8 @@
 [![Powered by wickra-wasm](https://img.shields.io/badge/powered%20by-wickra--wasm-8b5cf6)](https://www.npmjs.com/package/wickra-wasm)
 [![Built with Vue 3 + Vite](https://img.shields.io/badge/built%20with-Vue%203%20%2B%20Vite-42b883?logo=vue.js&logoColor=white)](https://vite.dev)
 [![Zero backend](https://img.shields.io/badge/backend-zero-22c55e)](#how-the-data-flows)
-[![License: MIT OR Apache-2.0](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/license.svg)](#license)
-[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/docs.svg)](https://docs.wickra.org)
+[![License: MIT OR Apache-2.0](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra/license.svg)](#license)
+[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra/docs.svg)](https://docs.wickra.org)
 
 ---
 
