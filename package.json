@@ -17,7 +17,7 @@
   "dependencies": {
     "lightweight-charts": "^4.2.0",
     "vue": "^3.5.0",
-    "wickra-wasm": "^0.9.7"
+    "wickra-wasm": "^1.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.0",
