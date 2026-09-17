@@ -1,0 +1,56 @@
+version: 2
+updates:
+  # The site's own npm dependencies: Vite, Vue and the TypeScript toolchain, the
+  # two Vite plugins the WASM demo needs, lightweight-charts, `wickra-wasm`
+  # itself.
+  #
+  # `wickra-wasm` is the reason this file exists: a 0.x caret is
+  # minor-locked, so a pin nobody watches is the demo quietly drifting behind
+  # the library it demonstrates. Version updates arrive here; security
+  # updates arrived without this file, which is how the family's sharp and
+  # postcss fixes landed.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "deps(npm)"
+    # lightweight-charts 5 removed the per-type series constructors the demo
+    # calls (`addCandlestickSeries`, `addLineSeries`); every site in the family
+    # draws with the 4.x API. The migration to `addSeries(CandlestickSeries,
+    # ...)` is one change across all of them, made on purpose, not a bump that
+    # lands here on its own. Minor and patch releases of 4.x still arrive.
+    ignore:
+      - dependency-name: "lightweight-charts"
+        update-types: ["version-update:semver-major"]
+    groups:
+      # The wickra packages on their own: a bump to them changes what the demo
+      # computes, so it wants reviewing against the page rather than being
+      # folded into a VitePress patch release.
+      wickra:
+        patterns: ["wickra-wasm"]
+      site:
+        patterns: ["*"]
+        exclude-patterns: ["wickra-wasm"]
+
+  # The 3 workflows here (ci, links, refresh-badges) pin their actions by full
+  # SHA, which only something watching them will ever move.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "deps(actions)"
+    groups:
+      github-actions:
+        patterns: ["*"]
