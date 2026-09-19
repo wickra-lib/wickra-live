@@ -2,10 +2,10 @@
   <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.webp?v=514-7" alt="Wickra — streaming-first technical indicators" width="100%"></a>
 </p>
 
-[![Indicators](https://img.shields.io/badge/indicators-514-3b82f6)](https://github.com/wickra-lib/wickra)
-[![Powered by wickra-wasm](https://img.shields.io/badge/powered%20by-wickra--wasm-8b5cf6)](https://www.npmjs.com/package/wickra-wasm)
-[![Built with Vue 3 + Vite](https://img.shields.io/badge/built%20with-Vue%203%20%2B%20Vite-42b883?logo=vue.js&logoColor=white)](https://vite.dev)
-[![Zero backend](https://img.shields.io/badge/backend-zero-22c55e)](#how-the-data-flows)
+[![Indicators](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-live/indicators.svg)](https://github.com/wickra-lib/wickra)
+[![Powered by wickra-wasm](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-live/powered-by.svg)](https://www.npmjs.com/package/wickra-wasm)
+[![Built with Vue 3 + Vite](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-live/vue-vite.svg)](https://vite.dev)
+[![Zero backend](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-live/zero-backend.svg)](#how-the-data-flows)
 [![License: MIT OR Apache-2.0](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra/license.svg)](#license)
 [![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra/docs.svg)](https://docs.wickra.org)
 
