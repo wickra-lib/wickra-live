@@ -1,8 +1,12 @@
 import {
+  CandlestickSeries,
+  LineSeries,
   createChart,
+  createSeriesMarkers,
   LineType,
   type IChartApi,
   type ISeriesApi,
+  type ISeriesMarkersPluginApi,
   type LineWidth,
   type SeriesMarker,
   type Time,
@@ -48,6 +52,9 @@ export class ChartController {
   private main: IChartApi | null = null
   private sub: IChartApi | null = null
   private price: ISeriesApi<'Candlestick'> | null = null
+  // v5 attaches markers as a primitive on the series; the handle is created
+  // with the price series and dropped with it.
+  private priceMarkers: ISeriesMarkersPluginApi<Time> | null = null
 
   private series = new Map<string, { s: ISeriesApi<'Line'>; pane: Pane }>()
   private colorIdx = 0
@@ -79,11 +86,12 @@ export class ChartController {
       ...chartOptions(dark),
       width: this.mainEl.clientWidth, height: this.mainEl.clientHeight,
     })
-    this.price = this.main.addCandlestickSeries({
+    this.price = this.main.addSeries(CandlestickSeries, {
       upColor: '#22c55e', downColor: '#ef4444',
       borderVisible: false, wickUpColor: '#22c55e', wickDownColor: '#ef4444',
       priceLineVisible: false, lastValueVisible: false,
     })
+    this.priceMarkers = createSeriesMarkers(this.price, [])
     this.main.priceScale('right').applyOptions({ scaleMargins: { top: 0.08, bottom: 0.08 }, borderVisible: false })
 
     this.ro = new ResizeObserver(() => this.resize())
@@ -153,7 +161,7 @@ export class ChartController {
     const color = opts?.color ?? PALETTE[this.colorIdx++ % PALETTE.length]
     const host = pane === 'sub' ? (this.ensureSub() ?? this.main) : this.main
     if (!host) return null
-    const s = host.addLineSeries({
+    const s = host.addSeries(LineSeries, {
       color,
       lineWidth: (opts?.width ?? 2) as LineWidth,
       lineType: opts?.step ? LineType.WithSteps : LineType.Simple,
@@ -210,7 +218,7 @@ export class ChartController {
       if (!this.hiddenIds.has(id)) all.push(...list)
     }
     all.sort((a, b) => (a.time as number) - (b.time as number))
-    this.price?.setMarkers(all)
+    this.priceMarkers?.setMarkers(all)
   }
 
   removeIndicator(id: string): void {
@@ -239,7 +247,7 @@ export class ChartController {
     this.lastTimeByKey.clear()
     this.markersById.clear()
     this.colorIdx = 0
-    this.price?.setMarkers([])
+    this.priceMarkers?.setMarkers([])
     this.destroySub()
   }
 
@@ -249,6 +257,7 @@ export class ChartController {
     if (this.sub) { try { this.sub.remove() } catch { /* ignore */ } this.sub = null }
     if (this.main) { try { this.main.remove() } catch { /* ignore */ } this.main = null }
     this.price = null
+    this.priceMarkers = null
     this.series.clear()
     this.markersById.clear()
     if (this.container) { this.container.innerHTML = ''; this.container.style.display = '' }
