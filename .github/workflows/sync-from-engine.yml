@@ -1,0 +1,72 @@
+name: Sync from the engine releases
+
+# The engine this app runs is released in another repository, so no push here is
+# the event that makes the bundle stale: `wickra-wasm` move when
+# wickra publishes, and the caret range in package.json admits the new version
+# without the lockfile following it. Pulling it on a schedule is the only trigger
+# that can work -- the same shape the -site repositories run.
+on:
+  schedule:
+    - cron: "43 * * * *" # hourly at :43, clear of refresh-badges at :17
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    name: Pull the released engine versions
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # commits the refreshed lockfile back to main
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Read wickra's released version
+        id: wickra_wasm
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          tag=$(gh api repos/wickra-lib/wickra/releases/latest -q '.tag_name')
+          version="${tag#v}"
+          if ! printf '%s' "$version" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::wickra's latest release tag '${tag}' is not a plain vX.Y.Z; refusing to write it"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "wickra's latest release is ${version}"
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Follow wickra-wasm into the lockfile
+        env:
+          V: ${{ steps.wickra_wasm.outputs.version }}
+        # The point of the step is to move the lockfile; the version is the tag
+        # that package's release job published, read from the API above.
+        run: | # zizmor: ignore[adhoc-packages]
+          set -euo pipefail
+          if grep -q "\"wickra-wasm\": \"^${V}\"" package.json; then
+            echo "already on wickra-wasm ^${V}"
+            exit 0
+          fi
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund "wickra-wasm@^${V}"
+      - name: Commit if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain package.json package-lock.json)" ]; then
+            echo "the lockfile already carries the released engines; nothing to commit"
+            exit 0
+          fi
+          git config user.name "wickra-bot"
+          git config user.email "wickra-bot@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: follow the released engine versions"
+          git pull --rebase "https://github.com/${GITHUB_REPOSITORY}.git" main
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
