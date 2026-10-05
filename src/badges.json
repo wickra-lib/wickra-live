@@ -64,7 +64,7 @@
   },
   {
     "alt": "Go module",
-    "href": "https://pkg.go.dev/github.com/wickra-lib/wickra-go",
+    "href": "https://pkg.go.dev/github.com/wickra-lib/wickra-go/v2",
     "file": "/badges/go.svg",
     "width": 85,
     "height": 20
