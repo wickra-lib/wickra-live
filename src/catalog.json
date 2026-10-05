@@ -1470,7 +1470,7 @@
 "params": [
 14
 ],
-"sig": "hl",
+"sig": "hlc",
 "feed": "kline",
 "render": "line",
 "pane": "sub",
@@ -1557,7 +1557,7 @@
 "feed": "none",
 "render": "line",
 "pane": "sub",
-"out": "deriv"
+"out": "pairwise"
 },
 {
 "js": "FundingBasis",
@@ -6710,7 +6710,7 @@
 "out": "scalar_candle"
 },
 {
-"js": "ADOSC",
+"js": "AdOscillator",
 "name": "AdOscillator",
 "label": "Ad Oscillator",
 "family": "Volume",
@@ -6753,7 +6753,7 @@
 "params": [
 14
 ],
-"sig": "hlcv",
+"sig": "ohlcv",
 "feed": "kline",
 "render": "line",
 "pane": "sub",

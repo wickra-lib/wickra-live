@@ -33,7 +33,7 @@ const badges = [
   { alt: 'npm', slug: 'npm', src: 'https://img.shields.io/npm/v/wickra.svg?logo=npm&color=red', href: 'https://www.npmjs.com/package/wickra' },
   { alt: 'NuGet', slug: 'nuget', src: 'https://img.shields.io/nuget/v/Wickra.svg?logo=nuget&color=blue', href: 'https://www.nuget.org/packages/Wickra' },
   { alt: 'Maven Central', slug: 'maven', src: 'https://img.shields.io/maven-central/v/org.wickra/wickra.svg?logo=apachemaven&color=blue', href: 'https://central.sonatype.com/artifact/org.wickra/wickra' },
-  { alt: 'Go module', slug: 'go', src: 'https://img.shields.io/github/v/tag/wickra-lib/wickra-go.svg?logo=go&logoColor=white&color=00ADD8&label=go', href: 'https://pkg.go.dev/github.com/wickra-lib/wickra-go' },
+  { alt: 'Go module', slug: 'go', src: 'https://img.shields.io/github/v/tag/wickra-lib/wickra-go.svg?logo=go&logoColor=white&color=00ADD8&label=go', href: 'https://pkg.go.dev/github.com/wickra-lib/wickra-go/v2' },
   { alt: 'r-universe', slug: 'r-universe', src: 'https://wickra-lib.r-universe.dev/badges/wickra', href: 'https://wickra-lib.r-universe.dev' },
   { alt: 'License: MIT OR Apache-2.0', slug: 'license', src: 'https://img.shields.io/badge/license-MIT_OR_Apache--2.0-blue', href: 'https://github.com/wickra-lib/wickra#license' },
   { alt: 'OpenSSF Scorecard', slug: 'scorecard', src: 'https://api.securityscorecards.dev/projects/github.com/wickra-lib/wickra/badge', href: 'https://scorecard.dev/viewer/?uri=github.com/wickra-lib/wickra' },
