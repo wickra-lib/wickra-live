@@ -5,6 +5,11 @@ name: Sync from the engine releases
 # wickra publishes, and the caret range in package.json admits the new version
 # without the lockfile following it. Pulling it on a schedule is the only trigger
 # that can work -- the same shape the -site repositories run.
+#
+# The indicator count the app states (README, the page title and description,
+# the picker's placeholder) follows the same release: the org's one rule set,
+# wickra-lib/.github's scripts/sync-counts.mjs, checked out at a pinned commit,
+# sets it to the core count of the latest wickra release.
 on:
   schedule:
     - cron: "43 * * * *" # hourly at :43, clear of refresh-badges at :17
@@ -15,11 +20,11 @@ permissions:
 
 jobs:
   sync:
-    name: Pull the released engine versions
+    name: Pull the released engine versions and the indicator count
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: write # commits the refreshed lockfile back to main
+      contents: write # commits the refreshed lockfile and counts back to main
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -55,12 +60,33 @@ jobs:
             exit 0
           fi
           npm install --package-lock-only --ignore-scripts --no-audit --no-fund "wickra-wasm@^${V}"
+
+      # One file, read-only, at a pinned commit. It lands beside the app and is
+      # excluded from git, so the commit below cannot pick it up.
+      - name: Check out the count rules
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: wickra-lib/.github
+          ref: d683af6320d14973d311968842600b332b7d3e79
+          path: .wickra-org
+          sparse-checkout: scripts/sync-counts.mjs
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: Set the indicator counts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo ".wickra-org/" >> .git/info/exclude
+          node .wickra-org/scripts/sync-counts.mjs --repo wickra-live
+
       - name: Commit if changed
         id: commitcheck
         run: |
           set -euo pipefail
-          if [ -z "$(git status --porcelain package.json package-lock.json)" ]; then
-            echo "the lockfile already carries the released engines; nothing to commit"
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "the released engines and the indicator count are current; nothing to commit"
             echo "commit=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -71,5 +97,5 @@ jobs:
         uses: wickra-lib/.github/actions/signed-commit@da1bd395c27f33dbed632c8e4e48e12f85394858 # v1.1.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          message: "chore: follow the released engine versions"
-          paths: package.json package-lock.json
+          message: "chore: follow the released engine versions and the indicator count"
+          paths: .
