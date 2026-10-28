@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Live, 100% in-browser demo of all 514 Wickra streaming indicators over real Binance market data — zero backend, powered by wickra-wasm.",
+  "description": "Live, 100% in-browser demo of all 515 Wickra streaming indicators over real Binance market data — zero backend, powered by wickra-wasm.",
   "license": "MIT OR Apache-2.0",
   "scripts": {
     "dev": "vite",
@@ -17,7 +17,7 @@
   "dependencies": {
     "lightweight-charts": "^5.2.1",
     "vue": "^3.5.43",
-    "wickra-wasm": "^2.0.0"
+    "wickra-wasm": "^2.1.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.9",

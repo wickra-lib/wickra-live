@@ -39,7 +39,7 @@ function feedTag(e: Entry): string {
 <template>
   <div class="picker">
     <div class="picker-head">
-      <input v-model="query" type="search" placeholder="Search 514 indicators…" />
+      <input v-model="query" type="search" placeholder="Search 515 indicators…" />
       <span class="count">{{ total }} indicators · 24 families</span>
     </div>
     <div class="picker-list">
